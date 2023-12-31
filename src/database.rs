@@ -1,4 +1,4 @@
-use crate::{errors::CustomError, models::InsertableCreature};
+use crate::{errors::CustomError};
 use chrono::Duration;
 use diesel::pg::PgConnection;
 use diesel::r2d2::ConnectionManager;

@@ -19,7 +19,7 @@ CREATE TYPE rarities as ENUM (
 );
 
 CREATE TABLE IF NOT EXISTS creatures (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
     creator_id UUID NOT NULL,
     FOREIGN KEY(creator_id)
         REFERENCES users(id) ON DELETE CASCADE,

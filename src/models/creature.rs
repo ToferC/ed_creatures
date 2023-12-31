@@ -11,7 +11,9 @@ use diesel::prelude::*;
 use diesel::{RunQueryDsl, QueryDsl};
 use diesel_derive_enum::DbEnum;
 
-#[derive(Serialize, Deserialize, Queryable, Insertable, Debug, Identifiable, Clone)]
+use inflector::Inflector;
+
+#[derive(Serialize, Deserialize, Queryable, AsChangeset, Insertable, Debug, Identifiable, Clone)]
 #[diesel(table_name = creatures)]
 pub struct Creature {
     pub id: Uuid,
@@ -19,25 +21,25 @@ pub struct Creature {
     pub creature_name: String,
     pub found_in: Locales,
     pub rarity: Rarity,
-    pub circle_rank: u32,
-    pub dexterity: u32,
-    pub strength: u32,
-    pub constitution: u32,
-    pub perception: u32,
-    pub willpower: u32,
-    pub charisma: u32,
-    pub initiative: u32,
-    pub pd: u32,
-    pub md: u32,
-    pub sd: u32,
-    pub pa: u32,
-    pub ma: u32,
-    pub unconsciousness_rating: u32,
-    pub death_rating: u32,
-    pub wound: u32,
-    pub knockdown: u32,
-    pub actions: u32,
-    pub recovery_rolls: u32,
+    pub circle_rank: i32,
+    pub dexterity: i32,
+    pub strength: i32,
+    pub constitution: i32,
+    pub perception: i32,
+    pub willpower: i32,
+    pub charisma: i32,
+    pub initiative: i32,
+    pub pd: i32,
+    pub md: i32,
+    pub sd: i32,
+    pub pa: i32,
+    pub ma: i32,
+    pub unconsciousness_rating: i32,
+    pub death_rating: i32,
+    pub wound: i32,
+    pub knockdown: i32,
+    pub actions: i32,
+    pub recovery_rolls: i32,
     pub slug: String,
     pub image_url: Option<String>,
     pub created_at: NaiveDateTime,
@@ -89,6 +91,8 @@ impl Creature {
         let res = creatures::table
             .filter(creatures::creature_name.ilike(format!("%{}%", name)))
             .load::<Creature>(&mut conn)?;
+
+        Ok(res)
     }
 
     pub fn get_by_slug(slug: &String) -> Result<Self, CustomError> {
@@ -97,6 +101,17 @@ impl Creature {
         let res = creatures::table
             .filter(creatures::slug.eq(slug))
             .first::<Creature>(&mut conn)?;
+
+        Ok(res)
+    }
+
+    pub fn get_all() -> Result<Vec<Self>, CustomError> {
+        let mut conn = connection()?;
+
+        let res: Vec<Self> = creatures::table
+            .load::<Creature>(&mut conn)?;
+
+        Ok(res)
     }
 
     pub fn update(&mut self) -> Result<Self, CustomError> {
@@ -136,33 +151,32 @@ pub enum Locales {
     Any,
 }
 
-//#[derive(Debug, Clone, Deserialize, Serialize, Insertable, Queryable)]
-/// Referenced by Roles, TeamOwnership, OrgOwnership
-//#[diesel(table_name = creatures)]
+#[derive(Debug, Clone, Deserialize, Serialize, Insertable, Queryable)]
+#[diesel(table_name = creatures)]
 pub struct InsertableCreature {
     pub creator_id: Uuid,
     pub creature_name: String,
     pub found_in: Locales,
     pub rarity: Rarity,
-    pub circle_rank: u32,
-    pub dexterity: u32,
-    pub strength: u32,
-    pub constitution: u32,
-    pub perception: u32,
-    pub willpower: u32,
-    pub charisma: u32,
-    pub initiative: u32,
-    pub pd: u32,
-    pub md: u32,
-    pub sd: u32,
-    pub pa: u32,
-    pub ma: u32,
-    pub unconsciousness_rating: u32,
-    pub death_rating: u32,
-    pub wound: u32,
-    pub knockdown: u32,
-    pub actions: u32,
-    pub recovery_rolls: u32,
+    pub circle_rank: i32,
+    pub dexterity: i32,
+    pub strength: i32,
+    pub constitution: i32,
+    pub perception: i32,
+    pub willpower: i32,
+    pub charisma: i32,
+    pub initiative: i32,
+    pub pd: i32,
+    pub md: i32,
+    pub sd: i32,
+    pub pa: i32,
+    pub ma: i32,
+    pub unconsciousness_rating: i32,
+    pub death_rating: i32,
+    pub wound: i32,
+    pub knockdown: i32,
+    pub actions: i32,
+    pub recovery_rolls: i32,
     pub slug: String,
     pub image_url: Option<String>,
     pub created_at: chrono::NaiveDateTime,
@@ -212,25 +226,25 @@ impl InsertableCreature {
         creature_name: String,
         found_in: Locales,
         rarity: Rarity,
-        circle_rank: u32,
-        dexterity: u32,
-        strength: u32,
-        constitution: u32,
-        perception: u32,
-        willpower: u32,
-        charisma: u32,
-        initiative: u32,
-        pd: u32,
-        md: u32,
-        sd: u32,
-        pa: u32,
-        ma: u32,
-        unconsciousness_rating: u32,
-        death_rating: u32,
-        wound: u32,
-        knockdown: u32,
-        actions: u32,
-        recovery_rolls: u32,
+        circle_rank: i32,
+        dexterity: i32,
+        strength: i32,
+        constitution: i32,
+        perception: i32,
+        willpower: i32,
+        charisma: i32,
+        initiative: i32,
+        pd: i32,
+        md: i32,
+        sd: i32,
+        pa: i32,
+        ma: i32,
+        unconsciousness_rating: i32,
+        death_rating: i32,
+        wound: i32,
+        knockdown: i32,
+        actions: i32,
+        recovery_rolls: i32,
     ) -> Self {
 
         let slug = creature_name.trim().to_snake_case();
@@ -261,7 +275,7 @@ impl InsertableCreature {
             actions,
             recovery_rolls,
             slug,
-            image_url: Some("default_image_url".as_string()),
+            image_url: Some("default_image_url".to_string()),
             created_at: today,
             updated_at: today,
         }

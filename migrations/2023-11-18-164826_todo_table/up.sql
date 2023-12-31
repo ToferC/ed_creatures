@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS creatures (
     FOREIGN KEY(creator_id)
         REFERENCES users(id) ON DELETE CASCADE,
     creature_name VARCHAR(128) NOT NULL,
-    found_in locales[] NOT NULL DEFAULT '{cavern}',
+    found_in locales NOT NULL DEFAULT 'cavern',
     rarity rarities NOT NULL DEFAULT 'common',
     circle_rank INT NOT NULL DEFAULT 1,
     dexterity INT NOT NULL DEFAULT 5,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS creatures (
     knockdown INT NOT NULL DEFAULT 5,
     actions INT NOT NULL DEFAULT 1,
     recovery_rolls INT NOT NULL DEFAULT 2,
-    slug VARCHAR(128) NOT NULL UNIQUE,
+    slug VARCHAR(128) NOT NULL,
     image_url VARCHAR(512),
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()

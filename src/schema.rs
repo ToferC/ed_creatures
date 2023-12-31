@@ -24,7 +24,7 @@ diesel::table! {
         creator_id -> Uuid,
         #[max_length = 128]
         creature_name -> Varchar,
-        found_in -> Array<Nullable<Locales>>,
+        found_in -> Locales,
         rarity -> Rarities,
         circle_rank -> Int4,
         dexterity -> Int4,

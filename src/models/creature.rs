@@ -12,12 +12,12 @@ use diesel::{RunQueryDsl, QueryDsl};
 use diesel_derive_enum::DbEnum;
 
 #[derive(Serialize, Deserialize, Queryable, Insertable, Debug, Identifiable, Clone)]
-#[table_name = "creatures"]
+#[diesel(table_name = creatures)]
 pub struct Creature {
     pub id: Uuid,
     pub creator_id: Uuid,
     pub creature_name: String,
-    pub found_in: Vec<Locales>,
+    pub found_in: Locales,
     pub rarity: Rarity,
     pub circle_rank: u32,
     pub dexterity: u32,
@@ -136,13 +136,13 @@ pub enum Locales {
     Any,
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize, Insertable, Queryable)]
+//#[derive(Debug, Clone, Deserialize, Serialize, Insertable, Queryable)]
 /// Referenced by Roles, TeamOwnership, OrgOwnership
-#[diesel(table_name = creatures)]
+//#[diesel(table_name = creatures)]
 pub struct InsertableCreature {
     pub creator_id: Uuid,
     pub creature_name: String,
-    pub found_in: Vec<Locales>,
+    pub found_in: Locales,
     pub rarity: Rarity,
     pub circle_rank: u32,
     pub dexterity: u32,
@@ -165,6 +165,8 @@ pub struct InsertableCreature {
     pub recovery_rolls: u32,
     pub slug: String,
     pub image_url: Option<String>,
+    pub created_at: chrono::NaiveDateTime,
+    pub updated_at: chrono::NaiveDateTime,
 }
 
 impl InsertableCreature {
@@ -200,13 +202,15 @@ impl InsertableCreature {
             recovery_rolls: 3,
             slug: "esparaga".to_owned(),
             image_url: Some("hdahdksfashf".to_string()),
+            created_at: today,
+            updated_at: today,
         }
     }
 
     pub fn new(
         creator_id: Uuid,
         creature_name: String,
-        found_in: Vec<Locales>,
+        found_in: Locales,
         rarity: Rarity,
         circle_rank: u32,
         dexterity: u32,
@@ -230,6 +234,7 @@ impl InsertableCreature {
     ) -> Self {
 
         let slug = creature_name.trim().to_snake_case();
+        let today = chrono::Utc::now().naive_utc();
 
         InsertableCreature {
             creator_id,
@@ -257,6 +262,8 @@ impl InsertableCreature {
             recovery_rolls,
             slug,
             image_url: Some("default_image_url".as_string()),
+            created_at: today,
+            updated_at: today,
         }
     }
 }

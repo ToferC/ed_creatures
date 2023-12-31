@@ -1,0 +1,22 @@
+<div 
+    id="{{todo.id}}-content"
+    hx-swap="outerHTML"
+    hx-target="this"
+>
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">{{ todo.title }}</h5>
+      <p class="card-text">{{ todo.description }}</p>
+      <p class="card-text">Status: {% if todo.active %}Open{% else %}Closed{% endif %}</p>
+      <p class="card-text">Priority: {{ todo.priority }}</p>
+      <a method="post" href="/{{lang}}/toggle_status/{{ todo.id }}" class="btn btn-primary">{% if todo.active %}Close{% else %}Open{% endif %}</a>
+    </div>
+  </div>
+
+<button
+    hx-get="/{{ lang }}/edit_todo/{{ todo.id }}" 
+    class="btn">
+            Edit
+</button>
+   
+</div>

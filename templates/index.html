@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <div class="col m-md-2 m-1">
+            <h1>{{ fluent(key="welcome-to", lang=lang) }}</h1>
+            <hr>
+
+            {% for todo in todos | sort(attribute="priority") %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">{{ todo.title }}</h5>
+                  <p class="card-text">{{ todo.description }}</p>
+                  <p class="card-text">Status: {% if todo.active %}Open{% else %}Closed{% endif %}</p>
+                  <p class="card-text">Priority: {{ todo.priority }}</p>
+                  <a method="post" href="/{{lang}}/toggle_status/{{ todo.id }}" class="btn btn-primary">{% if todo.active %}Close{% else %}Open{% endif %}</a>
+                </div>
+              </div>
+              <br>
+            {% endfor %}
+        
+        </div>
+{% endblock content %}

@@ -22,6 +22,7 @@ diesel::table! {
     creatures (id) {
         id -> Uuid,
         creator_id -> Uuid,
+        #[max_length = 128]
         creature_name -> Varchar,
         found_in -> Array<Nullable<Locales>>,
         rarity -> Rarities,
@@ -44,7 +45,9 @@ diesel::table! {
         knockdown -> Int4,
         actions -> Int4,
         recovery_rolls -> Int4,
+        #[max_length = 128]
         slug -> Varchar,
+        #[max_length = 512]
         image_url -> Nullable<Varchar>,
         created_at -> Timestamp,
         updated_at -> Timestamp,
@@ -54,7 +57,9 @@ diesel::table! {
 diesel::table! {
     email_verification_code (id) {
         id -> Uuid,
+        #[max_length = 128]
         email_address -> Varchar,
+        #[max_length = 5]
         activation_code -> Varchar,
         expires_on -> Timestamp,
     }
@@ -63,7 +68,9 @@ diesel::table! {
 diesel::table! {
     password_reset_token (id) {
         id -> Uuid,
+        #[max_length = 128]
         email_address -> Varchar,
+        #[max_length = 36]
         reset_token -> Varchar,
         expires_on -> Timestamp,
     }
@@ -76,6 +83,7 @@ diesel::table! {
     todos (id) {
         id -> Uuid,
         list_id -> Uuid,
+        #[max_length = 255]
         title -> Varchar,
         description -> Nullable<Text>,
         priority -> PriorityType,
@@ -98,16 +106,22 @@ diesel::table! {
     users (id) {
         id -> Uuid,
         hash -> Bytea,
+        #[max_length = 255]
         salt -> Varchar,
+        #[max_length = 128]
         email -> Varchar,
+        #[max_length = 32]
         user_name -> Varchar,
+        #[max_length = 32]
         slug -> Varchar,
         created_at -> Timestamp,
+        #[max_length = 32]
         role -> Varchar,
         validated -> Bool,
     }
 }
 
+diesel::joinable!(creatures -> users (creator_id));
 diesel::joinable!(todos -> todos_list (list_id));
 diesel::joinable!(todos_list -> users (user_id));
 

@@ -9,10 +9,10 @@ use actix_web::cookie::Key;
 use actix_web_static_files;
 use sendgrid::SGClient;
 
-use web_starter::APP_NAME;
-use web_starter::handlers;
-use web_starter::AppData;
-use web_starter::database;
+use earthdawn_creatures::APP_NAME;
+use earthdawn_creatures::handlers;
+use earthdawn_creatures::AppData;
+use earthdawn_creatures::database;
 
 use fluent_templates::{FluentLoader, static_loader};
 // https://lib.rs/crates/fluent-templates

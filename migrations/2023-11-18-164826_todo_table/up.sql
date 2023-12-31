@@ -1,10 +1,4 @@
 
-CREATE TYPE priority_type AS ENUM (
-    'low',
-    'medium',
-    'high'
-);
-
 CREATE TYPE locales as ENUM (
     'jungle',
     'desert',
@@ -24,33 +18,13 @@ CREATE TYPE rarities as ENUM (
     'unique'
 );
 
-CREATE TABLE IF NOT EXISTS todos_list (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    user_id UUID NOT NULL,
-    FOREIGN KEY(user_id)
-        REFERENCES users(id) ON DELETE CASCADE,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
-);
-
-CREATE TABLE IF NOT EXISTS todos (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    list_id UUID NOT NULL,
-    FOREIGN KEY(list_id)
-        REFERENCES todos_list(id) ON DELETE CASCADE,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    priority priority_type NOT NULL DEFAULT 'medium',
-    active bool NOT NULL DEFAULT true,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
-);
-
 CREATE TABLE IF NOT EXISTS creatures (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     creator_id UUID NOT NULL,
+    FOREIGN KEY(creator_id)
+        REFERENCES users(id) ON DELETE CASCADE,
     creature_name VARCHAR(128) NOT NULL,
-    found_in locales[] NOT NULL,
+    found_in locales[] NOT NULL DEFAULT '{cavern}',
     rarity rarities NOT NULL DEFAULT 'common',
     circle_rank INT NOT NULL DEFAULT 1,
     dexterity INT NOT NULL DEFAULT 5,

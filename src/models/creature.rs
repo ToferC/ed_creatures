@@ -11,7 +11,7 @@ use diesel::prelude::*;
 use diesel::{RunQueryDsl, QueryDsl};
 use diesel_derive_enum::DbEnum;
 
-#[derive(Serialize, Deserialize, Queryable, Insertable, Debug, Identifiable, AsChangeset, Clone)]
+#[derive(Serialize, Deserialize, Queryable, Insertable, Debug, Identifiable, Clone)]
 #[table_name = "creatures"]
 pub struct Creature {
     pub id: Uuid,
@@ -39,7 +39,7 @@ pub struct Creature {
     pub actions: u32,
     pub recovery_rolls: u32,
     pub slug: String,
-    pub image_url: String,
+    pub image_url: Option<String>,
     pub created_at: NaiveDateTime,
     pub updated_at: NaiveDateTime,
 }
@@ -164,7 +164,7 @@ pub struct InsertableCreature {
     pub actions: u32,
     pub recovery_rolls: u32,
     pub slug: String,
-    pub image_url: String,
+    pub image_url: Option<String>,
 }
 
 impl InsertableCreature {
@@ -198,8 +198,8 @@ impl InsertableCreature {
             knockdown: 10,
             actions: 2,
             recovery_rolls: 3,
-            image_url: "hdahdksfashf".to_string(),
             slug: "esparaga".to_owned(),
+            image_url: Some("hdahdksfashf".to_string()),
         }
     }
 
@@ -256,7 +256,7 @@ impl InsertableCreature {
             actions,
             recovery_rolls,
             slug,
-            image_url: "default_image_url".as_string(),
+            image_url: Some("default_image_url".as_string()),
         }
     }
 }

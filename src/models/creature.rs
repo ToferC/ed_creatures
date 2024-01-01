@@ -206,7 +206,7 @@ impl InsertableCreature {
 
         InsertableCreature {
             creator_id,
-            name: "Esparaga".to_string(),
+            name: "".to_string(),
             found_in: locales,
             rarity: Rarity::Rare,
             circle_rank: 5,

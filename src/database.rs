@@ -83,8 +83,10 @@ pub fn connection() -> Result<DbConnection, CustomError> {
 
 pub fn pre_populate_creatures(user_id: Uuid) -> Result<(), CustomError> {
     
-    let c1 = InsertableCreature::default(user_id);
+    let mut c1 = InsertableCreature::default(user_id);
 
+    c1.name = "Esparaga".to_string();
+    
     let r1 = Creature::get_or_create(&c1)?;
 
     let a1 = InsertableAttack::default(user_id, r1.id);

@@ -20,7 +20,7 @@ pub async fn new_creature_form(
 
     let (mut ctx, _, _, _) = generate_basic_context(id, &lang, req.uri().path());
 
-    let rendered = data.tmpl.render("new_creature_form.html", &ctx).unwrap();
+    let rendered = data.tmpl.render("creatures/new_creature_form.html", &ctx).unwrap();
     HttpResponse::Ok().body(rendered)
 
 }
@@ -41,7 +41,7 @@ pub async fn get_creature(
 
     ctx.insert("creature", &creature);
 
-    let rendered = data.tmpl.render("creature.html", &ctx).unwrap();
+    let rendered = data.tmpl.render("creatures/creature.html", &ctx).unwrap();
     HttpResponse::Ok().body(rendered)
 }
 
@@ -94,7 +94,7 @@ pub async fn post_creature(
     ctx.insert("creature", &creature);
 
     // TODO: Redirect to get creature with creature slug
-    let rendered = data.tmpl.render("texts/creature.html", &ctx).unwrap();
+    let rendered = data.tmpl.render("creatures/creature.html", &ctx).unwrap();
         HttpResponse::Ok().body(rendered)
 }
 
@@ -114,7 +114,7 @@ pub async fn edit_creature(
 
     ctx.insert("creature", &creature);
 
-    let rendered = data.tmpl.render("edit_creature.html", &ctx).unwrap();
+    let rendered = data.tmpl.render("creatures/edit_creature.html", &ctx).unwrap();
     HttpResponse::Ok().body(rendered)
 }
 

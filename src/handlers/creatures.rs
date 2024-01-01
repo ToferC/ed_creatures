@@ -73,7 +73,7 @@ pub async fn post_creature(
 
     let new_creature = InsertableCreature::new(
         user.id,
-        form.creature_name.to_owned(),
+        form.name.to_owned(),
         form.found_in.to_owned(),
         form.rarity.to_owned(),
         form.circle_rank,
@@ -110,58 +110,58 @@ pub async fn post_creature(
         HttpResponse::Ok().body(rendered)
 }
 
-#[get("/{lang}/edit_creature/{slug}")]
+#[get("/{lang}/edit_creature/{creature_id}")]
 pub async fn edit_creature(
     data: web::Data<AppData>,
-    path: web::Path<(String, String)>,
+    path: web::Path<(String, Uuid)>,
     
     id: Option<Identity>,
     req:HttpRequest) -> impl Responder {
 
-    let (lang, slug) = path.into_inner();
+    let (lang, creature_id) = path.into_inner();
 
     let (mut ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
-    let creature = Creature::get_by_slug(&slug).expect("Unable to retrieve creature");
+    let creature = Creature::get_by_id(&creature_id).expect("Unable to retrieve creature");
 
     ctx.insert("creature", &creature);
 
-    let rendered = data.tmpl.render("creatures/edit_creature.html", &ctx).unwrap();
+    let rendered = data.tmpl.render("creatures/edit_creature_form.html", &ctx).unwrap();
     HttpResponse::Ok().body(rendered)
 }
 
-#[post("/{lang}/edit_creature/{slug}")]
+#[post("/{lang}/edit_creature/{creature_id}")]
 pub async fn edit_creature_post(
     data: web::Data<AppData>,
-    path: web::Path<(String, String)>,
+    path: web::Path<(String, Uuid)>,
     form: web::Form<InsertableCreature>,
     id: Option<Identity>,
     req:HttpRequest) -> impl Responder {
 
-    let (lang, slug) = path.into_inner();
+    let (lang, creature_id) = path.into_inner();
 
     let (mut ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
     let user = User::get_from_slug(&session_user).expect("Unable to retrive user");
 
-    let result = Creature::get_by_slug(&slug);
+    let result = Creature::get_by_id(&creature_id);
 
     let creature = match result {
         Ok(c) => c,
         Err(r) => {
             // Unable to retrieve creature
             // validate form has data or and permissions exist
-            return HttpResponse::Found().append_header(("Location", format!("/{}/edit_creature/{}", &lang, &slug))).finish()
+            return HttpResponse::Found().append_header(("Location", format!("/{}/edit_creature/{}", &lang, &creature_id))).finish()
         }
     };
 
     let today = chrono::Utc::now().naive_utc();
-    let slug = form.creature_name.trim().to_snake_case();
+    let slug = form.name.trim().to_snake_case();
 
     let mut our_creature = Creature {
         id: creature.id,
         creator_id: user.id,
-        creature_name: form.creature_name.to_owned(),
+        name: form.name.to_owned(),
         found_in: form.found_in.to_owned(),
         rarity: form.rarity.to_owned(),
         circle_rank: form.circle_rank,

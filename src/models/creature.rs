@@ -18,7 +18,7 @@ use inflector::Inflector;
 pub struct Creature {
     pub id: Uuid,
     pub creator_id: Uuid,
-    pub creature_name: String,
+    pub name: String,
     pub found_in: Locales,
     pub rarity: Rarity,
     pub circle_rank: i32,
@@ -61,7 +61,7 @@ impl Creature {
     pub fn get_or_create(creature: &InsertableCreature) -> Result<Self, CustomError> {
         let mut conn = connection()?;
         let res = creatures::table
-            .filter(creatures::creature_name.eq(&creature.creature_name))
+            .filter(creatures::name.eq(&creature.name))
             .distinct()
             .first(&mut conn);
 
@@ -91,7 +91,7 @@ impl Creature {
         let mut conn = connection()?;
 
         let res = creatures::table
-            .filter(creatures::creature_name.ilike(format!("%{}%", name)))
+            .filter(creatures::name.ilike(format!("%{}%", name)))
             .load::<Creature>(&mut conn)?;
 
         Ok(res)
@@ -167,7 +167,7 @@ pub enum Locales {
 #[diesel(table_name = creatures)]
 pub struct InsertableCreature {
     pub creator_id: Uuid,
-    pub creature_name: String,
+    pub name: String,
     pub found_in: Locales,
     pub rarity: Rarity,
     pub circle_rank: i32,
@@ -206,7 +206,7 @@ impl InsertableCreature {
 
         InsertableCreature {
             creator_id,
-            creature_name: "Esparaga".to_string(),
+            name: "Esparaga".to_string(),
             found_in: locales,
             rarity: Rarity::Rare,
             circle_rank: 5,
@@ -239,7 +239,7 @@ impl InsertableCreature {
 
     pub fn new(
         creator_id: Uuid,
-        creature_name: String,
+        name: String,
         found_in: Locales,
         rarity: Rarity,
         circle_rank: i32,
@@ -265,12 +265,12 @@ impl InsertableCreature {
         karma: i32,
     ) -> Self {
 
-        let slug = creature_name.trim().to_snake_case();
+        let slug = name.trim().to_snake_case();
         let today = chrono::Utc::now().naive_utc();
 
         InsertableCreature {
             creator_id,
-            creature_name,
+            name,
             found_in,
             rarity,
             circle_rank,

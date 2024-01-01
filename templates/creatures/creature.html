@@ -7,14 +7,18 @@
     hx-swap="outerHTML"
     hx-target="this"
 >
-<h1>{{ creature.creature_name | title | safe }}</h1>
+  <h1>{{ creature.name | title | safe }}</h1>
 
-<h4>{{ fluent(key="circle", lang=lang )}}: {{ creature.circle_rank }}</h4>
-<h4>{{ fluent(key="rarity", lang=lang )}}: {{ creature.rarity }}</h4>
-<h4>{{ fluent(key="found-in", lang=lang )}}: {{ creature.found_in }}</h4>
+  <h4>{{ fluent(key="circle", lang=lang )}}: {{ creature.circle_rank }}</h4>
+  <h4>{{ fluent(key="rarity", lang=lang )}}: {{ creature.rarity }}</h4>
+  <h4>{{ fluent(key="found-in", lang=lang )}}: {{ creature.found_in }}</h4>
+    <ul>Created at: {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }}</ul>
+    <ul>Updated at: {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</ul>
 
-<h4>Attributes</h4>
-<div class="container">
+    <hr>
+
+  <h4>Attributes</h4>
+  <div class="container">
     <div class="row">
       <div class="col-sm">
         <ul>{{ fluent(key="dexterity", lang=lang )}}: {{ creature.dexterity }}</ul>
@@ -33,48 +37,77 @@
         <ul>{{ fluent(key="mystic-armor", lang=lang )}}: {{ creature.ma }}</ul>
       </div>
       <div class="col-sm">
-        <ul>{{ fluent(key="unconscious-rating", lang=lang )}}: {{ creature.dexterity }}</ul>
-        <ul>{{ fluent(key="death-rating", lang=lang )}}: {{ creature.strength }}</ul>
-        <ul>{{ fluent(key="wound-rating", lang=lang )}}: {{ creature.constitution }}</ul>
-        <ul>{{ fluent(key="knockdown", lang=lang )}}: {{ creature.perception }}</ul>
-        <ul>{{ fluent(key="recovery-rolls", lang=lang )}}: {{ creature.willpower }}</ul>
-        <ul>{{ fluent(key="karma", lang=lang )}}: {{ creature.charisma }}</ul>
+        <ul>{{ fluent(key="unconscious-rating", lang=lang )}}: {{ creature.unconsciousness_rating }}</ul>
+        <ul>{{ fluent(key="death-rating", lang=lang )}}: {{ creature.death_rating }}</ul>
+        <ul>{{ fluent(key="wound-rating", lang=lang )}}: {{ creature.wound }}</ul>
+        <ul>{{ fluent(key="knockdown", lang=lang )}}: {{ creature.knockdown }}</ul>
+        <ul>{{ fluent(key="recovery-rolls", lang=lang )}}: {{ creature.recovery_rolls }}</ul>
+        <ul>{{ fluent(key="karma", lang=lang )}}: {{ creature.karma }}</ul>
       </div>
     </div>
-  </div>
-  <row>
-    {{ fluent(key="movement", lang=lang )}}: {{ creature.movement }}
-    {{ fluent(key="actions", lang=lang )}}: {{ creature.actions }}
-  </row>
-<hr>
-{% if attacks %}
-<h3>Attacks</h3>
-  {% for attack in attacks %}
-    <ul>{{ attack.name }}: {{ attack.action_step}} ({{ attack.effect_step }})</ul>
-  {% endfor %} <! attacks >
-{% endif %}
-
-<hr>
-{% if powers %}
-<h3>Powers</h3>
-  {% for power in powers %}
-    <ul>{{ power.name }}: {{ power.action_step}} ({{ power.effect_step }})</ul>
-  {% endfor %}
-{% endif %}
-
-<hr>
-
-<ul>
-    <li>Created at: {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }}</li>
-    <li>Updated at: {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</li>
-</ul>
-{% if session_user != "" %}
+    <div class="row">
+      <ul>{{ fluent(key="movement", lang=lang )}}: {{ creature.movement }}</ul>
+      <ul>{{ fluent(key="actions", lang=lang )}}: {{ creature.actions }}</ul>
+    </div>
+    
+    {% if session_user != "" %}
     <button
-    hx-get="/{{ lang }}/edit_creature_form/{{ creature.id }}" 
-    class="btn">
-            Edit
+      hx-get="/{{ lang }}/edit_creature/{{ creature.id }}" 
+      class="btn btn-dark">
+      Edit
     </button>
-{% endif %}
+  {% endif %}
+  <hr>
+  </div>
+</div> <!-- End of Creature -->
+
+<div class="container">
+  <div class="row">
+    {% if attacks %}
+      <h3>Attacks</h3>
+      {% for attack in attacks %}
+      <div 
+      id="{{attack.id}}-content"
+      hx-swap="outerHTML"
+      hx-target="this"
+      >
+        <ul>{{ attack.name }}: {{ attack.action_step}} ({{ attack.effect_step }})</ul>
+        {% if session_user != "" %}
+          <button
+            hx-get="/{{ lang }}/edit_attack_form/{{ attack.id }}" 
+            class="btn btn-dark">
+            Edit
+          </button>
+        {% endif %}
+      </div> <!-- end-div htmx -->
+      {% endfor %} <!-- attacks -->
+    {% endif %}
+    <hr>
+  </div>
+</div>
+  
+<div class="container">
+  <div class="row">
+    {% if powers %}
+      <h3>Powers</h3>
+      {% for power in powers %}
+        <div 
+          id="{{power.id}}-content"
+          hx-swap="outerHTML"
+          hx-target="this"
+        >
+          <ul>{{ power.name }}: {{ power.action_step}} ({{ power.effect_step }})</ul>
+          {% if session_user != "" %}
+          <button
+            hx-get="/{{ lang }}/edit_power_form/{{ power.id }}" 
+            class="btn btn-dark">
+                    Edit
+            </button>
+        {% endif %}
+        </div> <!-- end div htmx -->
+      {% endfor %}
+    {% endif %}  
+  </div>
 </div>
 
 {% endblock content %}

@@ -5,10 +5,10 @@
             <h1>{{ fluent(key="welcome-to", lang=lang) }}</h1>
             <hr>
 
-            {% for creature in creatures | sort(attribute="creature_name") %}
+            {% for creature in creatures | sort(attribute="name") %}
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
-                  <h5 class="card-title">{{ creature.creature_name }}</h5>
+                  <h5 class="card-title">{{ creature.name }}</h5>
                   <p class="card-text">{{ fluent(key="circle", lang=lang) }}: {{ creature.circle_rank }}</p>
                   <p class="card-text">{{ fluent(key="rarity", lang=lang) }}: {{ creature.rarity }}</p>
                   <p class="card-text">{{ fluent(key="found-in", lang=lang) }} in: {{ creature.found_in }}</p>

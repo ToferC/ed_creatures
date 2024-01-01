@@ -52,3 +52,60 @@ CREATE TABLE IF NOT EXISTS creatures (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS attacks (
+    id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+    creator_id UUID NOT NULL,
+    FOREIGN KEY(creator_id)
+        REFERENCES users(id) ON DELETE CASCADE,
+    creature_id UUID NOT NULL,
+    FOREIGN KEY(creature_id)
+        REFERENCES creatures(id) ON DELETE CASCADE,
+    name VARCHAR(128) NOT NULL,
+    action_step INT NOT NULL DEFAULT 9,
+    effect_step INT NOT NULL DEFAULT 9,
+    details TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TYPE action_types as ENUM (
+    'simple',
+    'standard',
+    'move',
+    'ritual'
+);
+
+CREATE TYPE action_targets as ENUM (
+    'physical_defense',
+    'mystic_defense',
+    'social_defense',
+    'other'
+);
+
+CREATE TYPE resisted_bys as ENUM (
+    'physical',
+    'mystic',
+    'other',
+    'not_applicable'
+);
+
+CREATE TABLE IF NOT EXISTS powers (
+    id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+    creator_id UUID NOT NULL,
+    FOREIGN KEY(creator_id)
+        REFERENCES users(id) ON DELETE CASCADE,
+    creature_id UUID NOT NULL,
+    FOREIGN KEY(creature_id)
+        REFERENCES creatures(id) ON DELETE CASCADE,
+    name VARCHAR(128) NOT NULL,
+    action_type action_types NOT NULL DEFAULT 'standard',
+    target action_targets NOT NULL DEFAULT 'physical_defense',
+    resisted_by resisted_bys NOT NULL DEFAULT 'physical',
+    action_step INT NOT NULL DEFAULT 9,
+    effect_step INT NOT NULL DEFAULT 9,
+    details TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+

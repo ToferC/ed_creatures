@@ -2,7 +2,7 @@ use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest};
 use actix_identity::Identity;
 use inflector::Inflector;
 
-use crate::{generate_basic_context, AppData, models::User};
+use crate::{generate_basic_context, AppData, models::{User, Attack, Power}};
 use uuid::Uuid;
 
 use crate::models::{Creature, InsertableCreature};
@@ -39,7 +39,19 @@ pub async fn get_creature(
 
     let creature = Creature::get_by_slug(&slug).expect("Unable to retrieve creature");
 
+    let r_attacks = Attack::get_by_creature_id(creature.id);
+
+    let r_powers = Power::get_by_creature_id(creature.id);
+
     ctx.insert("creature", &creature);
+
+    if let Ok(data) = r_attacks {
+        ctx.insert("attacks", &data);
+    }
+
+    if let Ok(data) = r_powers {
+        ctx.insert("powers", &data);
+    }
 
     let rendered = data.tmpl.render("creatures/creature.html", &ctx).unwrap();
     HttpResponse::Ok().body(rendered)

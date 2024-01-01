@@ -2,12 +2,39 @@
 
 pub mod sql_types {
     #[derive(diesel::sql_types::SqlType)]
+    #[diesel(postgres_type(name = "action_targets"))]
+    pub struct ActionTargets;
+
+    #[derive(diesel::sql_types::SqlType)]
+    #[diesel(postgres_type(name = "action_types"))]
+    pub struct ActionTypes;
+
+    #[derive(diesel::sql_types::SqlType)]
     #[diesel(postgres_type(name = "locales"))]
     pub struct Locales;
 
     #[derive(diesel::sql_types::SqlType)]
     #[diesel(postgres_type(name = "rarities"))]
     pub struct Rarities;
+
+    #[derive(diesel::sql_types::SqlType)]
+    #[diesel(postgres_type(name = "resisted_bys"))]
+    pub struct ResistedBys;
+}
+
+diesel::table! {
+    attacks (id) {
+        id -> Uuid,
+        creator_id -> Uuid,
+        creature_id -> Uuid,
+        #[max_length = 128]
+        name -> Varchar,
+        action_step -> Int4,
+        effect_step -> Int4,
+        details -> Nullable<Text>,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+    }
 }
 
 diesel::table! {
@@ -76,6 +103,29 @@ diesel::table! {
 }
 
 diesel::table! {
+    use diesel::sql_types::*;
+    use super::sql_types::ActionTypes;
+    use super::sql_types::ActionTargets;
+    use super::sql_types::ResistedBys;
+
+    powers (id) {
+        id -> Uuid,
+        creator_id -> Uuid,
+        creature_id -> Uuid,
+        #[max_length = 128]
+        name -> Varchar,
+        action_type -> ActionTypes,
+        target -> ActionTargets,
+        resisted_by -> ResistedBys,
+        action_step -> Int4,
+        effect_step -> Int4,
+        details -> Nullable<Text>,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+    }
+}
+
+diesel::table! {
     users (id) {
         id -> Uuid,
         hash -> Bytea,
@@ -94,11 +144,17 @@ diesel::table! {
     }
 }
 
+diesel::joinable!(attacks -> creatures (creature_id));
+diesel::joinable!(attacks -> users (creator_id));
 diesel::joinable!(creatures -> users (creator_id));
+diesel::joinable!(powers -> creatures (creature_id));
+diesel::joinable!(powers -> users (creator_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
+    attacks,
     creatures,
     email_verification_code,
     password_reset_token,
+    powers,
     users,
 );

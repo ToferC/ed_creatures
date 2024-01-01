@@ -1,4 +1,4 @@
-use crate::{errors::CustomError, models::{Creature, InsertableCreature}};
+use crate::{errors::CustomError, models::{Creature, InsertableCreature, Attack, InsertableAttack, InsertablePower, Power}};
 use chrono::Duration;
 use diesel::pg::PgConnection;
 use diesel::r2d2::ConnectionManager;
@@ -86,11 +86,20 @@ pub fn pre_populate_creatures(user_id: Uuid) -> Result<(), CustomError> {
     
     let c1 = InsertableCreature::default(user_id);
 
-    Creature::get_or_create(&c1)?;
+    let r1 = Creature::get_or_create(&c1)?;
+
+    let a1 = InsertableAttack::default(user_id, r1.id);
+
+    Attack::create(&a1).expect("Unable to create attack");
+
+    let p1 = InsertablePower::default(user_id, r1.id);
+
+    Power::create(&p1).expect("Unable to create attack");
 
     let mut c2 = InsertableCreature::default(user_id);
 
     c2.creature_name = "Ghoul".to_string();
+    c2.slug = "ghoul".to_string();
 
     Creature::get_or_create(&c2)?;
 
@@ -99,6 +108,7 @@ pub fn pre_populate_creatures(user_id: Uuid) -> Result<(), CustomError> {
     c3.creature_name = "Cadaverman".to_string();
     c3.dexterity = 5;
     c3.willpower = 4;
+    c2.slug = "cadaverman".to_string();
 
     Creature::get_or_create(&c3)?;
 

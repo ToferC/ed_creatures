@@ -47,6 +47,23 @@
     {{ fluent(key="actions", lang=lang )}}: {{ creature.actions }}
   </row>
 <hr>
+{% if attacks %}
+<h3>Attacks</h3>
+  {% for attack in attacks %}
+    <ul>{{ attack.name }}: {{ attack.action_step}} ({{ attack.effect_step }})</ul>
+  {% endfor %} <! attacks >
+{% endif %}
+
+<hr>
+{% if powers %}
+<h3>Powers</h3>
+  {% for power in powers %}
+    <ul>{{ power.name }}: {{ power.action_step}} ({{ power.effect_step }})</ul>
+  {% endfor %}
+{% endif %}
+
+<hr>
+
 <ul>
     <li>Created at: {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }}</li>
     <li>Updated at: {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</li>

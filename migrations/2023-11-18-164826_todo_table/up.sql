@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS creatures (
     FOREIGN KEY(creator_id)
         REFERENCES users(id) ON DELETE CASCADE,
     name VARCHAR(128) NOT NULL,
-    found_in locales NOT NULL DEFAULT 'cavern',
+    found_in locales[] NOT NULL DEFAULT '{cavern}',
     rarity rarities NOT NULL DEFAULT 'common',
     circle_rank INT NOT NULL DEFAULT 1,
     dexterity INT NOT NULL DEFAULT 5,

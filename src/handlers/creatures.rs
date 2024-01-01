@@ -2,7 +2,7 @@ use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest};
 use actix_identity::Identity;
 use inflector::Inflector;
 
-use crate::{generate_basic_context, AppData, models::{User, Attack, Power}};
+use crate::{generate_basic_context, AppData, models::{User, Attack, Power, Locales}, handlers::CreatureForm};
 use uuid::Uuid;
 
 use crate::models::{Creature, InsertableCreature};
@@ -134,7 +134,7 @@ pub async fn edit_creature(
 pub async fn edit_creature_post(
     data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
-    form: web::Form<InsertableCreature>,
+    form: web::Form<CreatureForm>,
     id: Option<Identity>,
     req:HttpRequest) -> impl Responder {
 
@@ -158,11 +158,15 @@ pub async fn edit_creature_post(
     let today = chrono::Utc::now().naive_utc();
     let slug = form.name.trim().to_snake_case();
 
+    let mut found_in = Vec::new();
+
+    if form.jungle != "" { found_in.push(Some(Locales::Jungle));};
+
     let mut our_creature = Creature {
         id: creature.id,
         creator_id: user.id,
         name: form.name.to_owned(),
-        found_in: form.found_in.to_owned(),
+        found_in: found_in,
         rarity: form.rarity.to_owned(),
         circle_rank: form.circle_rank,
         dexterity: form.dexterity,

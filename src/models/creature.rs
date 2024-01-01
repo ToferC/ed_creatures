@@ -19,7 +19,7 @@ pub struct Creature {
     pub id: Uuid,
     pub creator_id: Uuid,
     pub name: String,
-    pub found_in: Locales,
+    pub found_in: Vec<Option<Locales>>,
     pub rarity: Rarity,
     pub circle_rank: i32,
     pub dexterity: i32,
@@ -168,7 +168,7 @@ pub enum Locales {
 pub struct InsertableCreature {
     pub creator_id: Uuid,
     pub name: String,
-    pub found_in: Locales,
+    pub found_in: Vec<Locales>,
     pub rarity: Rarity,
     pub circle_rank: i32,
     pub dexterity: i32,
@@ -201,7 +201,7 @@ impl InsertableCreature {
 
     pub fn default(creator_id: Uuid) -> Self {
 
-        let locales = Locales::Jungle;
+        let locales = vec![Locales::Jungle];
         let today = chrono::Utc::now().naive_utc();
 
         InsertableCreature {
@@ -240,7 +240,7 @@ impl InsertableCreature {
     pub fn new(
         creator_id: Uuid,
         name: String,
-        found_in: Locales,
+        found_in: Vec<Locales>,
         rarity: Rarity,
         circle_rank: i32,
         dexterity: i32,

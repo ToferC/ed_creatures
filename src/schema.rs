@@ -47,7 +47,7 @@ diesel::table! {
         creator_id -> Uuid,
         #[max_length = 128]
         name -> Varchar,
-        found_in -> Locales,
+        found_in -> Array<Nullable<Locales>>,
         rarity -> Rarities,
         circle_rank -> Int4,
         dexterity -> Int4,

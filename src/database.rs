@@ -1,4 +1,4 @@
-use crate::{errors::CustomError};
+use crate::{errors::CustomError, models::{Creature, InsertableCreature}};
 use chrono::Duration;
 use diesel::pg::PgConnection;
 use diesel::r2d2::ConnectionManager;
@@ -84,6 +84,23 @@ pub fn connection() -> Result<DbConnection, CustomError> {
 
 pub fn pre_populate_creatures(user_id: Uuid) -> Result<(), CustomError> {
     
+    let c1 = InsertableCreature::default(user_id);
+
+    Creature::get_or_create(&c1)?;
+
+    let mut c2 = InsertableCreature::default(user_id);
+
+    c2.creature_name = "Ghoul".to_string();
+
+    Creature::get_or_create(&c2)?;
+
+    let mut c3 = InsertableCreature::default(user_id);
+
+    c3.creature_name = "Cadaverman".to_string();
+    c3.dexterity = 5;
+    c3.willpower = 4;
+
+    Creature::get_or_create(&c3)?;
 
     Ok(())
 }

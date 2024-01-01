@@ -143,7 +143,7 @@ impl User {
         Ok(sl)
     }
 
-    pub fn find_from_slug(slug: &String) -> Result<User, CustomError> {
+    pub fn get_from_slug(slug: &String) -> Result<User, CustomError> {
         let mut conn = database::connection()?;
         let user: User = users::table.filter(users::slug.eq(slug)).first(&mut conn)?;
         Ok(user)

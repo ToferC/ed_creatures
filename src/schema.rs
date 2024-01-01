@@ -6,10 +6,6 @@ pub mod sql_types {
     pub struct Locales;
 
     #[derive(diesel::sql_types::SqlType)]
-    #[diesel(postgres_type(name = "priority_type"))]
-    pub struct PriorityType;
-
-    #[derive(diesel::sql_types::SqlType)]
     #[diesel(postgres_type(name = "rarities"))]
     pub struct Rarities;
 }
@@ -44,7 +40,10 @@ diesel::table! {
         wound -> Int4,
         knockdown -> Int4,
         actions -> Int4,
+        #[max_length = 128]
+        movement -> Varchar,
         recovery_rolls -> Int4,
+        karma -> Int4,
         #[max_length = 128]
         slug -> Varchar,
         #[max_length = 512]
@@ -77,32 +76,6 @@ diesel::table! {
 }
 
 diesel::table! {
-    use diesel::sql_types::*;
-    use super::sql_types::PriorityType;
-
-    todos (id) {
-        id -> Uuid,
-        list_id -> Uuid,
-        #[max_length = 255]
-        title -> Varchar,
-        description -> Nullable<Text>,
-        priority -> PriorityType,
-        active -> Bool,
-        created_at -> Timestamp,
-        updated_at -> Timestamp,
-    }
-}
-
-diesel::table! {
-    todos_list (id) {
-        id -> Uuid,
-        user_id -> Uuid,
-        created_at -> Timestamp,
-        updated_at -> Timestamp,
-    }
-}
-
-diesel::table! {
     users (id) {
         id -> Uuid,
         hash -> Bytea,
@@ -122,14 +95,10 @@ diesel::table! {
 }
 
 diesel::joinable!(creatures -> users (creator_id));
-diesel::joinable!(todos -> todos_list (list_id));
-diesel::joinable!(todos_list -> users (user_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     creatures,
     email_verification_code,
     password_reset_token,
-    todos,
-    todos_list,
     users,
 );

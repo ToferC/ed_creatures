@@ -237,7 +237,7 @@ pub async fn email_verification(
         return HttpResponse::Found().append_header(("Location", format!("/{}", &lang))).finish()
     };
 
-    let user = User::find_from_slug(&session_user);
+    let user = User::get_from_slug(&session_user);
 
     match user {
         Ok(user) => {
@@ -270,7 +270,7 @@ pub async fn resend_email_verification(
         return HttpResponse::Found().append_header(("Location", format!("/{}", &lang))).finish()
     };
 
-    let user = User::find_from_slug(&session_user);
+    let user = User::get_from_slug(&session_user);
 
     match user {
         Ok(user) => {
@@ -343,7 +343,7 @@ pub async fn verify_code(
     };
 
     // load user
-    let mut user = User::find_from_slug(&session_user).expect("Unable to load user");
+    let mut user = User::get_from_slug(&session_user).expect("Unable to load user");
 
     let verification_code = EmailVerification::find_by_email(&user.email).expect("Unable to load email verification");
 

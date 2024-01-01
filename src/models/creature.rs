@@ -39,7 +39,9 @@ pub struct Creature {
     pub wound: i32,
     pub knockdown: i32,
     pub actions: i32,
+    pub movement: String,
     pub recovery_rolls: i32,
+    pub karma: i32,
     pub slug: String,
     pub image_url: Option<String>,
     pub created_at: NaiveDateTime,
@@ -126,6 +128,16 @@ impl Creature {
 
         Ok(res)
     }
+
+    pub fn delete(id: Uuid) -> Result<usize, CustomError> {
+        let mut conn = connection()?;
+
+        let res = diesel::delete(creatures::table.filter(
+                creatures::id.eq(id)))
+            .execute(&mut conn)?;
+
+        Ok(res)
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, DbEnum, Serialize, Deserialize)]
@@ -176,7 +188,9 @@ pub struct InsertableCreature {
     pub wound: i32,
     pub knockdown: i32,
     pub actions: i32,
+    pub movement: String,
     pub recovery_rolls: i32,
+    pub karma: i32,
     pub slug: String,
     pub image_url: Option<String>,
     pub created_at: chrono::NaiveDateTime,
@@ -213,7 +227,9 @@ impl InsertableCreature {
             wound: 12,
             knockdown: 10,
             actions: 2,
+            movement: "10".to_string(),
             recovery_rolls: 3,
+            karma: 0,
             slug: "esparaga".to_owned(),
             image_url: Some("hdahdksfashf".to_string()),
             created_at: today,
@@ -244,7 +260,9 @@ impl InsertableCreature {
         wound: i32,
         knockdown: i32,
         actions: i32,
+        movement: String,
         recovery_rolls: i32,
+        karma: i32,
     ) -> Self {
 
         let slug = creature_name.trim().to_snake_case();
@@ -273,7 +291,9 @@ impl InsertableCreature {
             wound,
             knockdown,
             actions,
+            movement,
             recovery_rolls,
+            karma,
             slug,
             image_url: Some("default_image_url".to_string()),
             created_at: today,

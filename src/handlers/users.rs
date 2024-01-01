@@ -84,7 +84,7 @@ pub async fn user_page_handler(
 
     } else {
     
-        let user_select = User::find_from_slug(&slug);
+        let user_select = User::get_from_slug(&slug);
 
         match user_select {
             Ok(user) => {
@@ -117,7 +117,7 @@ pub async fn edit_user(
     
     let (mut ctx, session_user, role, _lang) = generate_basic_context(Some(id), &lang, req.uri().path());
 
-    let user = User::find_from_slug(&slug);
+    let user = User::get_from_slug(&slug);
 
     match user {
         Ok(user) => {
@@ -165,7 +165,7 @@ pub async fn edit_user_post(
     };
 
     // update user
-    let user = User::find_from_slug(&slug);
+    let user = User::get_from_slug(&slug);
 
     match user {
         Ok(mut user) => {
@@ -248,7 +248,7 @@ pub async fn admin_edit_user(
             return err.error_response()
         };
     
-        let user = User::find_from_slug(&slug);
+        let user = User::get_from_slug(&slug);
     
         match user {
             Ok(user) => {
@@ -299,7 +299,7 @@ pub async fn admin_edit_user_post(
 
 
     // update user
-    let user = User::find_from_slug(&slug);
+    let user = User::get_from_slug(&slug);
 
     match user {
         Ok(mut user) => {
@@ -367,7 +367,7 @@ pub async fn delete_user_handler(
             HttpResponse::Found().append_header(("Location", "/")).finish()
         } else {
     
-            let user = User::find_from_slug(&slug);
+            let user = User::get_from_slug(&slug);
             
             match user {
                 Ok(u) => {
@@ -416,7 +416,7 @@ pub async fn delete_user(
             return err.error_response()
         } else {
     
-            let user = User::find_from_slug(&slug);
+            let user = User::get_from_slug(&slug);
             
             match user {
                 Ok(u) => {

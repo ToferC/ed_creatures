@@ -1,12 +1,12 @@
 hello-world = Hello World
-welcome-to = Welcome to Data Docs
+welcome-to = Welcome to Rust-Actix Web Starter
 
 ## General Section
 
-data-docs = Data Docs
--app-name = Data Docs
+name = Earthdawn Creatures
+-app-name = Earthdawn Creatures
 app-description = { -app-name } is a learning project and experiment in constructing organizational documents as native data structures.
-app-mvp = Data Docs MVP
+app-mvp = Rust-Actix Web Starter MVP
 -user-support-email = usersupport@intersectional-data.ca
 
 ## Base & Navbar
@@ -21,8 +21,39 @@ register = Register
 
 ## Footer
 footer-1 = Please note that this work is a learning project and experiment in using work documentation as native data.
-available-licence = The Data Docs project is available on GitHub under an MIT licence here:
-developed-by = Developed by ToferC 2022
+available-licence = The { -app-name } project is available on GitHub under an MIT licence here:
+developed-by = Developed by ToferC 2023
+
+## Index
+circle = Circle
+rarity = Rarity
+found-in = Found in
+view = View
+
+## Creatures
+dexterity = Dexterity
+strength = Strength
+consitution = Constitution
+perception = Perception
+willpower = Willpower
+charisma = Charisma
+initiative = Initiative
+physical-defense = Physical Defense
+mystic-defense = Mysic Defense
+social-defense = Social Defense
+physical-armor = Physical Armor
+mystic-armor = Mystic Armor
+unconscious-rating = Unconsciousness Rating
+death-rating = Death Rating
+wound-rating = Wound Rating
+knockdown = knockdown
+recovery-roles = Recovery Rolls
+karma = karma
+actions = Actions
+movement = Movement
+attacks = Attacks
+
+
 
 ## Login Page
 email-address = Email address

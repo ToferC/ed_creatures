@@ -5,14 +5,14 @@
             <h1>{{ fluent(key="welcome-to", lang=lang) }}</h1>
             <hr>
 
-            {% for todo in todos | sort(attribute="priority") %}
+            {% for creature in creatures | sort(attribute="creature_name") %}
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
-                  <h5 class="card-title">{{ todo.title }}</h5>
-                  <p class="card-text">{{ todo.description }}</p>
-                  <p class="card-text">Status: {% if todo.active %}Open{% else %}Closed{% endif %}</p>
-                  <p class="card-text">Priority: {{ todo.priority }}</p>
-                  <a method="post" href="/{{lang}}/toggle_status/{{ todo.id }}" class="btn btn-primary">{% if todo.active %}Close{% else %}Open{% endif %}</a>
+                  <h5 class="card-title">{{ creature.creature_name }}</h5>
+                  <p class="card-text">{{ fluent(key="circle", lang=lang) }}: {{ creature.circle_rank }}</p>
+                  <p class="card-text">{{ fluent(key="rarity", lang=lang) }}: {{ creature.rarity }}</p>
+                  <p class="card-text">{{ fluent(key="found-in", lang=lang) }} in: {{ creature.found_in }}</p>
+                  <a method="get" href="/{{lang}}/creature/{{ creature.slug }}" class="btn btn-primary">{{ fluent(key="view", lang=lang) }}</a>
                 </div>
               </div>
               <br>

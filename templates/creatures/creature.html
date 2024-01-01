@@ -1,0 +1,57 @@
+<div 
+    id="{{creature.id}}-content"
+    hx-swap="outerHTML"
+    hx-target="this"
+>
+<h1>{{ creature.creature_name | title | safe }}</h1>
+
+<h4>{{ fluent(key="circle", lang=lang )}}: {{ creature.circle_rank }}</h4>
+<h4>{{ fluent(key="rarity", lang=lang )}}: {{ creature.rarity }}</h4>
+<h4>{{ fluent(key="found-in", lang=lang )}}: {{ creature.found_in }}</h4>
+
+<h4>Attributes</h4>
+<div class="container">
+    <div class="row">
+      <div class="col-sm">
+        {{ fluent(key="dexterity", lang=lang )}}: {{ creature.dexterity }}
+        {{ fluent(key="strength", lang=lang )}}: {{ creature.strength }}
+        {{ fluent(key="constitution", lang=lang )}}: {{ creature.constitution }}
+        {{ fluent(key="perception", lang=lang )}}: {{ creature.perception }}
+        {{ fluent(key="willpower", lang=lang )}}: {{ creature.willpower }}
+        {{ fluent(key="charisma", lang=lang )}}: {{ creature.charisma }}
+      </div>
+      <div class="col-sm">
+        {{ fluent(key="initiative", lang=lang )}}: {{ creature.initiative }}
+        {{ fluent(key="physical-defense", lang=lang )}}: {{ creature.pd }}
+        {{ fluent(key="mystic-defense", lang=lang )}}: {{ creature.md }}
+        {{ fluent(key="social-defense", lang=lang )}}: {{ creature.sd }}
+        {{ fluent(key="physical-armor", lang=lang )}}: {{ creature.pa }}
+        {{ fluent(key="mystic-armor", lang=lang )}}: {{ creature.ma }}
+      </div>
+      <div class="col-sm">
+        {{ fluent(key="unconscious-rating", lang=lang )}}: {{ creature.dexterity }}
+        {{ fluent(key="death-rating", lang=lang )}}: {{ creature.strength }}
+        {{ fluent(key="wound-rating", lang=lang )}}: {{ creature.constitution }}
+        {{ fluent(key="knockdown", lang=lang )}}: {{ creature.perception }}
+        {{ fluent(key="recovery-rolls", lang=lang )}}: {{ creature.willpower }}
+        {{ fluent(key="karma", lang=lang )}}: {{ creature.charisma }}
+      </div>
+    </div>
+  </div>
+  <row>
+    {{ fluent(key="actions", lang=lang )}}: {{ creature.actions }}
+    {{ fluent(key="movement", lang=lang )}}: {{ creature.movement }}
+  </row>
+<hr>
+<ul>
+    <li>Created at: {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }} by {{ creature.created_by }}</li>
+    <li>Updated at: {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</li>
+</ul>
+{% if session_user != "" %}
+    <button
+    hx-get="/{{ lang }}/edit_creature_form/{{ creature.id }}" 
+    class="btn">
+            Edit
+    </button>
+{% endif %}
+</div>

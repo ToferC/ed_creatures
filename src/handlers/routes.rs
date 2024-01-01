@@ -49,6 +49,11 @@ use crate::handlers::{
     delete_user_handler,
 
     //creatures
+    get_creature,
+    new_creature_form,
+    edit_creature,
+    post_creature,
+    edit_creature_post,
 
 };
 
@@ -98,4 +103,12 @@ pub fn configure_services(config: &mut web::ServiceConfig) {
      config.service(delete_user_handler);
 
      //creatures
+     config.service(get_creature);
+     config.service(new_creature_form);
+     config.service(post_creature);
+     config.service(edit_creature);
+     config.service(edit_creature_post);
+
+
+
 }

@@ -18,6 +18,7 @@ logout = Logout
 user-index = User Index
 login = Log in
 register = Register
+create-creature = Create a Creature
 
 ## Footer
 footer-1 = Please note that this work is a learning project and experiment in using work documentation as native data.

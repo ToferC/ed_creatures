@@ -1,4 +1,4 @@
-use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest};
+use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest, put};
 use actix_identity::Identity;
 use inflector::Inflector;
 
@@ -18,7 +18,22 @@ pub async fn new_creature_form(
 
     let lang = path.into_inner();
 
-    let (mut ctx, _, _, _) = generate_basic_context(id, &lang, req.uri().path());
+    let (mut ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+
+    let user = User::get_from_slug(&session_user);
+
+    if let Err(e) = user {
+        // no user found so redirect to home
+        println!("No user found. Redirecting");
+        return HttpResponse::Found()
+        .append_header(("Location", format!("/{}/", &lang))).finish()
+    };
+
+    let user = user.unwrap();
+
+    let creature = InsertableCreature::default(user.id);
+
+    ctx.insert("creature", &creature);
 
     let rendered = data.tmpl.render("creatures/new_creature_form.html", &ctx).unwrap();
     HttpResponse::Ok().body(rendered)
@@ -61,20 +76,40 @@ pub async fn get_creature(
 pub async fn post_creature(
     data: web::Data<AppData>,
     path: web::Path<String>,
-    form: web::Form<InsertableCreature>,
+    form: web::Form<CreatureForm>,
     id: Option<Identity>,
     req:HttpRequest) -> impl Responder {
 
     let lang = path.into_inner();
 
     let (mut ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+    
+    let user = User::get_from_slug(&session_user);
 
-    let user = User::get_from_slug(&session_user).expect("Unable to find user");
+    if let Err(e) = user {
+        // no user found so redirect to home
+        return HttpResponse::Found()
+        .append_header(("Location", format!("/{}/", &lang))).finish()
+    }
+
+    let user = user.unwrap();
+
+    let mut found_in = Vec::new();
+
+    if form.jungle != None { found_in.push(Some(Locales::Jungle));};
+    if form.desert != None { found_in.push(Some(Locales::Desert));};
+    if form.forest != None { found_in.push(Some(Locales::Forest));};
+    if form.plains != None { found_in.push(Some(Locales::Plains));};
+    if form.urban != None { found_in.push(Some(Locales::Urban));};
+    if form.mountain != None { found_in.push(Some(Locales::Mountain));};
+    if form.cavern != None { found_in.push(Some(Locales::Cavern));};
+    if form.kaer != None { found_in.push(Some(Locales::Kaer));};
+    if form.any != None { found_in.push(Some(Locales::Any));};
 
     let new_creature = InsertableCreature::new(
         user.id,
         form.name.to_owned(),
-        form.found_in.to_owned(),
+        found_in,
         form.rarity.to_owned(),
         form.circle_rank,
         form.dexterity,
@@ -105,9 +140,9 @@ pub async fn post_creature(
 
     ctx.insert("creature", &creature);
 
-    // TODO: Redirect to get creature with creature slug
-    let rendered = data.tmpl.render("creatures/creature.html", &ctx).unwrap();
-        HttpResponse::Ok().body(rendered)
+    //Redirect to get creature with creature slug
+    return HttpResponse::Found()
+        .append_header(("Location", format!("/{}/creature/{}", &lang, &creature.slug))).finish()
 }
 
 #[get("/{lang}/edit_creature/{creature_id}")]
@@ -130,7 +165,7 @@ pub async fn edit_creature(
     HttpResponse::Ok().body(rendered)
 }
 
-#[post("/{lang}/edit_creature/{creature_id}")]
+#[post("/{lang}/edit_creature_post/{creature_id}")]
 pub async fn edit_creature_post(
     data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
@@ -160,7 +195,15 @@ pub async fn edit_creature_post(
 
     let mut found_in = Vec::new();
 
-    if form.jungle != "" { found_in.push(Some(Locales::Jungle));};
+    if form.jungle != None { found_in.push(Some(Locales::Jungle));};
+    if form.desert != None { found_in.push(Some(Locales::Desert));};
+    if form.forest != None { found_in.push(Some(Locales::Forest));};
+    if form.plains != None { found_in.push(Some(Locales::Plains));};
+    if form.urban != None { found_in.push(Some(Locales::Urban));};
+    if form.mountain != None { found_in.push(Some(Locales::Mountain));};
+    if form.cavern != None { found_in.push(Some(Locales::Cavern));};
+    if form.kaer != None { found_in.push(Some(Locales::Kaer));};
+    if form.any != None { found_in.push(Some(Locales::Any));};
 
     let mut our_creature = Creature {
         id: creature.id,
@@ -201,7 +244,7 @@ pub async fn edit_creature_post(
 
     ctx.insert("creature", &creature);
 
-    // TODO: Redirect to get creature with creature slug
-    let rendered = data.tmpl.render("creatures/creature.html", &ctx).unwrap();
-        HttpResponse::Ok().body(rendered)
+    // Redirect to creature
+    return HttpResponse::Found()
+        .append_header(("Location", format!("/{}/creature/{}", &lang, &creature.slug))).finish()
 }

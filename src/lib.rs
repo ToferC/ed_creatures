@@ -19,7 +19,7 @@ extern crate diesel;
 #[macro_use]
 extern crate diesel_migrations;
 
-pub const APP_NAME: &str = "YOUR APP NAME";
+pub const APP_NAME: &str = "Earthdawn Creatures";
 
 #[derive(Clone, Debug)]
 pub struct AppData {

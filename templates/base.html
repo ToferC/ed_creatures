@@ -14,19 +14,19 @@
     {% block preload %}
 
         <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-        <!-- Bootstrap core CSS -->
+        <!-- Bootstrap core CSS 
+        -->
         <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <!-- JqueryUI -->
+        
         <link href="/static/jquery-ui/jquery-ui.min.css" rel="stylesheet">
-    
-        <!-- JQuery -->
+        
         <script type="text/javascript" src="/static/jquery/js/jquery.min.js"></script>
-    
+        
         <script type="text/javascript" src="/static/jquery-ui/jquery-ui.min.js"></script>
-        <!-- Bootstrap tooltips -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
-        <!-- Bootstrap core JavaScript -->
-        <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+        <!--
+        -->
+        <!-- Bootstrap core JavaScript --> 
+       <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
     {% endblock preload %}
         
     {% block style %}
@@ -267,6 +267,10 @@
 
                 <li class="nav-item active">
                     <a class="nav-link" href="/{{ lang }}/about">{{ fluent(key="about", lang=lang )}}<span class="sr-only">(current)</span></a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="/{{ lang }}/new_creature_form">{{ fluent(key="create-creature", lang=lang )}}<span class="sr-only">(current)</span></a>
                 </li>
 
                 {% if session_user != "" %}

@@ -1,0 +1,13 @@
+<div 
+    id="attack-{{ attack.id }}"
+    hx-target="this"
+    hx-swap="outerHTML"
+    >
+    <li>{{ attack.name }}: {{ attack.action_step}} ({{ attack.effect_step }}){% if attack.details %}: {{ attack.details }}{% endif %} 
+    <button
+        hx-get="/{{ lang }}/edit_attack/{{ attack.id }}"
+        hx-target="#attack-{{ attack.id }}"
+        class="btn btn-info"
+    >Edit</button>
+    </li>
+</div> <!-- end-div htmx -->

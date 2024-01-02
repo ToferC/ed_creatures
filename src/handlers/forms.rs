@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use crate::models::Rarity;
+use crate::models::{Rarity, ActionType, ActionTarget, ResistedBy};
 
 
 #[derive(Deserialize, Debug)]
@@ -48,6 +48,17 @@ pub struct CreatureForm {
 #[derive(Debug, Deserialize)]
 pub struct AttackForm {
     pub name: String,
+    pub action_step: i32,
+    pub effect_step: i32,
+    pub details: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct PowerForm {
+    pub name: String,
+    pub action_type: ActionType,
+    pub target: ActionTarget,
+    pub resisted_by: ResistedBy,
     pub action_step: i32,
     pub effect_step: i32,
     pub details: Option<String>,

@@ -2,9 +2,15 @@
 
 {% block content %}
 
-<div>
+<div class="container">
   <br>
-  <h1>{{ creature.name | title | safe }}</h1>
+  <h1>{{ creature.name | title | safe }} {% if session_user != "" %}
+    <a
+      href="/{{ lang }}/edit_creature/{{ creature.id }}" 
+      class="btn btn-dark">
+      Edit
+    </a>
+    {% endif %}</h1>
 
   <h4>{{ fluent(key="circle", lang=lang )}}: {{ creature.circle_rank }}</h4>
   <h4>{{ fluent(key="rarity", lang=lang )}}: {{ creature.rarity }}</h4>
@@ -15,9 +21,9 @@
     <hr>
 
   <h4>Attributes</h4>
-  <div class="container">
+  <div>
     <div class="row">
-      <div class="col-sm">
+      <div class="col">
         <ul>{{ fluent(key="dexterity", lang=lang )}}: {{ creature.dexterity }}</ul>
         <ul>{{ fluent(key="strength", lang=lang )}}: {{ creature.strength }}</ul>
         <ul>{{ fluent(key="constitution", lang=lang )}}: {{ creature.constitution }}</ul>
@@ -25,7 +31,7 @@
         <ul>{{ fluent(key="willpower", lang=lang )}}: {{ creature.willpower }}</ul>
         <ul>{{ fluent(key="charisma", lang=lang )}}: {{ creature.charisma }}</ul>
       </div>
-      <div class="col-sm">
+      <div class="col">
         <ul>{{ fluent(key="initiative", lang=lang )}}: {{ creature.initiative }}</ul>
         <ul>{{ fluent(key="physical-defense", lang=lang )}}: {{ creature.pd }}</ul>
         <ul>{{ fluent(key="mystic-defense", lang=lang )}}: {{ creature.md }}</ul>
@@ -33,7 +39,7 @@
         <ul>{{ fluent(key="physical-armor", lang=lang )}}: {{ creature.pa }}</ul>
         <ul>{{ fluent(key="mystic-armor", lang=lang )}}: {{ creature.ma }}</ul>
       </div>
-      <div class="col-sm">
+      <div class="col">
         <ul>{{ fluent(key="unconscious-rating", lang=lang )}}: {{ creature.unconsciousness_rating }}</ul>
         <ul>{{ fluent(key="death-rating", lang=lang )}}: {{ creature.death_rating }}</ul>
         <ul>{{ fluent(key="wound-rating", lang=lang )}}: {{ creature.wound }}</ul>
@@ -44,56 +50,45 @@
     </div>
     <div class="row">
       <ul>{{ fluent(key="movement", lang=lang )}}: {{ creature.movement }}</ul>
+    </div>
+    <div class="row">
       <ul>{{ fluent(key="actions", lang=lang )}}: {{ creature.actions }}</ul>
     </div>
-    
-    {% if session_user != "" %}
-    <a
-      href="/{{ lang }}/edit_creature/{{ creature.id }}" 
-      class="btn btn-dark">
-      Edit
-    </a>
-  {% endif %}
-  <hr>
+
+    <hr>
   </div>
 </div> <!-- End of Creature -->
 
 <div class="container">
   <div class="row">
     <h3>Attacks</h3><br>
+  </div>
     {% if attacks %}
       {% for attack in attacks %}
       <div>
-        <ul>{{ attack.name }}: {{ attack.action_step}} ({{ attack.effect_step }})</ul>
-      </div> <!-- end-div htmx -->
+        <li>
+          {{ attack.name }}: {{ attack.action_step}} ({{ attack.effect_step }}){% if attack.details %}: {{ attack.details }}{% endif %}
+        </li>
+      </div>
       {% endfor %} <!-- attacks -->
+    {% else %}
+        <li>None</li>
     {% endif %}
-    <hr>
+
+<hr>
+
+    <div class="row">
+      <h3>Powers and Abilities</h3><br>
+    </div> 
+      {% if powers %}
+        {% for power in powers %}
+        <div>
+          <li>{{ power.name }} ({{ power.action_type }} vs. {{ power.target }}): {{ power.action_step}} ({{ power.effect_step }} / {{ power.resisted_by }}){% if power.details %}: {{ power.details }}{% endif %}   
+        </div>
+        {% endfor %}
+      {% else %}
+      <li>None</li>
+      {% endif %}  
   </div>
-</div>
-  
-<div class="container">
-  <div class="row">
-    {% if powers %}
-      <h3>Powers</h3><br>
-      {% for power in powers %}
-        <div 
-          id="{{power.id}}-content"
-          hx-swap="outerHTML"
-          hx-target="this"
-        >
-          <ul>{{ power.name }}: {{ power.action_step}} ({{ power.effect_step }})</ul>
-          {% if session_user != "" %}
-          <button
-            hx-get="/{{ lang }}/edit_power_form/{{ power.id }}" 
-            class="btn btn-dark">
-                    Edit
-            </button>
-        {% endif %}
-        </div> <!-- end div htmx -->
-      {% endfor %}
-    {% endif %}  
-  </div>
-</div>
 
 {% endblock content %}

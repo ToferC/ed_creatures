@@ -47,7 +47,7 @@ mystic-armor = Mystic Armor
 unconscious-rating = Unconsciousness Rating
 death-rating = Death Rating
 wound-rating = Wound Rating
-knockdown = knockdown
+knockdown = Knockdown
 recovery-rolls = Recovery Rolls
 karma = Karma
 actions = Actions
@@ -57,7 +57,12 @@ attacks = Attacks
 ## Attacks
 action-step = Action Step
 effect-step = Effect Step
-description = Description
+details = Details
+
+## Powers
+action-type = Action Type
+target = Action Target
+resisted-by = Resisted By
 
 ## Login Page
 email-address = Email address

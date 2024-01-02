@@ -8,41 +8,31 @@
       <h3>Attacks</h3><br>
     </div>
       {% if attacks %}
+      <ul>
         {% for attack in attacks %}
-        <div>
-          <ul>{{ attack.name }}: {{ attack.action_step}} ({{ attack.effect_step }})</ul>
+        <div 
+          id="attack-{{ attack.id }}"
+          hx-target="this"
+          hx-swap="outerHTML"
+        >
+        <li>{{ attack.name }}: {{ attack.action_step}} ({{ attack.effect_step }}){% if attack.details %}: {{ attack.details }}{% endif %}   
+          <button
+            hx-get="/{{ lang }}/edit_attack/{{ attack.id }}"
+            hx-target="#attack-{{ attack.id }}"
+            class="btn btn-sm"
+          >Edit</button>
         </div> <!-- end-div htmx -->
         {% endfor %} <!-- attacks -->
+      </ul>
       {% endif %}
       <br>
-      <h3>Add an Attack</h3><br>
-      <form hx-post="/{{ lang }}/post_attack/{{ creature_id }}" hx-target="attacks">
-        <div>
-            <label>Attack Name</label><br>
-            <input class="form-control form-control-lg" type="text" name="name" placeholder="Add name here..." size=60 value="" required>
-        </div>
-
-        <div>
-            <label>{{ fluent(key="action-step", lang=lang )}}</label><br>
-            <input class="form-control form-control-lg" type="number" name="action_step" placeholder="5" size=60 value="8" required>
-        </div>
-
-        <div>
-            <label>{{ fluent(key="effect-step", lang=lang )}}</label><br>
-            <input class="form-control form-control-lg" type="number" name="effect_step" placeholder="5" size=60 value="8" required>
-        </div>
-
-        <div>
-            <label>Details</label><br>
-            <input class="form-control form-control-lg" type="text" name="details" placeholder="Add optional details here..." size=60 value="">
-        </div>
-        <button
-            hx-post="/{{ lang }}/post_attack/{{ creature_id }}"
-            hx-target="#attacks"
-            class="btn btn-primary" 
-            type="submit"
-        >Save
-        </button>
-      </form>
+      <button
+        class="btn btn-dark"
+        hx-get="/{{ lang }}/add_attack/{{ creature_id }}"
+        hx-target="this"
+        hx-swap="outerHTML"
+        >
+        Add an Attack
+      </button>
       <hr>
 </div>

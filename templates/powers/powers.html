@@ -1,0 +1,38 @@
+<div
+    class="container" 
+    id="powers"
+    hx-target="this"
+    hx-swap="outerHTML"
+>
+    <div class="row">
+      <h3>Powers</h3><br>
+    </div>
+      {% if powers %}
+      <ul>
+        {% for power in powers %}
+        <div 
+          id="power-{{ power.id }}"
+          hx-target="this"
+          hx-swap="outerHTML"
+        >
+        <li>{{ power.name }} ({{ power.action_type }} vs. {{ power.target }}): {{ power.action_step}} ({{ power.effect_step }} / {{ power.resisted_by }}){% if power.details %}: {{ power.details }}{% endif %}   
+          <button
+            hx-get="/{{ lang }}/edit_power/{{ power.id }}"
+            hx-target="#power-{{ power.id }}"
+            class="btn btn-sm"
+          >Edit</button>
+        </div> <!-- end-div htmx -->
+        {% endfor %} <!-- powers -->
+      </ul>
+      {% endif %}
+      <br>
+      <button
+        class="btn btn-dark"
+        hx-get="/{{ lang }}/add_power/{{ creature_id }}"
+        hx-target="this"
+        hx-swap="outerHTML"
+        >
+        Add an Power
+      </button>
+      <hr>
+</div>

@@ -14,18 +14,18 @@ use diesel::{RunQueryDsl, QueryDsl};
 #[derive(Serialize, Deserialize, Queryable, AsChangeset, Insertable, Debug, Identifiable, Clone)]
 #[diesel(table_name = powers)]
 pub struct Power {
-    id: Uuid,
-    creator_id: Uuid,
-    creature_id: Uuid,
-    name: String,
-    action_type: ActionType,
-    target: ActionTarget,
-    resisted_by: ResistedBy,
-    action_step: i32,
-    effect_step: i32,
-    details: Option<String>,
-    created_at: NaiveDateTime,
-    updated_at: NaiveDateTime,
+    pub id: Uuid,
+    pub creator_id: Uuid,
+    pub creature_id: Uuid,
+    pub name: String,
+    pub action_type: ActionType,
+    pub target: ActionTarget,
+    pub resisted_by: ResistedBy,
+    pub action_step: i32,
+    pub effect_step: i32,
+    pub details: Option<String>,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, DbEnum, Serialize, Deserialize)]
@@ -142,17 +142,17 @@ impl Power {
 #[derive(Debug, Clone, Deserialize, Serialize, Insertable, Queryable)]
 #[diesel(table_name = powers)]
 pub struct InsertablePower {
-    creator_id: Uuid,
-    creature_id: Uuid,
-    name: String,
-    action_type: ActionType,
-    target: ActionTarget,
-    resisted_by: ResistedBy,
-    action_step: i32,
-    effect_step: i32,
-    details: Option<String>,
-    created_at: NaiveDateTime,
-    updated_at: NaiveDateTime,
+    pub creator_id: Uuid,
+    pub creature_id: Uuid,
+    pub name: String,
+    pub action_type: ActionType,
+    pub target: ActionTarget,
+    pub resisted_by: ResistedBy,
+    pub action_step: i32,
+    pub effect_step: i32,
+    pub details: Option<String>,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }
 
 impl InsertablePower {

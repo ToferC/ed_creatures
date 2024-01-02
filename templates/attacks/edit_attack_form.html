@@ -1,0 +1,33 @@
+<div 
+    class="container"
+    id="attack-edit-{{ attack.id }}"
+>   
+    <form hx-post="/{{ lang }}/edit_attack_post/{{ attack.id }}" hx-target="attacks">
+        <div>
+            <label>Attack Name</label><br>
+            <input class="form-control form-control-lg" type="text" name="name" placeholder="Add name here..." size=60 value="{{ attack.name }}" required>
+        </div>
+
+        <div>
+            <label>{{ fluent(key="action-step", lang=lang )}}</label><br>
+            <input class="form-control form-control-lg" type="number" name="action_step" placeholder="5" size=60 value="{{ attack.action_step }}" required>
+        </div>
+
+        <div>
+            <label>{{ fluent(key="effect-step", lang=lang )}}</label><br>
+            <input class="form-control form-control-lg" type="number" name="effect_step" placeholder="5" size=60 value="{{ attack.effect_step }}" required>
+        </div>
+
+        <div>
+            <label>Details</label><br>
+            <input class="form-control form-control-lg" type="text" name="details" placeholder="Add optional details here..." size=60 value="{{ attack.details }}">
+        </div>
+        <button
+            hx-post="/{{ lang }}/edit_attack_post/{{ attack.id }}"
+            hx-target="#attack-edit-{{ attack.id }}"
+            class="btn btn-primary" 
+            type="submit"
+        >Save
+        </button>
+    </form>
+</div>

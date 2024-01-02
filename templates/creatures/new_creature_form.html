@@ -4,10 +4,11 @@
 
 <div 
     id="{{creature.slug}}-content"
-    hx-swap="outerHTML"
-    hx-target="this"
 >
-    <form>
+    <form
+        action="/{{ lang }}/post_creature"
+        method="POST"
+    >
         <div>
             <label>Creature Name</label><br>
             <input class="form-control form-control-lg" type="text" name="name" placeholder="Add name here..." size=60 value="{{ creature.name }}" required>
@@ -215,11 +216,7 @@
     </div>
     
     {% if session_user != "" %}
-    <button 
-      hx-post="/{{ lang }}/post_creature"
-      hx-trigger="click"
-      class="btn btn-primary"
-      >Save</button>
+    <button class="btn btn-primary" type="submit">Save</button>
     <button class="btn" hx-get="/{{ lang }}/">Cancel</button>
     {% endif %}
   <hr>

@@ -1,22 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-        <div class="col m-md-2 m-1">
+        <div class="container">
             <h1>{{ fluent(key="welcome-to", lang=lang) }}</h1>
             <hr>
+            <div class="row">
 
             {% for creature in creatures | sort(attribute="name") %}
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                  <h5 class="card-title">{{ creature.name }}</h5>
-                  <p class="card-text">{{ fluent(key="circle", lang=lang) }}: {{ creature.circle_rank }}</p>
-                  <p class="card-text">{{ fluent(key="rarity", lang=lang) }}: {{ creature.rarity }}</p>
-                  <p class="card-text">{{ fluent(key="found-in", lang=lang) }} in: {{ creature.found_in }}</p>
-                  <a method="get" href="/{{lang}}/creature/{{ creature.slug }}" class="btn btn-primary">{{ fluent(key="view", lang=lang) }}</a>
+              <div class="col-md-4">
+
+                <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ creature.name }}</h5>
+                    <p class="card-text">{{ fluent(key="circle", lang=lang) }}: {{ creature.circle_rank }}</p>
+                    <p class="card-text">{{ fluent(key="rarity", lang=lang) }}: {{ creature.rarity }}</p>
+                    <p class="card-text">{{ fluent(key="found-in", lang=lang) }} in: {{ creature.found_in }}</p>
+                    <a method="get" href="/{{lang}}/creature/{{ creature.slug }}" class="btn btn-primary">{{ fluent(key="view", lang=lang) }}</a>
+                  </div>
                 </div>
+                <br>
               </div>
-              <br>
-            {% endfor %}
+              {% endfor %}
+            </div> <!-- end row -->
         
         </div>
 {% endblock content %}

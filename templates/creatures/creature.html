@@ -3,17 +3,18 @@
 {% block content %}
 
 <div 
-    id="{{creature.id}}-content"
+    id="creature-content"
     hx-swap="outerHTML"
     hx-target="this"
 >
+  <br>
   <h1>{{ creature.name | title | safe }}</h1>
 
   <h4>{{ fluent(key="circle", lang=lang )}}: {{ creature.circle_rank }}</h4>
   <h4>{{ fluent(key="rarity", lang=lang )}}: {{ creature.rarity }}</h4>
   <h4>{{ fluent(key="found-in", lang=lang )}}: {{ creature.found_in }}</h4>
-    <ul>Created at: {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }}</ul>
-    <ul>Updated at: {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</ul>
+    <small>Created at: {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }}</small>
+    <small>Updated at: {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</small>
 
     <hr>
 
@@ -64,7 +65,7 @@
 <div class="container">
   <div class="row">
     {% if attacks %}
-      <h3>Attacks</h3>
+      <h3>Attacks</h3><br>
       {% for attack in attacks %}
       <div 
       id="{{attack.id}}-content"
@@ -89,7 +90,7 @@
 <div class="container">
   <div class="row">
     {% if powers %}
-      <h3>Powers</h3>
+      <h3>Powers</h3><br>
       {% for power in powers %}
         <div 
           id="{{power.id}}-content"

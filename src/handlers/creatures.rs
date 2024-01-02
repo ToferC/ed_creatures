@@ -103,6 +103,7 @@ pub async fn post_creature(
     if form.urban != None { found_in.push(Some(Locales::Urban));};
     if form.mountain != None { found_in.push(Some(Locales::Mountain));};
     if form.cavern != None { found_in.push(Some(Locales::Cavern));};
+    if form.swamp != None { found_in.push(Some(Locales::Swamp));};
     if form.kaer != None { found_in.push(Some(Locales::Kaer));};
     if form.any != None { found_in.push(Some(Locales::Any));};
 
@@ -202,6 +203,7 @@ pub async fn edit_creature_post(
     if form.urban != None { found_in.push(Some(Locales::Urban));};
     if form.mountain != None { found_in.push(Some(Locales::Mountain));};
     if form.cavern != None { found_in.push(Some(Locales::Cavern));};
+    if form.swamp != None { found_in.push(Some(Locales::Swamp));};
     if form.kaer != None { found_in.push(Some(Locales::Kaer));};
     if form.any != None { found_in.push(Some(Locales::Any));};
 

@@ -159,6 +159,7 @@ pub enum Locales {
     Urban,
     Mountain,
     Cavern,
+    Swamp,
     Kaer,
     Any,
 }

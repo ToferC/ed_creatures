@@ -18,6 +18,7 @@ pub struct CreatureForm {
     pub urban: Option<String>,
     pub mountain: Option<String>,
     pub cavern: Option<String>,
+    pub swamp: Option<String>,
     pub kaer: Option<String>,
     pub any: Option<String>,
     pub circle_rank: i32,

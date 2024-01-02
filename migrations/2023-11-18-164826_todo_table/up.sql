@@ -7,6 +7,7 @@ CREATE TYPE locales as ENUM (
     'urban',
     'mountain',
     'cavern',
+    'swamp',
     'kaer',
     'any'
 );

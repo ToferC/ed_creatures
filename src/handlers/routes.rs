@@ -62,6 +62,16 @@ use crate::handlers::{
     post_attack,
     edit_attack,
     edit_attack_post,
+    delete_attack,
+
+    // powers
+    get_power,
+    get_powers,
+    add_power,
+    post_power,
+    edit_power,
+    edit_power_post,
+    delete_power,
 };
 
 pub fn configure_services(config: &mut web::ServiceConfig) {
@@ -123,5 +133,15 @@ pub fn configure_services(config: &mut web::ServiceConfig) {
     config.service(post_attack);
     config.service(edit_attack);
     config.service(edit_attack_post);
+    config.service(delete_attack);
+
+    // powers
+    config.service(get_powers);
+    config.service(get_power);
+    config.service(add_power);
+    config.service(post_power);
+    config.service(edit_power);
+    config.service(edit_power_post);
+    config.service(delete_power);
 
 }

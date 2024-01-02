@@ -197,3 +197,20 @@ pub async fn edit_power_post(
     return HttpResponse::Found()
         .append_header(("Location", format!("/{}/power/{}", &lang, &power.id))).finish()
 }
+
+#[get("/{lang}/delete_power/{power_id}")]
+pub async fn delete_power(
+    _data: web::Data<AppData>,
+    path: web::Path<(String, Uuid)>,
+    
+    id: Option<Identity>,
+    req:HttpRequest) -> impl Responder {
+
+    let (lang, power_id) = path.into_inner();
+
+    let (_ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+
+    let _attack = Power::delete(power_id).expect("Unable to delete attack");
+
+    HttpResponse::Ok().body("")
+}

@@ -237,7 +237,7 @@
     
     {% if session_user != "" %}
     <button class="btn btn-primary" type="submit">Save</button>
-    <a class="btn" href="/{{ lang }}/creature/{{ creature.slug }}">Cancel</a>
+    <a class="btn btn-info" href="/{{ lang }}/creature/{{ creature.slug }}">Cancel</a>
     {% endif %}
   <hr>
   </div>
@@ -264,8 +264,13 @@
         <button
           hx-get="/{{ lang }}/edit_attack/{{ attack.id }}"
           hx-target="#attack-{{ attack.id }}"
-          class="btn btn-sm"
-        >Edit</button>
+          class="btn btn-info btn-sm"
+        >Edit</button> 
+        <button
+          hx-get="/{{ lang }}/delete_attack/{{ attack.id }}"
+          hx-target="#attack-{{ attack.id }}"
+          class="btn btn-danger btn-sm"
+        >Delete</button>
         </li>
       </div> <!-- end-div htmx -->
       {% endfor %} <!-- attacks -->
@@ -299,12 +304,17 @@ hx-swap="outerHTML"
     hx-target="this"
     hx-swap="outerHTML"
   >
-    <li>{{ power.name }} ({{ power.action_type }} vs. {{ power.target }}): {{ power.action_step}} ({{ power.effect_step }} / {{ power.resisted_by }}){% if power.details %}: {{ power.details }}{% endif %}   
+    <li>{{ power.name }} ({{ power.action_type }} vs. {{ power.target }}): {{ power.action_step}} ({{ power.effect_step }}{% if power.resisted_by != 'NotApplicable' %} | {{ power.resisted_by }}{% endif %}){% if power.details %}: {{ power.details }}{% endif %}   
     <button
       hx-get="/{{ lang }}/edit_power/{{ power.id }}"
       hx-target="#power-{{ power.id }}"
-      class="btn btn-sm"
-    >Edit</button>
+      class="btn btn-info btn-sm"
+    >Edit</button> 
+    <button
+          hx-get="/{{ lang }}/delete_power/{{ power.id }}"
+          hx-target="#power-{{ power.id }}"
+          class="btn btn-danger btn-sm"
+    >Delete</button>
     </li>
   </div> <!-- end-div htmx -->
   {% endfor %} <!-- powers -->

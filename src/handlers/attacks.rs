@@ -2,7 +2,7 @@ use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest, put};
 use actix_identity::Identity;
 use inflector::Inflector;
 
-use crate::{generate_basic_context, AppData, models::{User, Attack, Power, Locales}, handlers::AttackForm};
+use crate::{generate_basic_context, AppData, models::{User, Attack, Power, Locales, Creature}, handlers::AttackForm};
 use uuid::Uuid;
 
 use crate::models::{InsertableAttack};
@@ -191,4 +191,21 @@ pub async fn edit_attack_post(
     // Redirect to attack
     return HttpResponse::Found()
         .append_header(("Location", format!("/{}/attack/{}", &lang, &attack.id))).finish()
+}
+
+#[get("/{lang}/delete_attack/{attack_id}")]
+pub async fn delete_attack(
+    _data: web::Data<AppData>,
+    path: web::Path<(String, Uuid)>,
+    
+    id: Option<Identity>,
+    req:HttpRequest) -> impl Responder {
+
+    let (lang, attack_id) = path.into_inner();
+
+    let (_ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+
+    let _attack = Attack::delete(attack_id).expect("Unable to delete attack");
+
+    HttpResponse::Ok().body("")
 }

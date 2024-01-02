@@ -52,6 +52,7 @@
             <label>Details</label><br>
             <input class="form-control form-control-lg" type="text" name="details" placeholder="Add optional details here..." size=60 value="{{ power.details }}">
         </div>
+        <br>
         <button
             hx-post="/{{ lang }}/edit_power_post/{{ power.id }}"
             hx-target="#power-edit-{{ power.id }}"

@@ -1,3 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+
 <div 
     id="{{creature.id}}-content"
     hx-swap="outerHTML"
@@ -221,3 +225,78 @@
   </div>
     </form>
 </div> <!-- End of Creature -->
+
+<div
+    class="container" 
+    id="attacks"
+    hx-target="this"
+    hx-swap="outerHTML"
+>
+    <div class="row">
+      <h3>Attacks</h3><br>
+    </div>
+      {% if attacks %}
+        {% for attack in attacks %}
+        <div>
+          <ul>{{ attack.name }}: {{ attack.action_step}} ({{ attack.effect_step }})</ul>
+        </div> <!-- end-div htmx -->
+        {% endfor %} <!-- attacks -->
+      {% endif %}
+      <br>
+      <h3>Add an Attack</h3><br>
+      <form hx-post="/{{ lang }}/post_attack/{{ creature.id }}" hx-target="attacks">
+        <div>
+            <label>Attack Name</label><br>
+            <input class="form-control form-control-lg" type="text" name="name" placeholder="Add name here..." size=60 value="" required>
+        </div>
+
+        <div>
+            <label>{{ fluent(key="action-step", lang=lang )}}</label><br>
+            <input class="form-control form-control-lg" type="number" name="action_step" placeholder="5" size=60 value="8" required>
+        </div>
+
+        <div>
+            <label>{{ fluent(key="effect-step", lang=lang )}}</label><br>
+            <input class="form-control form-control-lg" type="number" name="effect_step" placeholder="5" size=60 value="8" required>
+        </div>
+
+        <div>
+            <label>Details</label><br>
+            <input class="form-control form-control-lg" type="text" name="details" placeholder="Add optional details here..." size=60 value="">
+        </div>
+        <button
+            hx-post="/{{ lang }}/post_attack/{{ creature.id }}"
+            hx-target="#attacks"
+            class="btn btn-primary" 
+            type="submit"
+        >Save
+        </button>
+      </form>
+      <hr>
+</div>
+    
+  <div class="container">
+    <div class="row">
+      {% if powers %}
+        <h3>Powers</h3><br>
+        {% for power in powers %}
+          <div 
+            id="{{power.id}}-content"
+            hx-swap="outerHTML"
+            hx-target="this"
+          >
+            <ul>{{ power.name }}: {{ power.action_step}} ({{ power.effect_step }})</ul>
+            {% if session_user != "" %}
+            <button
+              hx-get="/{{ lang }}/edit_power_form/{{ power.id }}" 
+              class="btn btn-dark">
+                      Edit
+              </button>
+          {% endif %}
+          </div> <!-- end div htmx -->
+        {% endfor %}
+      {% endif %}  
+    </div>
+  </div>
+
+  {% endblock content %}

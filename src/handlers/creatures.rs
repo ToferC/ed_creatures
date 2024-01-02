@@ -160,7 +160,19 @@ pub async fn edit_creature(
 
     let creature = Creature::get_by_id(&creature_id).expect("Unable to retrieve creature");
 
+    let r_attacks = Attack::get_by_creature_id(creature.id);
+
+    let r_powers = Power::get_by_creature_id(creature.id);
+
     ctx.insert("creature", &creature);
+
+    if let Ok(data) = r_attacks {
+        ctx.insert("attacks", &data);
+    }
+
+    if let Ok(data) = r_powers {
+        ctx.insert("powers", &data);
+    }
 
     let rendered = data.tmpl.render("creatures/edit_creature_form.html", &ctx).unwrap();
     HttpResponse::Ok().body(rendered)

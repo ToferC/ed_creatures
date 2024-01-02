@@ -2,11 +2,7 @@
 
 {% block content %}
 
-<div 
-    id="creature-content"
-    hx-swap="outerHTML"
-    hx-target="this"
->
+<div>
   <br>
   <h1>{{ creature.name | title | safe }}</h1>
 
@@ -52,11 +48,11 @@
     </div>
     
     {% if session_user != "" %}
-    <button
-      hx-get="/{{ lang }}/edit_creature/{{ creature.id }}" 
+    <a
+      href="/{{ lang }}/edit_creature/{{ creature.id }}" 
       class="btn btn-dark">
       Edit
-    </button>
+    </a>
   {% endif %}
   <hr>
   </div>
@@ -64,22 +60,11 @@
 
 <div class="container">
   <div class="row">
+    <h3>Attacks</h3><br>
     {% if attacks %}
-      <h3>Attacks</h3><br>
       {% for attack in attacks %}
-      <div 
-      id="{{attack.id}}-content"
-      hx-swap="outerHTML"
-      hx-target="this"
-      >
+      <div>
         <ul>{{ attack.name }}: {{ attack.action_step}} ({{ attack.effect_step }})</ul>
-        {% if session_user != "" %}
-          <button
-            hx-get="/{{ lang }}/edit_attack_form/{{ attack.id }}" 
-            class="btn btn-dark">
-            Edit
-          </button>
-        {% endif %}
       </div> <!-- end-div htmx -->
       {% endfor %} <!-- attacks -->
     {% endif %}

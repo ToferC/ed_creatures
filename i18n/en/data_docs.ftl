@@ -54,7 +54,10 @@ actions = Actions
 movement = Movement
 attacks = Attacks
 
-
+## Attacks
+action-step = Action Step
+effect-step = Effect Step
+description = Description
 
 ## Login Page
 email-address = Email address

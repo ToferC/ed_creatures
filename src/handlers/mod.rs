@@ -7,6 +7,7 @@ pub mod errors;
 pub mod email;
 pub mod authentication_handlers;
 pub mod creatures;
+pub mod attacks;
 
 pub use base::{index, raw_index};
 pub use routes::configure_services;
@@ -17,3 +18,4 @@ pub use email::*;
 pub use errors::*;
 pub use authentication_handlers::*;
 pub use creatures::*;
+pub use attacks::*;

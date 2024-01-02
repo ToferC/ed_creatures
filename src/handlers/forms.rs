@@ -44,3 +44,11 @@ pub struct CreatureForm {
     pub karma: i32,
     pub image_url: Option<String>,
 }
+
+#[derive(Debug, Deserialize)]
+pub struct AttackForm {
+    pub name: String,
+    pub action_step: i32,
+    pub effect_step: i32,
+    pub details: Option<String>,
+}

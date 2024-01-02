@@ -1,5 +1,5 @@
 hello-world = Hello World
-welcome-to = Welcome to Rust-Actix Web Starter
+welcome-to = Welcome to Earthdawn Creatures
 
 ## General Section
 
@@ -54,7 +54,10 @@ actions = Actions
 movement = Movement
 attacks = Attacks
 
-
+## Attacks
+action-step = Action Step
+effect-step = Effect Step
+details = Details
 
 ## Login Page
 email-address = Email address

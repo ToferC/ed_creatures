@@ -55,6 +55,11 @@ use crate::handlers::{
     post_creature,
     edit_creature_post,
 
+    // attacks
+    get_attacks,
+    post_attack,
+    edit_attack,
+    edit_attack_post,
 };
 
 pub fn configure_services(config: &mut web::ServiceConfig) {
@@ -109,6 +114,10 @@ pub fn configure_services(config: &mut web::ServiceConfig) {
      config.service(edit_creature);
      config.service(edit_creature_post);
 
-
+    // attacks
+    config.service(get_attacks);
+    config.service(post_attack);
+    config.service(edit_attack);
+    config.service(edit_attack_post);
 
 }

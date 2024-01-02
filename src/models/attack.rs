@@ -13,15 +13,15 @@ use diesel::{RunQueryDsl, QueryDsl};
 #[derive(Serialize, Deserialize, Queryable, AsChangeset, Insertable, Debug, Identifiable, Clone)]
 #[diesel(table_name = attacks)]
 pub struct Attack {
-    id: Uuid,
-    creator_id: Uuid,
-    creature_id: Uuid,
-    name: String,
-    action_step: i32,
-    effect_step: i32,
-    details: Option<String>,
-    created_at: NaiveDateTime,
-    updated_at: NaiveDateTime,
+    pub id: Uuid,
+    pub creator_id: Uuid,
+    pub creature_id: Uuid,
+    pub name: String,
+    pub action_step: i32,
+    pub effect_step: i32,
+    pub details: Option<String>,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }
 
 impl Attack {
@@ -110,14 +110,14 @@ impl Attack {
 #[derive(Debug, Clone, Deserialize, Serialize, Insertable, Queryable)]
 #[diesel(table_name = attacks)]
 pub struct InsertableAttack {
-    creator_id: Uuid,
-    creature_id: Uuid,
-    name: String,
-    action_step: i32,
-    effect_step: i32,
-    details: Option<String>,
-    created_at: NaiveDateTime,
-    updated_at: NaiveDateTime,
+    pub creator_id: Uuid,
+    pub creature_id: Uuid,
+    pub name: String,
+    pub action_step: i32,
+    pub effect_step: i32,
+    pub details: Option<String>,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }
 
 impl InsertableAttack {

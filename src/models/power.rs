@@ -44,6 +44,7 @@ pub enum ActionTarget {
     PhysicalDefense,
     SocialDefense,
     Other,
+    NotApplicable,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, DbEnum, Serialize, Deserialize)]

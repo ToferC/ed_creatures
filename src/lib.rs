@@ -3,6 +3,7 @@ pub mod handlers;
 pub mod database;
 pub mod errors;
 pub mod schema;
+pub mod steps;
 
 use tera::{Tera, Context};
 use actix_identity::Identity;
@@ -25,6 +26,7 @@ pub const APP_NAME: &str = "Earthdawn Creatures";
 pub struct AppData {
     pub tmpl: Tera,
     pub mail_client: SGClient,
+    pub steps: &'static [&'static str],
 }
 
 /// Generate context, session_user, role and node_names from id and lang

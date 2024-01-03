@@ -81,7 +81,8 @@ CREATE TYPE action_targets as ENUM (
     'physical_defense',
     'mystic_defense',
     'social_defense',
-    'other'
+    'other',
+    'not_applicable'
 );
 
 CREATE TYPE resisted_bys as ENUM (

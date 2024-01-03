@@ -83,7 +83,7 @@
       {% if powers %}
         {% for power in powers %}
         <div>
-          <li>{{ power.name }} ({{ power.action_type }} vs. {{ power.target }}): {{ power.action_step}} ({{ power.effect_step }} / {{ power.resisted_by }}){% if power.details %}: {{ power.details }}{% endif %}   
+          <li>{{ power.name }} ({{ power.action_type }} {% if power.target != 'NotApplicable' %} vs. {{ power.target }}{% endif %}): {{ power.action_step}} ({{ power.effect_step }}{% if power.resisted_by != 'NotApplicable' %} | {{ power.resisted_by }}{% endif %}){% if power.details %}: {{ power.details }}{% endif %}   
         </div>
         {% endfor %}
       {% else %}

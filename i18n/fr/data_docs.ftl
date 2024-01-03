@@ -21,7 +21,7 @@ register = Register
 create-creature = Create a Creature
 
 ## Footer
-footer-1 = Please note that this work is a learning project and experiment in using work documentation as native data.
+footer-1 = Please note that this work is a fan project based on Earthdawn which is copyrighted by FASA games.
 available-licence = The { -app-name } project is available on GitHub under an MIT licence here:
 developed-by = Developed by ToferC 2023
 

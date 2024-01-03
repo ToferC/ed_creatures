@@ -13,6 +13,7 @@ use earthdawn_creatures::APP_NAME;
 use earthdawn_creatures::handlers;
 use earthdawn_creatures::AppData;
 use earthdawn_creatures::database;
+use earthdawn_creatures::steps::steps::STEPS;
 
 use fluent_templates::{FluentLoader, static_loader};
 // https://lib.rs/crates/fluent-templates
@@ -79,6 +80,7 @@ async fn main() -> std::io::Result<()> {
         let data = web::Data::new(AppData {
             tmpl: tera,
             mail_client: sg,
+            steps: STEPS,
         });
 
         let generated = generate();

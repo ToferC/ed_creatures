@@ -10,7 +10,13 @@
       class="btn btn-dark">
       Edit
     </a>
-    {% endif %}</h1>
+    {% endif %}
+    <a
+      href="/{{ lang }}/creature/in_game/{{ creature.slug }}" 
+      class="btn btn-info">
+      Play
+    </a>
+  </h1>
 
   <h4>{{ fluent(key="circle", lang=lang )}}: {{ creature.circle_rank }}</h4>
   <h4>{{ fluent(key="rarity", lang=lang )}}: {{ creature.rarity }}</h4>

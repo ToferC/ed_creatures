@@ -40,15 +40,15 @@ pub async fn new_creature_form(
 
 }
 
-#[get("/{lang}/creature/{slug}")]
+#[get("/{lang}/creature/{view}/{slug}")]
 pub async fn get_creature(
     data: web::Data<AppData>,
-    path: web::Path<(String, String)>,
+    path: web::Path<(String, String, String)>,
     
     id: Option<Identity>,
     req:HttpRequest) -> impl Responder {
 
-    let (lang, slug) = path.into_inner();
+    let (lang, view, slug) = path.into_inner();
 
     let (mut ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
@@ -69,7 +69,11 @@ pub async fn get_creature(
         ctx.insert("powers", &data);
     }
 
-    let rendered = data.tmpl.render("creatures/creature.html", &ctx).unwrap();
+    let rendered = match view.as_str() {
+        "in_game" => data.tmpl.render("creatures/in_game_creature.html", &ctx).unwrap(),
+        _ => data.tmpl.render("creatures/creature.html", &ctx).unwrap(),
+    };
+    
     HttpResponse::Ok().body(rendered)
 }
 

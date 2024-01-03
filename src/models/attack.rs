@@ -10,8 +10,11 @@ use crate::database::connection;
 use diesel::prelude::*;
 use diesel::{RunQueryDsl, QueryDsl};
 
-#[derive(Serialize, Deserialize, Queryable, AsChangeset, Insertable, Debug, Identifiable, Clone)]
+use crate::models::Creature;
+
+#[derive(Serialize, Deserialize, Queryable, AsChangeset, Insertable, Debug, Associations, Identifiable, Clone)]
 #[diesel(table_name = attacks)]
+#[belongs_to(Creature)]
 pub struct Attack {
     pub id: Uuid,
     pub creator_id: Uuid,

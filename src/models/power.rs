@@ -11,8 +11,11 @@ use diesel_derive_enum::DbEnum;
 use diesel::prelude::*;
 use diesel::{RunQueryDsl, QueryDsl};
 
-#[derive(Serialize, Deserialize, Queryable, AsChangeset, Insertable, Debug, Identifiable, Clone)]
+use crate::models::Creature;
+
+#[derive(Serialize, Deserialize, Queryable, AsChangeset, Insertable, Debug, Associations, Identifiable, Clone)]
 #[diesel(table_name = powers)]
+#[belongs_to(Creature)]
 pub struct Power {
     pub id: Uuid,
     pub creator_id: Uuid,

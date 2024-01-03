@@ -13,6 +13,8 @@ use diesel_derive_enum::DbEnum;
 
 use inflector::Inflector;
 
+use crate::models::{Attack, Power };
+
 #[derive(Serialize, Deserialize, Queryable, AsChangeset, Insertable, Debug, Identifiable, Clone)]
 #[diesel(table_name = creatures)]
 pub struct Creature {
@@ -80,7 +82,7 @@ impl Creature {
     pub fn get_by_id(id: &Uuid) -> Result<Self, CustomError> {
         let mut conn = connection()?;
 
-        let res = creatures::table
+        let res: Creature = creatures::table
             .filter(creatures::id.eq(id))
             .first(&mut conn)?;
 

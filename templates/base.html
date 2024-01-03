@@ -103,7 +103,7 @@
             }
 
             tr:nth-child(even) {
-            background-color: #dddddd;
+            background-color: #444444;
             }
 
             pre code {
@@ -322,12 +322,25 @@
                 {% endif %}
             </ul>
             <a class="btn btn-dark" href="/toggle_language{{ path }}">{{ fluent(key="language-toggle", lang=lang ) }}</a>
-            <!--
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Under Construction" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            -->
+            
+            <form class="form-inline my-2 my-lg-0">
+                <input
+                    name="search"
+                    class="form-control mr-sm-2" 
+                    type="search" 
+                    placeholder="Enter your search..." 
+                    aria-label="Search"
+                    hx-post="/search"
+                    hx-target="search-results"
+                    hx-indicator=".htmx-indicator"
+                >
+                <button
+                    class="btn btn-outline-success my-2 my-sm-0" 
+                    type="submit"
+                    hx-trigger="click"
+                >Search</button>
+            </form>
+            
             </div>
           </nav>
     </div>
@@ -335,6 +348,9 @@
     <div class="container">
 
     <div class="row">
+
+        <div id="search-results"></div>
+
             {% block content %}
             {% endblock content %}
     </div>

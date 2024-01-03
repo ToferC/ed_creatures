@@ -71,7 +71,6 @@ async fn main() -> std::io::Result<()> {
             "templates/**/*").unwrap();
 
         tera.register_filter("snake_case", snake_case);
-        tera.full_reload().expect("Error running auto-reload with Tera");
         tera.register_function("fluent", FluentLoader::new(&*LOCALES));
 
         // mail client

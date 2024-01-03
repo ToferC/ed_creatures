@@ -54,6 +54,10 @@ CREATE TABLE IF NOT EXISTS creatures (
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+CREATE UNIQUE INDEX creatures__name_idx ON creatures(name);
+
+CREATE UNIQUE INDEX creatures__locales_idx ON creatures(found_in);
+
 CREATE TABLE IF NOT EXISTS attacks (
     id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
     creator_id UUID NOT NULL,

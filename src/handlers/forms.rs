@@ -63,3 +63,8 @@ pub struct PowerForm {
     pub effect_step: i32,
     pub details: Option<String>,
 }
+
+#[derive(Debug, Deserialize)]
+pub struct SearchForm {
+    pub search: String,
+}

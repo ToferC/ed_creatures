@@ -15,7 +15,7 @@
                     <p class="card-text">{{ fluent(key="circle", lang=lang) }}: {{ creature.circle_rank }}</p>
                     <p class="card-text">{{ fluent(key="rarity", lang=lang) }}: {{ creature.rarity }}</p>
                     <p class="card-text">{{ fluent(key="found-in", lang=lang) }} in: {{ creature.found_in }}</p>
-                    <a method="get" href="/{{lang}}/creature/{{ creature.slug }}" class="btn btn-primary">{{ fluent(key="view", lang=lang) }}</a>
+                    <a method="get" href="/{{lang}}/creature/view/{{ creature.slug }}" class="btn btn-primary">{{ fluent(key="view", lang=lang) }}</a>
                   </div>
                 </div>
                 <br>

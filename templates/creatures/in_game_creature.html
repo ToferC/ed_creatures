@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+  <br>
+  <h1>{{ creature.name | title | safe }}
+    <a
+      href="/{{ lang }}/creature/view/{{ creature.slug }}" 
+      class="btn btn-info">
+      Return to View
+    </a>
+  </h1>
+
+  <h4>{{ fluent(key="circle", lang=lang )}}: {{ creature.circle_rank }}</h4>
+  <h4>{{ fluent(key="rarity", lang=lang )}}: {{ creature.rarity }}</h4>
+  <h4>{{ fluent(key="found-in", lang=lang )}}: {{ creature.found_in }}</h4>
+    <small>Created at: {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }}</small>
+    <small>Updated at: {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</small>
+
+    <hr>
+
+  <h3>Attributes</h3>
+  <div>
+    <div class="row">
+      <div class="col">
+        <table>
+            <tr>
+                <td>{{ fluent(key="dexterity", lang=lang )}}:</td>
+                <td style="text-align:center" id="dexterity">{{ creature.dexterity }}</td>
+                <td>{{ steps | nth(n=creature.dexterity - 1) }}</td>
+            </tr>
+            <tr>
+                <td>{{ fluent(key="strength", lang=lang )}}:</td>
+                <td style="text-align:center" id="strength">{{ creature.strength }}</td>
+                <td>{{ steps | nth(n=creature.strength - 1) }}</td>
+            </tr>
+            <tr>
+                <td>{{ fluent(key="constitution", lang=lang )}}:</td>
+                <td style="text-align:center" id="constitution">{{ creature.constitution }}</td>
+                <td>{{ steps | nth(n=creature.constitution - 1) }}</td>
+            </tr>
+            <tr>
+                <td>{{ fluent(key="perception", lang=lang )}}:</td>
+                <td style="text-align:center" id="perception">{{ creature.perception }}</td>
+                <td>{{ steps | nth(n=creature.perception - 1) }}</td>
+            </tr>
+            <tr>
+                <td>{{ fluent(key="willpower", lang=lang )}}:</td>
+                <td style="text-align:center" id="willpower">{{ creature.willpower }}</td>
+                <td>{{ steps | nth(n=creature.willpower - 1) }}</td>
+            </tr>
+            <tr>
+                <td>{{ fluent(key="charisma", lang=lang )}}:</td>
+                <td style="text-align:center" id="charisma">{{ creature.charisma }}</td>
+                <td>{{ steps | nth(n=creature.charisma - 1) }}</td>
+            </tr>
+                </table>
+      </div>
+      <div class="col">
+        <table>
+          <tr>
+            <td>{{ fluent(key="initiative", lang=lang )}}</td>
+            <td style="text-align:center">{{ creature.initiative }}</td>
+            <td>{{ steps | nth(n=creature.initiative - 1) }}</td>
+          </tr>
+          <tr>
+            <td>{{ fluent(key="physical-defense", lang=lang )}}</td>
+            <td style="text-align:center">{{ creature.pd }}</td>
+          </tr>
+          <tr>
+            <td>{{ fluent(key="mystic-defense", lang=lang )}}</td>
+            <td style="text-align:center">{{ creature.md }}</td>
+          </tr>
+          <tr>
+            <td>{{ fluent(key="social-defense", lang=lang )}}</td>
+            <td style="text-align:center">{{ creature.sd }}</td>
+          </tr>
+          <tr>
+            <td>{{ fluent(key="physical-armor", lang=lang )}}</td>
+            <td style="text-align:center">{{ creature.pa }}</td>
+          </tr>
+          <tr>
+            <td>{{ fluent(key="mystic-armor", lang=lang )}}</td>
+            <td style="text-align:center">{{ creature.ma }}</td>
+          </tr>
+
+        </table>
+      </div>
+      <div class="col">
+        <table>
+          <tr>
+            <td>{{ fluent(key="unconscious-rating", lang=lang )}}</td>
+            <td style="text-align:center" id="unconsciousness_rating">{{ creature.unconsciousness_rating }}</td>
+            <td id="unconsciousness_max">{{ creature.unconsciousness_rating }}</td>
+          </tr>  
+          <tr>
+            <td>{{ fluent(key="death-rating", lang=lang )}}</td>
+            <td style="text-align:center" id="death_rating">{{ creature.death_rating }}</td>
+            <td id="death_max">{{ creature.death_rating }}</td>
+          </tr>  
+          <tr>
+            <td>{{ fluent(key="wound-rating", lang=lang )}}</td>
+            <td style="text-align:center">{{ creature.wound }}</td>
+          </tr>  
+          <tr>
+            <td>{{ fluent(key="knockdown", lang=lang )}}</td>
+            <td style="text-align:center">{{ creature.knockdown }}</td>
+          </tr>  
+          <tr>
+            <td>{{ fluent(key="recovery-rolls", lang=lang )}}</td>
+            <td style="text-align:center">{{ creature.recovery_rolls }}</td>
+          </tr>  
+          <tr>
+            <td>{{ fluent(key="karma", lang=lang )}}</td>
+            <td style="text-align:center">{{ creature.karma }}</td>
+          </tr>  
+
+        </table>
+      </div>
+    </div>
+    <hr>
+      <div>
+        <label>Damage</label>
+        <button
+          id="damage" 
+          type="number"
+          hx-trigger="changed"
+          hx-target="#unconsciousness_rating"
+          hx-swap="innerHTML"
+          hx-include="[current='damage', max='unconsciousness_max']"
+          hx-post="/add_five/{{ creature.unconsciousness_rating }}"
+          hx-vals='ks:{damage: currentDamage()}'
+          value ="0">Add 5</button>
+      </div>
+
+
+    <hr>
+    <div class="row">
+      <ul>{{ fluent(key="movement", lang=lang )}}: {{ creature.movement }}</ul>
+    </div>
+    <div class="row">
+      <ul>{{ fluent(key="actions", lang=lang )}}: {{ creature.actions }}</ul>
+    </div>
+
+    <hr>
+  </div>
+</div> <!-- End of Creature -->
+
+<div class="container">
+  <div class="row">
+    <h3>Attacks</h3><br>
+  </div>
+    {% if attacks %}
+      {% for attack in attacks %}
+      <div>
+        <li>
+          {{ attack.name }}: {{ attack.action_step}}: {{ steps | nth(n=attack.action_step - 1) }} ({{ attack.effect_step }}: {{ steps | nth(n=attack.effect_step - 1) }}){% if attack.details %}: {{ attack.details }}{% endif %}
+        </li>
+      </div>
+      {% endfor %} <!-- attacks -->
+    {% else %}
+        <li>None</li>
+    {% endif %}
+
+<hr>
+
+    <div class="row">
+      <h3>Powers and Abilities</h3><br>
+    </div> 
+      {% if powers %}
+        {% for power in powers %}
+        <div>
+          <li>{{ power.name }} ({{ power.action_type }} {% if power.target != 'NotApplicable' %} vs. {{ power.target }}{% endif %}): {{ power.action_step}}: {{ steps | nth(n=power.action_step - 1) }} ({{ power.effect_step }}: {{ steps | nth(n=power.effect_step - 1) }}{% if power.resisted_by != 'NotApplicable' %} | {{ power.resisted_by }}{% endif %}){% if power.details %}: {{ power.details }}{% endif %}   
+        </div>
+        {% endfor %}
+      {% else %}
+      <li>None</li>
+      {% endif %}  
+  </div>
+
+  <script type="text/javascript">
+
+    const selectUncon = document.getElementById('unconsciousness_rating')
+    const selectDeath = document.getElementById('death_rating')
+    const damageCounter = document.getElementById('damage')
+
+    function updateDamage() {
+
+      if (this.value < 0) {
+        this.value = 0
+      };
+
+      var unconMax = document.getElementById('unconsciousness_max')
+      var deathMax = document.getElementById('death_max')
+
+      var targetVal = parseInt(damageCounter.value);
+      var unconValue = parseInt(unconMax.value)
+      var deathValue = parseInt(deathMax.value)
+
+      selectUncon.innerHTML.value = unconValue - targetVal; 
+      selectDeath.innerHTML.value = deathValue - targetVal;  
+    }
+
+  </script>
+
+{% endblock content %}

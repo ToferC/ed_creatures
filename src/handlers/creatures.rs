@@ -59,6 +59,7 @@ pub async fn get_creature(
     let r_powers = Power::get_by_creature_id(creature.id);
 
     ctx.insert("creature", &creature);
+    ctx.insert("steps", &data.steps);
 
     if let Ok(data) = r_attacks {
         ctx.insert("attacks", &data);

@@ -5,7 +5,9 @@ pub mod errors;
 pub mod schema;
 pub mod steps;
 
-use tera::{Tera, Context};
+use serde_json::to_value;
+use steps::steps::STEPS;
+use tera::{Tera, Context, Function};
 use actix_identity::Identity;
 use actix_session::Session;
 

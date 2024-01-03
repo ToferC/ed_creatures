@@ -86,6 +86,7 @@ pub fn pre_populate_creatures(user_id: Uuid) -> Result<(), CustomError> {
     let mut c1 = InsertableCreature::default(user_id);
 
     c1.name = "Esparaga".to_string();
+    c1.slug = "espagra".to_string();
     
     let r1 = Creature::get_or_create(&c1)?;
 
@@ -109,7 +110,7 @@ pub fn pre_populate_creatures(user_id: Uuid) -> Result<(), CustomError> {
     c3.name = "Cadaverman".to_string();
     c3.dexterity = 5;
     c3.willpower = 4;
-    c2.slug = "cadaverman".to_string();
+    c3.slug = "cadaverman".to_string();
 
     Creature::get_or_create(&c3)?;
 

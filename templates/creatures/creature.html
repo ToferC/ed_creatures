@@ -20,19 +20,19 @@
 
     <hr>
 
-  <h4>Attributes</h4>
+  <h3>Attributes</h3>
   <div>
     <div class="row">
       <div class="col">
-        <ul>{{ fluent(key="dexterity", lang=lang )}}: {{ creature.dexterity }}</ul>
-        <ul>{{ fluent(key="strength", lang=lang )}}: {{ creature.strength }}</ul>
-        <ul>{{ fluent(key="constitution", lang=lang )}}: {{ creature.constitution }}</ul>
-        <ul>{{ fluent(key="perception", lang=lang )}}: {{ creature.perception }}</ul>
-        <ul>{{ fluent(key="willpower", lang=lang )}}: {{ creature.willpower }}</ul>
-        <ul>{{ fluent(key="charisma", lang=lang )}}: {{ creature.charisma }}</ul>
+        <ul>{{ fluent(key="dexterity", lang=lang )}}: {{ creature.dexterity }}: {{ steps | nth(n=creature.dexterity - 1) }}</ul>
+        <ul>{{ fluent(key="strength", lang=lang )}}: {{ creature.strength }}: {{ steps | nth(n=creature.strength - 1) }}</ul>
+        <ul>{{ fluent(key="constitution", lang=lang )}}: {{ creature.constitution }}: {{ steps | nth(n=creature.constitution - 1) }}</ul>
+        <ul>{{ fluent(key="perception", lang=lang )}}: {{ creature.perception }}: {{ steps | nth(n=creature.perception - 1) }}</ul>
+        <ul>{{ fluent(key="willpower", lang=lang )}}: {{ creature.willpower }}: {{ steps | nth(n=creature.willpower - 1) }}</ul>
+        <ul>{{ fluent(key="charisma", lang=lang )}}: {{ creature.charisma }}: {{ steps | nth(n=creature.charisma - 1) }}</ul>
       </div>
       <div class="col">
-        <ul>{{ fluent(key="initiative", lang=lang )}}: {{ creature.initiative }}</ul>
+        <ul>{{ fluent(key="initiative", lang=lang )}}: {{ creature.initiative }}: {{ steps | nth(n=creature.initiative - 1) }}</ul>
         <ul>{{ fluent(key="physical-defense", lang=lang )}}: {{ creature.pd }}</ul>
         <ul>{{ fluent(key="mystic-defense", lang=lang )}}: {{ creature.md }}</ul>
         <ul>{{ fluent(key="social-defense", lang=lang )}}: {{ creature.sd }}</ul>
@@ -67,7 +67,7 @@
       {% for attack in attacks %}
       <div>
         <li>
-          {{ attack.name }}: {{ attack.action_step}} ({{ attack.effect_step }}){% if attack.details %}: {{ attack.details }}{% endif %}
+          {{ attack.name }}: {{ attack.action_step}}: {{ steps | nth(n=attack.action_step - 1) }} ({{ attack.effect_step }}: {{ steps | nth(n=attack.effect_step - 1) }}){% if attack.details %}: {{ attack.details }}{% endif %}
         </li>
       </div>
       {% endfor %} <!-- attacks -->
@@ -83,7 +83,7 @@
       {% if powers %}
         {% for power in powers %}
         <div>
-          <li>{{ power.name }} ({{ power.action_type }} {% if power.target != 'NotApplicable' %} vs. {{ power.target }}{% endif %}): {{ power.action_step}} ({{ power.effect_step }}{% if power.resisted_by != 'NotApplicable' %} | {{ power.resisted_by }}{% endif %}){% if power.details %}: {{ power.details }}{% endif %}   
+          <li>{{ power.name }} ({{ power.action_type }} {% if power.target != 'NotApplicable' %} vs. {{ power.target }}{% endif %}): {{ power.action_step}}: {{ steps | nth(n=power.action_step - 1) }} ({{ power.effect_step }}: {{ steps | nth(n=power.effect_step - 1) }}{% if power.resisted_by != 'NotApplicable' %} | {{ power.resisted_by }}{% endif %}){% if power.details %}: {{ power.details }}{% endif %}   
         </div>
         {% endfor %}
       {% else %}

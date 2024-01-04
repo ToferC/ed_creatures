@@ -9,6 +9,7 @@ pub mod authentication_handlers;
 pub mod creatures;
 pub mod attacks;
 pub mod powers;
+pub mod maneuver;
 
 pub use base::*;
 pub use routes::configure_services;
@@ -21,3 +22,4 @@ pub use authentication_handlers::*;
 pub use creatures::*;
 pub use attacks::*;
 pub use powers::*;
+pub use maneuver::*;

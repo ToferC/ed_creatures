@@ -68,3 +68,10 @@ pub struct PowerForm {
 pub struct SearchForm {
     pub search: String,
 }
+
+#[derive(Debug, Deserialize)]
+pub struct ManeuverForm {
+    pub name: String,
+    pub source: String,
+    pub details: String,
+}

@@ -9,5 +9,10 @@
         hx-target="#power-{{ power.id }}"
         class="btn btn-info"
     >Edit</button>
+    <button
+              hx-get="/{{ lang }}/delete_power/{{ power.id }}"
+              hx-target="#power-{{ power.id }}"
+              class="btn btn-danger btn-sm"
+          >Delete</button>
     </li>
 </div> <!-- end-div htmx -->

@@ -1,5 +1,6 @@
 -- This file should undo anything in `up.sql`
 
+DROP TABLE IF EXISTS maneuvers;
 DROP TABLE IF EXISTS powers;
 DROP TYPE IF EXISTS resisted_bys;
 DROP TYPE IF EXISTS action_targets;

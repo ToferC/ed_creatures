@@ -1,0 +1,28 @@
+<div 
+    class="container"
+    id="maneuver-edit-{{ maneuver.id }}"
+>   
+    <form hx-post="/{{ lang }}/edit_maneuver_post/{{ maneuver.id }}" hx-target="maneuvers">
+        <div>
+            <label>Maneuver Name</label><br>
+            <input class="form-control form-control-lg" type="text" name="name" placeholder="Add name here..." size=60 value="{{ maneuver.name }}" required>
+        </div>
+
+        <div>
+            <label>Source</label><br>
+            <input class="form-control form-control-lg" type="text" name="source" placeholder="Add the source of the maneuver here..." size=60 value="{{ maneuver.source }}" required>
+        </div>
+
+        <div>
+            <label>Details</label><br>
+            <input class="form-control form-control-lg" type="text" name="details" placeholder="Add optional details here..." size=60 value="{{ maneuver.details }}">
+        </div>
+        <button
+            hx-post="/{{ lang }}/edit_maneuver_post/{{ maneuver.id }}"
+            hx-target="#maneuver-edit-{{ maneuver.id }}"
+            class="btn btn-primary" 
+            type="submit"
+        >Save
+        </button>
+    </form>
+</div>

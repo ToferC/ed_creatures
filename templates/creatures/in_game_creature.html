@@ -179,6 +179,22 @@
       {% endif %}  
   </div>
 
+<hr>
+
+<div class="row">
+  <h3>Special Maneuvers</h3><br>
+</div> 
+  {% if maneuvers %}
+    {% for maneuver in maneuvers %}
+    <div>
+      <li>{{ maneuver.name }} [{{ maneuver.source}}]: {{ maneuver.details }} 
+      </div>
+    {% endfor %}
+  {% else %}
+  <li>None</li>
+  {% endif %}  
+</div>
+
   <script type="text/javascript">
 
     const selectUncon = document.getElementById('unconsciousness_rating')

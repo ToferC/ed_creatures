@@ -54,6 +54,7 @@ karma = Karma
 actions = Actions
 movement = Movement
 attacks = Attacks
+add-attacks-later = You will be able to add attacks and powers from Edit Creature.
 
 ## Attacks
 action-step = Action Step

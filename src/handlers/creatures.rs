@@ -2,7 +2,7 @@ use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest, put};
 use actix_identity::Identity;
 use inflector::Inflector;
 
-use crate::{generate_basic_context, AppData, models::{User, Attack, Power, Locales}, handlers::CreatureForm};
+use crate::{generate_basic_context, AppData, models::{User, Attack, Power, Locales, Maneuver}, handlers::CreatureForm};
 use uuid::Uuid;
 
 use crate::models::{Creature, InsertableCreature};
@@ -58,6 +58,8 @@ pub async fn get_creature(
 
     let r_powers = Power::get_by_creature_id(creature.id);
 
+    let r_maneuvers = Maneuver::get_by_creature_id(creature.id);
+
     ctx.insert("creature", &creature);
     ctx.insert("steps", &data.steps);
 
@@ -67,6 +69,10 @@ pub async fn get_creature(
 
     if let Ok(data) = r_powers {
         ctx.insert("powers", &data);
+    }
+
+    if let Ok(data) = r_maneuvers {
+        ctx.insert("maneuvers", &data);
     }
 
     let rendered = match view.as_str() {
@@ -148,7 +154,7 @@ pub async fn post_creature(
 
     //Redirect to get creature with creature slug
     return HttpResponse::Found()
-        .append_header(("Location", format!("/{}/creature/{}", &lang, &creature.slug))).finish()
+        .append_header(("Location", format!("/{}/creature/view/{}", &lang, &creature.slug))).finish()
 }
 
 #[get("/{lang}/edit_creature/{creature_id}")]
@@ -169,6 +175,8 @@ pub async fn edit_creature(
 
     let r_powers = Power::get_by_creature_id(creature.id);
 
+    let r_maneuvers = Maneuver::get_by_creature_id(creature.id);
+
     ctx.insert("creature", &creature);
 
     if let Ok(data) = r_attacks {
@@ -177,6 +185,10 @@ pub async fn edit_creature(
 
     if let Ok(data) = r_powers {
         ctx.insert("powers", &data);
+    }
+
+    if let Ok(data) = r_maneuvers {
+        ctx.insert("maneuvers", &data);
     }
 
     let rendered = data.tmpl.render("creatures/edit_creature_form.html", &ctx).unwrap();
@@ -265,5 +277,5 @@ pub async fn edit_creature_post(
 
     // Redirect to creature
     return HttpResponse::Found()
-        .append_header(("Location", format!("/{}/creature/{}", &lang, &creature.slug))).finish()
+        .append_header(("Location", format!("/{}/creature/view/{}", &lang, &creature.slug))).finish()
 }

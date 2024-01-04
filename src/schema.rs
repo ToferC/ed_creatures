@@ -92,6 +92,21 @@ diesel::table! {
 }
 
 diesel::table! {
+    maneuvers (id) {
+        id -> Uuid,
+        creator_id -> Uuid,
+        creature_id -> Uuid,
+        #[max_length = 128]
+        name -> Varchar,
+        #[max_length = 512]
+        source -> Varchar,
+        details -> Text,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+    }
+}
+
+diesel::table! {
     password_reset_token (id) {
         id -> Uuid,
         #[max_length = 128]
@@ -147,6 +162,8 @@ diesel::table! {
 diesel::joinable!(attacks -> creatures (creature_id));
 diesel::joinable!(attacks -> users (creator_id));
 diesel::joinable!(creatures -> users (creator_id));
+diesel::joinable!(maneuvers -> creatures (creature_id));
+diesel::joinable!(maneuvers -> users (creator_id));
 diesel::joinable!(powers -> creatures (creature_id));
 diesel::joinable!(powers -> users (creator_id));
 
@@ -154,6 +171,7 @@ diesel::allow_tables_to_appear_in_same_query!(
     attacks,
     creatures,
     email_verification_code,
+    maneuvers,
     password_reset_token,
     powers,
     users,

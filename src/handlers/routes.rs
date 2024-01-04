@@ -74,6 +74,15 @@ use crate::handlers::{
     edit_power,
     edit_power_post,
     delete_power,
+
+    // maneuvers
+    get_maneuver,
+    get_maneuvers,
+    add_maneuver,
+    post_maneuver,
+    edit_maneuver,
+    edit_maneuver_post,
+    delete_maneuver,
 };
 
 pub fn configure_services(config: &mut web::ServiceConfig) {
@@ -147,5 +156,14 @@ pub fn configure_services(config: &mut web::ServiceConfig) {
     config.service(edit_power);
     config.service(edit_power_post);
     config.service(delete_power);
+
+    // maneuvers
+    config.service(get_maneuvers);
+    config.service(get_maneuver);
+    config.service(add_maneuver);
+    config.service(post_maneuver);
+    config.service(edit_maneuver);
+    config.service(edit_maneuver_post);
+    config.service(delete_maneuver);
 
 }

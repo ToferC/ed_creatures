@@ -1,0 +1,42 @@
+<div
+    class="container" 
+    id="maneuvers"
+    hx-target="this"
+    hx-swap="outerHTML"
+>
+    <div class="row">
+      <h3>Maneuvers</h3><br>
+    </div>
+      {% if maneuvers %}
+        {% for maneuver in maneuvers %}
+        <div 
+          id="maneuver-{{ maneuver.id }}"
+          hx-target="this"
+          hx-swap="outerHTML"
+        >
+          <li>{{ maneuver.name }} [{{ maneuver.source}}]: {{ maneuver.details }} 
+            <button
+            hx-get="/{{ lang }}/edit_maneuver/{{ maneuver.id }}"
+            hx-target="#maneuver-{{ maneuver.id }}"
+            class="btn btn-info btn-sm"
+          >Edit</button> 
+          <button
+            hx-get="/{{ lang }}/delete_maneuver/{{ maneuver.id }}"
+            hx-target="#maneuver-{{ maneuver.id }}"
+            class="btn btn-danger btn-sm"
+          >Delete</button>
+          </li>
+        </div> <!-- end-div htmx -->
+        {% endfor %} <!-- maneuvers -->
+      {% endif %}
+      <br>
+      <button
+        class="btn btn-dark"
+        hx-get="/{{ lang }}/add_maneuver/{{ creature_id }}"
+        hx-target="this"
+        hx-swap="outerHTML"
+        >
+        Add an Maneuver
+      </button>
+      <hr>
+</div>

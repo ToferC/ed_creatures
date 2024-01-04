@@ -9,5 +9,10 @@
         hx-target="#attack-{{ attack.id }}"
         class="btn btn-info"
     >Edit</button>
+    <button
+            hx-get="/{{ lang }}/delete_attack/{{ attack.id }}"
+            hx-target="#attack-{{ attack.id }}"
+            class="btn btn-danger btn-sm"
+          >Delete</button>
     </li>
 </div> <!-- end-div htmx -->

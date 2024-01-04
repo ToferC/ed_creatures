@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="container">
-  <br>
+  <br><br>
   <h1>{{ creature.name | title | safe }} {% if session_user != "" %}
     <a
       href="/{{ lang }}/edit_creature/{{ creature.id }}" 

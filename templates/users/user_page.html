@@ -29,11 +29,11 @@
         </div>
         <br>
 
-        <h2>Add Documents and Work here</h2>
+        <h2>My Creatures</h2>
 
         <br>
         {% if user.validated %}
-            <p>VALIDATED - Add Document Button</p>
+        <a class="btn btn primary" href="/{{ lang }}/new_creature_form">{{ fluent(key="create-creature", lang=lang )}}<span class="sr-only">(current)</span></a>
         {% else %}
             <p><strong>{{ fluent(key="must-verify", lang=lang )}}</strong></p>
             <a class="btn btn-dark" href="/{{ lang }}/resend_email_verification">{{ fluent(key="send-email-verification", lang=lang )}}</a>

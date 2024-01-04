@@ -174,6 +174,7 @@ role = Role
 link = Link
 
 ## Email Verification
+hello = Hello and welcome to Earthdawn Creatures
 email-registered-with = Your email address has been registered with
 registered-in-error = If you think this is an error, please contact { -user-support-email }.
 register-instructions = If this is you, and you would like to verify your account, please enter the code below on
@@ -182,6 +183,7 @@ your-code = Your code is:
 time-limit = You have 60 minutes to enter this code to verify your account. If you need to, you can
 request-another-code = request another code
 thank-you = Thank you,
+user-support-signature = usersupport@intersectional-data.ca
 
 ## Password reset request
 password-reset-received = We received a request to reset your password on { -app-name }. If you think this is an error, please contact { -user-support-email }.

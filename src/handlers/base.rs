@@ -45,10 +45,11 @@ pub async fn search(
 
     let (mut ctx, _, _, _) = generate_basic_context(id, &lang, req.uri().path());
 
-    //let creatures = Creature::search_by(&form.search).expect("Unable to get lists");
+    let creatures = Creature::search_by(form.search.to_owned()).expect("Unable to get creatures from search");
 
-    //ctx.insert("creatures", &creatures);
+    ctx.insert("creatures", &creatures);
+    ctx.insert("search_text", &form.search);
 
-    let rendered = data.tmpl.render("index.html", &ctx).unwrap();
+    let rendered = data.tmpl.render("search_results.html", &ctx).unwrap();
     HttpResponse::Ok().body(rendered)
 }

@@ -4,6 +4,8 @@ use crate::handlers::{
     // base
     index,
     raw_index,
+    search,
+
     //about,
     toggle_language,
     toggle_language_index,
@@ -77,6 +79,8 @@ use crate::handlers::{
 pub fn configure_services(config: &mut web::ServiceConfig) {
     config.service(index);
     config.service(raw_index);
+    config.service(search);
+
     //config.service(about);
     config.service(toggle_language);
     config.service(toggle_language_index);

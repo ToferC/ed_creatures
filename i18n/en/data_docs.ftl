@@ -30,6 +30,7 @@ circle = Circle
 rarity = Rarity
 found-in = Found in
 view = View
+search-results-for = Search Results for
 
 ## Creatures
 dexterity = Dexterity

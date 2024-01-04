@@ -109,6 +109,16 @@ impl Creature {
         Ok(res)
     }
 
+    pub fn search_by(text: String) -> Result<Vec<Self>, CustomError> {
+        let mut conn = connection()?;
+
+        let res = creatures::table
+            .filter(creatures::name.ilike(format!("%{}%",text)))
+            .load::<Creature>(&mut conn)?;
+
+        Ok(res)
+    }
+
     pub fn get_all() -> Result<Vec<Self>, CustomError> {
         let mut conn = connection()?;
 

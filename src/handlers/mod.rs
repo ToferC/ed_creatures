@@ -10,7 +10,7 @@ pub mod creatures;
 pub mod attacks;
 pub mod powers;
 
-pub use base::{index, raw_index};
+pub use base::*;
 pub use routes::configure_services;
 pub use users::*;
 pub use forms::*;

@@ -38,7 +38,7 @@
             <tr>
                 <td>{{ fluent(key="constitution", lang=lang )}}:</td>
                 <td style="text-align:center" id="constitution">{{ creature.constitution }}</td>
-                <td>{{ steps | nth(n=creature.constitution - 1) }}</td>
+                <td>{{ steps | nth(n=creature.strength - 1) }}</td>
             </tr>
             <tr>
                 <td>{{ fluent(key="perception", lang=lang )}}:</td>
@@ -152,6 +152,8 @@
           
       </div>
 
+      <hr>
+
       <div class="row">
         <label>Wounds</label>
         <input
@@ -236,6 +238,8 @@
     const selectDeathMax = document.getElementById('death_max')
     const damageCounter = document.getElementById('damage')
 
+    const steps = "{{ steps }}".split(", ");
+
     function addFiveDamage() {
       damageCounter.value = parseInt(damageCounter.value) + 5;
       updateDamage();
@@ -264,14 +268,20 @@
       selectUncon.innerHTML = uncon - damageCounter.value;
       selectDeath.innerHTML = death - damageCounter.value;
 
-      getStep(6);
+    }
+
+    function updateWounds(e) {
+
+  
+
     }
 
     function getStep(num) {
 
-      var steps = "{{ steps }}".split(", ");
-      alert(steps[8])
-      return steps[num]
+      var inum = parseInt(num);
+
+      console.log(steps[inum])
+      this.innerHTML = steps[inum]
     }
   </script>
 

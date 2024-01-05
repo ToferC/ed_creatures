@@ -102,6 +102,7 @@ pub fn pre_populate_creatures(user_id: Uuid) -> Result<(), CustomError> {
 
     c2.name = "Ghoul".to_string();
     c2.slug = "ghoul".to_string();
+    c2.circle_rank = 2;
 
     Creature::get_or_create(&c2)?;
 
@@ -111,6 +112,7 @@ pub fn pre_populate_creatures(user_id: Uuid) -> Result<(), CustomError> {
     c3.dexterity = 5;
     c3.willpower = 4;
     c3.slug = "cadaverman".to_string();
+    c3.circle_rank = 3;
 
     Creature::get_or_create(&c3)?;
 

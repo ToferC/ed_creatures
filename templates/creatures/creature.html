@@ -2,7 +2,6 @@
 
 {% block content %}
 
-<div class="container">
   <br><br>
   <h1>{{ creature.name | title | safe }} {% if session_user != "" %}
     <a
@@ -63,12 +62,12 @@
 
     <hr>
   </div>
-</div> <!-- End of Creature -->
-
+  
 <div class="container">
   <div class="row">
     <h3>Attacks</h3><br>
   </div>
+  <div class="row">
     {% if attacks %}
       {% for attack in attacks %}
       <div>
@@ -80,12 +79,14 @@
     {% else %}
         <li>None</li>
     {% endif %}
+  </div>
 
 <hr>
 
     <div class="row">
       <h3>Powers and Abilities</h3><br>
     </div>
+    <div class="row">
       {% if powers %}
         {% for power in powers %}
         <div>
@@ -94,13 +95,15 @@
         {% endfor %}
       {% else %}
       <li>None</li>
-      {% endif %}  
+      {% endif %} 
+    </div> 
 
 <hr>
 
   <div class="row">
     <h3>Special Maneuvers</h3><br>
   </div> 
+  <div class="row">
     {% if maneuvers %}
       {% for maneuver in maneuvers %}
       <div>
@@ -110,6 +113,7 @@
     {% else %}
     <li>None</li>
     {% endif %}  
+  </div>
 </div>
 
 {% endblock content %}

@@ -75,10 +75,14 @@ pub async fn get_creature(
         ctx.insert("maneuvers", &data);
     }
 
+    ctx.insert("current_damage", &0);
+    ctx.insert("current_wounds", &0);
+    
     let rendered = match view.as_str() {
         "in_game" => data.tmpl.render("creatures/in_game_creature.html", &ctx).unwrap(),
         _ => data.tmpl.render("creatures/creature.html", &ctx).unwrap(),
     };
+
     
     HttpResponse::Ok().body(rendered)
 }

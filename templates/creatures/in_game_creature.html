@@ -120,18 +120,50 @@
       </div>
     </div>
     <hr>
-      <div>
-        <label>Damage</label>
-        <button
-          id="damage" 
+      <div class="row">
+        <label>Damage: </label>
+        <input
+          id="damage"
+          value="0"
+          min="0"
           type="number"
-          hx-trigger="changed"
-          hx-target="#unconsciousness_rating"
-          hx-swap="innerHTML"
-          hx-include="[current='damage', max='unconsciousness_max']"
-          hx-post="/add_five/{{ creature.unconsciousness_rating }}"
-          hx-vals='ks:{damage: currentDamage()}'
-          value ="0">Add 5</button>
+          onchange="updateDamage()"
+          >
+        <button
+          id="damage_add_1"
+          class="btn btn-primary"
+          onclick="addOneDamage()"
+          >Add 1</button> 
+        <button
+          id="damage_add_5"
+          class="btn btn-primary"
+          onclick="addFiveDamage()"
+        >Add 5</button> 
+        <button
+          id="damage_subtract_1"
+          class="btn btn-primary" 
+          onclick="subtractOneDamage()"
+        >Subtract 1</button> 
+        <button
+          id="damage_subtract_5" 
+          class="btn btn-primary"
+          onclick="subtractFiveDamage()"
+        >Subtract 5</button> 
+          
+      </div>
+
+      <div class="row">
+        <label>Wounds</label>
+        <input
+          id="wounds"
+          type="number"
+          min="0"
+          value="{{ current_wounds }}"
+        >
+        <button
+          id="wounds_add_1" 
+          type="number"
+          value ="0">Add 1</button>
       </div>
 
 
@@ -188,7 +220,7 @@
     {% for maneuver in maneuvers %}
     <div>
       <li>{{ maneuver.name }} [{{ maneuver.source}}]: {{ maneuver.details }} 
-      </div>
+    </div>
     {% endfor %}
   {% else %}
   <li>None</li>
@@ -198,26 +230,49 @@
   <script type="text/javascript">
 
     const selectUncon = document.getElementById('unconsciousness_rating')
+    const selectUnconMax = document.getElementById('unconsciousness_max')
+
     const selectDeath = document.getElementById('death_rating')
+    const selectDeathMax = document.getElementById('death_max')
     const damageCounter = document.getElementById('damage')
 
-    function updateDamage() {
-
-      if (this.value < 0) {
-        this.value = 0
-      };
-
-      var unconMax = document.getElementById('unconsciousness_max')
-      var deathMax = document.getElementById('death_max')
-
-      var targetVal = parseInt(damageCounter.value);
-      var unconValue = parseInt(unconMax.value)
-      var deathValue = parseInt(deathMax.value)
-
-      selectUncon.innerHTML.value = unconValue - targetVal; 
-      selectDeath.innerHTML.value = deathValue - targetVal;  
+    function addFiveDamage() {
+      damageCounter.value = parseInt(damageCounter.value) + 5;
+      updateDamage();
     }
 
+    function subtractFiveDamage() {
+      damageCounter.value = parseInt(damageCounter.value) - 5;
+      updateDamage();
+    }
+
+    function addOneDamage() {
+      damageCounter.value = parseInt(damageCounter.value) + 1;
+      updateDamage();
+    }
+    
+    function subtractOneDamage() {
+      damageCounter.value = parseInt(damageCounter.value) - 1;
+      updateDamage();
+    }
+    
+    function updateDamage() {
+
+      uncon = parseInt(selectUnconMax.innerHTML);
+      death = parseInt(selectDeathMax.innerHTML);
+
+      selectUncon.innerHTML = uncon - damageCounter.value;
+      selectDeath.innerHTML = death - damageCounter.value;
+
+      getStep(6);
+    }
+
+    function getStep(num) {
+
+      var steps = "{{ steps }}".split(", ");
+      alert(steps[8])
+      return steps[num]
+    }
   </script>
 
 {% endblock content %}

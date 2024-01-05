@@ -1,4 +1,4 @@
-use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest, put};
+use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest};
 use actix_identity::Identity;
 
 use crate::{generate_basic_context, AppData, models::{User, Attack, InsertableAttack}, handlers::AttackForm};
@@ -80,6 +80,7 @@ pub async fn post_attack(
 
     if let Err(e) = user {
         // no user found so redirect to home
+        println!("{}", e);
         return HttpResponse::Found()
         .append_header(("Location", format!("/{}/", &lang))).finish()
     }

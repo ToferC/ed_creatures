@@ -27,33 +27,51 @@
         <table>
             <tr>
                 <td>{{ fluent(key="dexterity", lang=lang )}}:</td>
-                <td style="text-align:center" id="dexterity">{{ creature.dexterity }}</td>
-                <td>{{ steps | nth(n=creature.dexterity - 1) }}</td>
+                <td 
+                  style="text-align:center"
+                  id="dexterity"
+                >{{ creature.dexterity }}</td>
+                <td id="dexterity-step">{{ steps | nth(n=creature.dexterity - 1) }}</td>
             </tr>
             <tr>
                 <td>{{ fluent(key="strength", lang=lang )}}:</td>
-                <td style="text-align:center" id="strength">{{ creature.strength }}</td>
-                <td>{{ steps | nth(n=creature.strength - 1) }}</td>
+                <td 
+                  style="text-align:center"
+                  id="strength"
+                >{{ creature.strength }}</td>
+                <td id="strength-step">{{ steps | nth(n=creature.strength - 1) }}</td>
             </tr>
             <tr>
                 <td>{{ fluent(key="constitution", lang=lang )}}:</td>
-                <td style="text-align:center" id="constitution">{{ creature.constitution }}</td>
-                <td>{{ steps | nth(n=creature.strength - 1) }}</td>
+                <td 
+                  style="text-align:center"
+                  id="constitution"
+                >{{ creature.constitution }}</td>
+                <td id="constitution-step">{{ steps | nth(n=creature.strength - 1) }}</td>
             </tr>
             <tr>
                 <td>{{ fluent(key="perception", lang=lang )}}:</td>
-                <td style="text-align:center" id="perception">{{ creature.perception }}</td>
-                <td>{{ steps | nth(n=creature.perception - 1) }}</td>
+                <td 
+                  style="text-align:center"
+                  id="perception"
+                >{{ creature.perception }}</td>
+                <td id="perception-step">{{ steps | nth(n=creature.perception - 1) }}</td>
             </tr>
             <tr>
                 <td>{{ fluent(key="willpower", lang=lang )}}:</td>
-                <td style="text-align:center" id="willpower">{{ creature.willpower }}</td>
-                <td>{{ steps | nth(n=creature.willpower - 1) }}</td>
+                <td 
+                  style="text-align:center"
+                  id="willpower"
+                >{{ creature.willpower }}</td>
+                <td id="willpower-step">{{ steps | nth(n=creature.willpower - 1) }}</td>
             </tr>
             <tr>
                 <td>{{ fluent(key="charisma", lang=lang )}}:</td>
-                <td style="text-align:center" id="charisma">{{ creature.charisma }}</td>
-                <td>{{ steps | nth(n=creature.charisma - 1) }}</td>
+                <td 
+                  style="text-align:center"
+                  id="charisma"
+                >{{ creature.charisma }}</td>
+                <td id="charisma-step">{{ steps | nth(n=creature.charisma - 1) }}</td>
             </tr>
                 </table>
       </div>
@@ -61,8 +79,8 @@
         <table>
           <tr>
             <td>{{ fluent(key="initiative", lang=lang )}}</td>
-            <td style="text-align:center">{{ creature.initiative }}</td>
-            <td>{{ steps | nth(n=creature.initiative - 1) }}</td>
+            <td style="text-align:center" id="initiative">{{ creature.initiative }}</td>
+            <td id="initiative-step">{{ steps | nth(n=creature.initiative - 1) }}</td>
           </tr>
           <tr>
             <td>{{ fluent(key="physical-defense", lang=lang )}}</td>
@@ -105,7 +123,8 @@
           </tr>  
           <tr>
             <td>{{ fluent(key="knockdown", lang=lang )}}</td>
-            <td style="text-align:center">{{ creature.knockdown }}</td>
+            <td style="text-align:center" id="knockdown">{{ creature.knockdown }}</td>
+            <td id="knockdown-step">{{ steps | nth(n=creature.knockdown - 1) }}</td>
           </tr>  
           <tr>
             <td>{{ fluent(key="recovery-rolls", lang=lang )}}</td>
@@ -121,14 +140,14 @@
     </div>
     <hr>
       <div class="row">
-        <label>Damage: </label>
+        <label>Damage: |</label>
         <input
           id="damage"
           value="0"
           min="0"
           type="number"
           onchange="updateDamage()"
-          >
+          > |
         <button
           id="damage_add_1"
           class="btn btn-primary"
@@ -155,17 +174,25 @@
       <hr>
 
       <div class="row">
-        <label>Wounds</label>
+        <label>Wounds: |</label>
         <input
           id="wounds"
           type="number"
           min="0"
-          value="{{ current_wounds }}"
-        >
+          value="0"
+          onchange="updateWounds()"
+          readonly
+        > |
         <button
-          id="wounds_add_1" 
-          type="number"
-          value ="0">Add 1</button>
+          id="wound_add_1"
+          class="btn btn-primary"
+          onclick="addOneWound()"
+        >Add 1</button> 
+        <button
+          id="wound_add_1"
+          class="btn btn-primary"
+          onclick="subtractOneWound()"
+        >Subtract 1</button> 
       </div>
 
 
@@ -234,9 +261,19 @@
     const selectUncon = document.getElementById('unconsciousness_rating')
     const selectUnconMax = document.getElementById('unconsciousness_max')
 
+    const dexterity = document.getElementById('dexterity')
+    const strength = document.getElementById('strength')
+    const constitution = document.getElementById('constitution')
+    const perception = document.getElementById('perception')
+    const willpower = document.getElementById('willpower')
+    const charisma = document.getElementById('charisma')
+    const initiative = document.getElementById('initiative')
+    const knockdown = document.getElementById('knockdown')
+
     const selectDeath = document.getElementById('death_rating')
     const selectDeathMax = document.getElementById('death_max')
     const damageCounter = document.getElementById('damage')
+    const woundCounter = document.getElementById('wounds')
 
     const steps = "{{ steps }}".split(", ");
 
@@ -246,42 +283,114 @@
     }
 
     function subtractFiveDamage() {
-      damageCounter.value = parseInt(damageCounter.value) - 5;
+
+      val = parseInt(damageCounter.value);
+
+      if (val - 5 <= 0) {
+        damageCounter.value = 0;
+      } else {
+        damageCounter.value = val - 5;
+      };
+
       updateDamage();
     }
 
     function addOneDamage() {
-      damageCounter.value = parseInt(damageCounter.value) + 1;
+
+      val = parseInt(damageCounter.value);
+
+      damageCounter.value = val + 1;
+
+
       updateDamage();
     }
     
     function subtractOneDamage() {
-      damageCounter.value = parseInt(damageCounter.value) - 1;
+
+      val = parseInt(damageCounter.value);
+
+      if (val -1 <= 0) {
+        damageCounter.value = 0;
+      } else {
+        damageCounter.value = val - 1;
+      };
+
       updateDamage();
     }
     
     function updateDamage() {
 
+      val = parseInt(damageCounter.value);
+
       uncon = parseInt(selectUnconMax.innerHTML);
       death = parseInt(selectDeathMax.innerHTML);
 
-      selectUncon.innerHTML = uncon - damageCounter.value;
-      selectDeath.innerHTML = death - damageCounter.value;
+      selectUncon.innerHTML = uncon - val;
+      selectDeath.innerHTML = death - val;
+    }
+
+    function addOneWound() {
+
+
+      val = parseInt(woundCounter.value) + 1;
+
+      woundCounter.value = val
+      updateWounds(1);
+    }
+    
+    function subtractOneWound() {
+
+      val = parseInt(woundCounter.value) - 1;
+
+      if (val < 0) {
+        val = 0
+        
+      } else {
+        woundCounter.value = val
+        updateWounds(-1);
+      };
 
     }
 
-    function updateWounds(e) {
+    function updateWounds(val) {
 
-  
+      dex = parseInt(dexterity.innerHTML) - val;
+      str = parseInt(strength.innerHTML) - val;
+      con = parseInt(constitution.innerHTML) - val;
+      per = parseInt(perception.innerHTML) - val;
+      wil = parseInt(willpower.innerHTML) - val;
+      cha = parseInt(charisma.innerHTML) - val;
+      ini = parseInt(initiative.innerHTML) - val;
+      kno = parseInt(knockdown.innerHTML) - val;
+
+      dexterity.innerHTML = dex;
+      strength.innerHTML = str;
+      constitution.innerHTML = con;
+      perception.innerHTML = per;
+      willpower.innerHTML = wil;
+      charisma.innerHTML = cha;
+      initiative.innerHTML = ini;
+      knockdown.innerHTML = kno;
+
+      getStep("dexterity-step", dex);
+      getStep("strength-step", str);
+      getStep("constitution-step", con);
+      getStep("perception-step", per);
+      getStep("willpower-step", wil);
+      getStep("charisma-step", cha);
+      getStep("initiative-step", ini);
+      getStep("knockdown-step", kno);
 
     }
 
-    function getStep(num) {
+    function getStep(id, num) {
+
+      e = document.getElementById(id);
 
       var inum = parseInt(num);
 
       console.log(steps[inum])
-      this.innerHTML = steps[inum]
+      e.innerHTML = steps[inum]
     }
   </script>
 

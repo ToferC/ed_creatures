@@ -1,5 +1,11 @@
 -- Your SQL goes here
 
+CREATE TYPE user_roles as ENUM (
+    'visitor',
+    'user',
+    'admin'
+);
+
 CREATE TABLE users (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     hash BYTEA NOT NULL,
@@ -8,7 +14,7 @@ CREATE TABLE users (
     user_name VARCHAR(32) NOT NULL UNIQUE,
     slug VARCHAR(32) NOT NULL UNIQUE,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    role VARCHAR(32) NOT NULL DEFAULT 'user',
+    role user_roles NOT NULL DEFAULT 'user',
     validated bool NOT NULL DEFAULT false
 );
 

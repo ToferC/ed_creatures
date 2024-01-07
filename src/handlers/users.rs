@@ -6,7 +6,7 @@ use inflector::Inflector;
 use serde::Deserialize;
 
 use crate::{AppData, extract_identity_data, generate_basic_context};
-use crate::models::User;
+use crate::models::{User, UserRole};
 use crate::handlers::DeleteForm;
 use crate::errors::CustomError;
 
@@ -20,7 +20,7 @@ pub struct UserForm {
 pub struct AdminUserForm {
     user_name: String,
     email: String,
-    role: String,
+    role: UserRole,
     validated: String,
 }
 
@@ -35,7 +35,7 @@ pub async fn user_index(
 
     let (mut ctx, _session_user, role, _lang) = generate_basic_context(Some(id), &lang, req.uri().path());
 
-    if role != "admin".to_string() {
+    if role != UserRole::Admin {
         let err = CustomError::new(
             406,
             "Not authorized".to_string(),
@@ -74,7 +74,7 @@ pub async fn user_page_handler(
     
     let (mut ctx, session_user, role, _lang) = generate_basic_context(id, &lang, req.uri().path());
     
-    if session_user.to_lowercase() != slug.to_lowercase() && role != "admin".to_string() {
+    if session_user.to_lowercase() != slug.to_lowercase() && role != UserRole::Admin {
         let err = CustomError::new(
             406,
             "Not authorized".to_string(),
@@ -122,7 +122,7 @@ pub async fn edit_user(
     match user {
         Ok(user) => {
 
-            if &user.slug != &session_user && role != "admin" {
+            if &user.slug != &session_user && role != UserRole::Admin {
                 let err = CustomError::new(
                     406,
                     "Not authorized".to_string(),
@@ -159,7 +159,7 @@ pub async fn edit_user_post(
     if form.email.is_empty() || 
     form.user_name.is_empty() ||
     &session_user != &slug ||
-    &role != "admin" {
+    role != UserRole::Admin {
         // validate form has data or and permissions exist
         return HttpResponse::Found().append_header(("Location", format!("/{}/edit_user/{}", &lang, &slug))).finish()
     };
@@ -239,7 +239,7 @@ pub async fn admin_edit_user(
     if let Some(id) = id {
         let (mut ctx, _session_user, role, _lang) = generate_basic_context(Some(id), &lang, req.uri().path());
     
-        if &role != &"admin".to_string() {
+        if &role != &UserRole::Admin {
             let err = CustomError::new(
                 406,
                 "Not authorized".to_string(),
@@ -288,7 +288,7 @@ pub async fn admin_edit_user_post(
     
         if form.email.is_empty() || 
         form.user_name.is_empty() ||
-        &role != "admin" {
+        role != UserRole::Admin {
             // validate form has data or and permissions exist
             return HttpResponse::Found().append_header(("Location", format!("/{}/admin_edit_user/{}", &lang, &slug))).finish()
         };
@@ -311,7 +311,7 @@ pub async fn admin_edit_user_post(
             };
 
             user.validated = validated;
-            user.role = form.role.to_lowercase().trim().to_owned();
+            user.role = form.role;
 
             // update user email
             if &form.email.to_lowercase().trim() != &user.email {
@@ -362,7 +362,7 @@ pub async fn delete_user_handler(
 
         let (mut ctx, session_user, role, _lang) = generate_basic_context(Some(id), &lang, req.uri().path());
         
-        if role != "admin".to_string() && &session_user != &slug {
+        if role != UserRole::Admin || &session_user == &slug {
             println!("User not admin");
             HttpResponse::Found().append_header(("Location", "/")).finish()
         } else {
@@ -407,7 +407,7 @@ pub async fn delete_user(
 
         let (session_user, role, id) = extract_identity_data(Some(id));
         
-        if session_user.to_lowercase() != slug.to_lowercase() && role != "admin".to_string() {
+        if session_user.to_lowercase() != slug.to_lowercase() && role != UserRole::Admin {
             let err = CustomError::new(
                 406,
                 "Not authorized".to_string(),

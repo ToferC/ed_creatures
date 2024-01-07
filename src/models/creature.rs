@@ -20,6 +20,7 @@ use crate::models::{Attack, Power };
 pub struct Creature {
     pub id: Uuid,
     pub creator_id: Uuid,
+    pub creator_slug: String,
     pub name: String,
     pub found_in: Vec<Option<Locales>>,
     pub rarity: Rarity,
@@ -180,6 +181,7 @@ pub enum Locales {
 #[diesel(table_name = creatures)]
 pub struct InsertableCreature {
     pub creator_id: Uuid,
+    pub creator_slug: String,
     pub name: String,
     pub found_in: Vec<Option<Locales>>,
     pub rarity: Rarity,
@@ -212,13 +214,14 @@ pub struct InsertableCreature {
 
 impl InsertableCreature {
 
-    pub fn default(creator_id: Uuid) -> Self {
+    pub fn default(creator_id: Uuid, creator_slug: String) -> Self {
 
         let locales = vec![Some(Locales::Jungle)];
         let today = chrono::Utc::now().naive_utc();
 
         InsertableCreature {
             creator_id,
+            creator_slug,
             name: "".to_string(),
             found_in: locales,
             rarity: Rarity::Rare,
@@ -252,6 +255,7 @@ impl InsertableCreature {
 
     pub fn new(
         creator_id: Uuid,
+        creator_slug: String,
         name: String,
         found_in: Vec<Option<Locales>>,
         rarity: Rarity,
@@ -283,6 +287,7 @@ impl InsertableCreature {
 
         InsertableCreature {
             creator_id,
+            creator_slug,
             name,
             found_in,
             rarity,

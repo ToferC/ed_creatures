@@ -5,6 +5,7 @@ pub mod errors;
 pub mod schema;
 pub mod steps;
 
+use models::UserRole;
 use serde_json::to_value;
 use steps::steps::STEPS;
 use tera::{Tera, Context, Function};
@@ -36,7 +37,7 @@ pub fn generate_basic_context(
     id: Option<Identity>,
     lang: &str,
     path: &str,
-) -> (Context, String, String, String) 
+) -> (Context, String, UserRole, String) 
 {    
     let mut ctx = Context::new();
 
@@ -78,7 +79,7 @@ pub fn extract_session_data(session: &Session) -> (String, String) {
     (session_user, role)
 }
 
-pub fn extract_identity_data(id: Option<Identity>) -> (String, String, Option<Identity>) {
+pub fn extract_identity_data(id: Option<Identity>) -> (String, UserRole, Option<Identity>) {
 
     if let Some(id) = id {
         
@@ -93,14 +94,14 @@ pub fn extract_identity_data(id: Option<Identity>) -> (String, String, Option<Id
     
         let role = match user {
             Ok(u) => u.role,
-            _ => "".to_string()
+            _ => models::UserRole::Visitor,
         };
     
-        println!("{}-{}", &session_user, &role);
+        println!("{}-{:?}", &session_user, &role);
     
         (session_user, role, Some(id))
     } else {
-        ("".to_string(), "".to_string(), None)
+        ("".to_string(), UserRole::Visitor, None)
     }
 
 }
@@ -108,9 +109,9 @@ pub fn extract_identity_data(id: Option<Identity>) -> (String, String, Option<Id
 /// Generate context, session_user and role from id and lang
 pub fn generate_email_context(
     session_user: String,
-    role: String,
+    role: UserRole,
     lang: &str,
-    path: &str,) -> (Context, String, String, String) 
+    path: &str,) -> (Context, String, UserRole, String) 
 {    
 let mut ctx = Context::new();
 

@@ -3,7 +3,7 @@
 {% block content %}
 
   <br><br>
-  <h1>{{ creature.name | title | safe }} {% if session_user != "" %}
+  <h1>{{ creature.name | title | safe }} {% if session_user == creature.creator_slug or role == "Admin" %}
     <a
       href="/{{ lang }}/edit_creature/{{ creature.id }}" 
       class="btn btn-dark">
@@ -61,59 +61,150 @@
     </div>
 
     <hr>
-  </div>
+  </div> <!-- End of creature -->
   
-<div class="container">
-  <div class="row">
-    <h3>Attacks</h3><br>
-  </div>
-  <div class="row">
-    {% if attacks %}
-      {% for attack in attacks %}
-      <div>
-        <li>
-          {{ attack.name }}: {{ attack.action_step}}: {{ steps | nth(n=attack.action_step - 1) }} ({{ attack.effect_step }}: {{ steps | nth(n=attack.effect_step - 1) }}){% if attack.details %}: {{ attack.details }}{% endif %}
-        </li>
-      </div>
-      {% endfor %} <!-- attacks -->
-    {% else %}
-        <li>None</li>
-    {% endif %}
-  </div>
-
-<hr>
-
+  <div
+    class="container" 
+    id="attacks"
+    hx-target="this"
+    hx-swap="outerHTML"
+>
     <div class="row">
-      <h3>Powers and Abilities</h3><br>
+      <h3>Attacks</h3><br>
     </div>
+      {% if attacks %}
+      {% for attack in attacks %}
+      <div 
+        id="attack-{{ attack.id }}"
+        hx-target="this"
+        hx-swap="outerHTML"
+      >
+      <li>
+        {{ attack.name }}: {{ attack.action_step}}: {{ steps | nth(n=attack.action_step - 1) }} ({{ attack.effect_step }}: {{ steps | nth(n=attack.effect_step - 1) }}){% if attack.details %}: {{ attack.details }}{% endif %}
+      
+       {% if session_user == creature.creator_slug or role == "Admin" %}
+          <button
+          hx-get="/{{ lang }}/edit_attack/{{ attack.id }}"
+          hx-target="#attack-{{ attack.id }}"
+          class="btn btn-info btn-sm"
+        >Edit</button> 
+        <button
+          hx-get="/{{ lang }}/delete_attack/{{ attack.id }}"
+          hx-target="#attack-{{ attack.id }}"
+          class="btn btn-danger btn-sm"
+        >Delete</button>
+        {% endif %}
+        </li>
+      </div> <!-- end-div htmx -->
+      {% endfor %} <!-- attacks -->
+      {% endif %}
+      <br>
+      {% if session_user == creature.creator_slug or role == "Admin" %}
+      <button
+        class="btn btn-dark"
+        hx-get="/{{ lang }}/add_attack/{{ creature.id }}"
+        hx-target="this"
+        hx-swap="outerHTML"
+        >
+        Add an Attack
+      </button>
+      {% endif %}
+      <hr>
+</div>
+    
+<div
+class="container" 
+id="powers"
+hx-target="this"
+hx-swap="outerHTML"
+>
+<div class="row">
+  <h3>Powers and Abilities</h3><br>
+</div>
+  {% if powers %}
+  {% for power in powers %}
+  <div 
+    id="power-{{ power.id }}"
+    hx-target="this"
+    hx-swap="outerHTML"
+  >
+    <li>
+      {{ power.name }} ({{ power.action_type }} {% if power.target != 'NotApplicable' %} vs. {{ power.target }}{% endif %}): {{ power.action_step}}: {{ steps | nth(n=power.action_step - 1) }} ({{ power.effect_step }}: {{ steps | nth(n=power.effect_step - 1) }}{% if power.resisted_by != 'NotApplicable' %} | {{ power.resisted_by }}{% endif %}){% if power.details %}: {{ power.details }}{% endif %}   
+        {% if session_user == creature.creator_slug or role == "Admin" %}
+        <button
+        hx-get="/{{ lang }}/edit_power/{{ power.id }}"
+        hx-target="#power-{{ power.id }}"
+        class="btn btn-info btn-sm"
+        >Edit</button> 
+        <button
+            hx-get="/{{ lang }}/delete_power/{{ power.id }}"
+            hx-target="#power-{{ power.id }}"
+            class="btn btn-danger btn-sm"
+        >Delete</button>
+        {% endif %}
+    </li>
+  </div> <!-- end-div htmx -->
+  {% endfor %} <!-- powers -->
+  {% endif %}
+  <br>
+  {% if session_user == creature.creator_slug or role == "Admin" %}
+  <button
+    class="btn btn-dark"
+    hx-get="/{{ lang }}/add_power/{{ creature.id }}"
+    hx-target="this"
+    hx-swap="outerHTML"
+    >
+    Add a Power or Ability
+  </button>
+  {% endif %}
+  <hr>
+</div>
+
+<div
+    class="container" 
+    id="maneuvers"
+    hx-target="this"
+    hx-swap="outerHTML"
+>
     <div class="row">
-      {% if powers %}
-        {% for power in powers %}
-        <div>
-          <li>{{ power.name }} ({{ power.action_type }} {% if power.target != 'NotApplicable' %} vs. {{ power.target }}{% endif %}): {{ power.action_step}}: {{ steps | nth(n=power.action_step - 1) }} ({{ power.effect_step }}: {{ steps | nth(n=power.effect_step - 1) }}{% if power.resisted_by != 'NotApplicable' %} | {{ power.resisted_by }}{% endif %}){% if power.details %}: {{ power.details }}{% endif %}   
-        </div>
-        {% endfor %}
-      {% else %}
-      <li>None</li>
-      {% endif %} 
-    </div> 
-
-<hr>
-
-  <div class="row">
-    <h3>Special Maneuvers</h3><br>
-  </div> 
-  <div class="row">
-    {% if maneuvers %}
+      <h3>Special Maneuvers</h3><br>
+    </div>
+      {% if maneuvers %}
       {% for maneuver in maneuvers %}
-      <div>
-        <li>{{ maneuver.name }} [{{ maneuver.source}}]: {{ maneuver.details }} 
-      </div>
-      {% endfor %}
-    {% else %}
-    <li>None</li>
-    {% endif %}  
-  </div>
+      <div 
+        id="maneuver-{{ maneuver.id }}"
+        hx-target="this"
+        hx-swap="outerHTML"
+      >
+      <li>{{ maneuver.name }} [{{ maneuver.source}}]: {{ maneuver.details }} 
+        {% if session_user == creature.creator_slug or role == "Admin" %}    
+        <button
+            hx-get="/{{ lang }}/edit_maneuver/{{ maneuver.id }}"
+            hx-target="#maneuver-{{ maneuver.id }}"
+            class="btn btn-info btn-sm"
+            >Edit</button> 
+            <button
+            hx-get="/{{ lang }}/delete_maneuver/{{ maneuver.id }}"
+            hx-target="#maneuver-{{ maneuver.id }}"
+            class="btn btn-danger btn-sm"
+            >Delete</button>
+          {% endif %}
+        </li>
+      </div> <!-- end-div htmx -->
+      {% endfor %} <!-- maneuvers -->
+      {% endif %}
+      <br>
+      {% if session_user == creature.creator_slug or role == "Admin" %}
+      <button
+        class="btn btn-dark"
+        hx-get="/{{ lang }}/add_maneuver/{{ creature.id }}"
+        hx-target="this"
+        hx-swap="outerHTML"
+        >
+        Add a Maneuver
+      </button>
+      {% endif %}
+      <hr>
 </div>
 
 {% endblock content %}

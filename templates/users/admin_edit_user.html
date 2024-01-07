@@ -30,8 +30,8 @@
         <label>
             <strong>{{ fluent(key="role", lang=lang )}}</strong>
             <select name="role">
-                <option value="user" {% if user.role == "user" %}selected{% endif %}>{{ fluent(key="user", lang=lang )}}</option>
-                <option value="admin" {% if user.role == "admin" %}selected{% endif %}>{{ fluent(key="admin", lang=lang )}}</option>
+                <option value="User" {% if user.role == "user" %}selected{% endif %}>{{ fluent(key="user", lang=lang )}}</option>
+                <option value="Admin" {% if user.role == "Admin" %}selected{% endif %}>{{ fluent(key="admin", lang=lang )}}</option>
               </select>
             <small id="code_help" class="form-text text-muted">{{ fluent(key="role-helper", lang=lang )}}</small>
         </label>

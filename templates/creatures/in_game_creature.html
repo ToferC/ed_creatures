@@ -2,6 +2,9 @@
 
 {% block content %}
 
+{% set attacks_len = attacks | length %}
+{% set powers_len = powers | length %}
+
 <div class="container">
   <br>
   <h1>{{ creature.name | title | safe }}
@@ -24,63 +27,89 @@
   <div>
     <div class="row">
       <div class="col">
-        <table>
+        <table style="Table-Layout:fixed">
             <tr>
-                <td>{{ fluent(key="dexterity", lang=lang )}}:</td>
+                <td>{{ fluent(key="dexterity", lang=lang )}}</td>
                 <td 
                   style="text-align:center"
+                  class="step"
                   id="dexterity"
                 >{{ creature.dexterity }}</td>
-                <td id="dexterity-step">{{ steps | nth(n=creature.dexterity - 1) }}</td>
+                <td style="text-align:center" id="dexterity-step">{{ steps | nth(n=creature.dexterity - 1) }}</td>
             </tr>
             <tr>
-                <td>{{ fluent(key="strength", lang=lang )}}:</td>
+                <td>{{ fluent(key="strength", lang=lang )}}</td>
                 <td 
                   style="text-align:center"
+                  class="step"
                   id="strength"
                 >{{ creature.strength }}</td>
-                <td id="strength-step">{{ steps | nth(n=creature.strength - 1) }}</td>
+                <td style="text-align:center" id="strength-step">{{ steps | nth(n=creature.strength - 1) }}</td>
             </tr>
             <tr>
-                <td>{{ fluent(key="constitution", lang=lang )}}:</td>
+                <td>{{ fluent(key="constitution", lang=lang )}}</td>
                 <td 
                   style="text-align:center"
+                  class="step"
                   id="constitution"
                 >{{ creature.constitution }}</td>
-                <td id="constitution-step">{{ steps | nth(n=creature.strength - 1) }}</td>
+                <td style="text-align:center" id="constitution-step">{{ steps | nth(n=creature.strength - 1) }}</td>
             </tr>
             <tr>
-                <td>{{ fluent(key="perception", lang=lang )}}:</td>
+                <td>{{ fluent(key="perception", lang=lang )}}</td>
                 <td 
                   style="text-align:center"
+                  class="step"
                   id="perception"
                 >{{ creature.perception }}</td>
-                <td id="perception-step">{{ steps | nth(n=creature.perception - 1) }}</td>
+                <td style="text-align:center" id="perception-step">{{ steps | nth(n=creature.perception - 1) }}</td>
             </tr>
             <tr>
-                <td>{{ fluent(key="willpower", lang=lang )}}:</td>
+                <td>{{ fluent(key="willpower", lang=lang )}}</td>
                 <td 
                   style="text-align:center"
+                  class="step"
                   id="willpower"
                 >{{ creature.willpower }}</td>
-                <td id="willpower-step">{{ steps | nth(n=creature.willpower - 1) }}</td>
+                <td style="text-align:center" id="willpower-step">{{ steps | nth(n=creature.willpower - 1) }}</td>
             </tr>
             <tr>
-                <td>{{ fluent(key="charisma", lang=lang )}}:</td>
+                <td>{{ fluent(key="charisma", lang=lang )}}</td>
                 <td 
                   style="text-align:center"
+                  class="step"
                   id="charisma"
                 >{{ creature.charisma }}</td>
-                <td id="charisma-step">{{ steps | nth(n=creature.charisma - 1) }}</td>
+                <td style="text-align:center" id="charisma-step">{{ steps | nth(n=creature.charisma - 1) }}</td>
             </tr>
-                </table>
+          </table>
+
+          <table>
+            <tr>
+              <td>
+                {{ fluent(key="movement", lang=lang )}}
+              </td>
+              <td style="text-align:center">
+                {{ creature.movement }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                {{ fluent(key="actions", lang=lang )}}
+              </td>
+              <td style="text-align:center">
+                {{ creature.actions }}
+              </td>
+            </tr>
+        </table>
+
       </div>
       <div class="col">
-        <table>
+        <table style="Table-Layout:fixed">
           <tr>
             <td>{{ fluent(key="initiative", lang=lang )}}</td>
             <td style="text-align:center" id="initiative">{{ creature.initiative }}</td>
-            <td id="initiative-step">{{ steps | nth(n=creature.initiative - 1) }}</td>
+            <td style="text-align:center" id="initiative-step">{{ steps | nth(n=creature.initiative - 1) }}</td>
           </tr>
           <tr>
             <td>{{ fluent(key="physical-defense", lang=lang )}}</td>
@@ -106,16 +135,16 @@
         </table>
       </div>
       <div class="col">
-        <table>
+        <table style="Table-Layout:fixed">
           <tr>
             <td>{{ fluent(key="unconscious-rating", lang=lang )}}</td>
             <td style="text-align:center" id="unconsciousness_rating">{{ creature.unconsciousness_rating }}</td>
-            <td id="unconsciousness_max">{{ creature.unconsciousness_rating }}</td>
+            <td style="text-align:center" id="unconsciousness_max">{{ creature.unconsciousness_rating }}</td>
           </tr>  
           <tr>
             <td>{{ fluent(key="death-rating", lang=lang )}}</td>
             <td style="text-align:center" id="death_rating">{{ creature.death_rating }}</td>
-            <td id="death_max">{{ creature.death_rating }}</td>
+            <td style="text-align:center" id="death_max">{{ creature.death_rating }}</td>
           </tr>  
           <tr>
             <td>{{ fluent(key="wound-rating", lang=lang )}}</td>
@@ -124,7 +153,7 @@
           <tr>
             <td>{{ fluent(key="knockdown", lang=lang )}}</td>
             <td style="text-align:center" id="knockdown">{{ creature.knockdown }}</td>
-            <td id="knockdown-step">{{ steps | nth(n=creature.knockdown - 1) }}</td>
+            <td style="text-align:center" id="knockdown-step">{{ steps | nth(n=creature.knockdown - 1) }}</td>
           </tr>  
           <tr>
             <td>{{ fluent(key="recovery-rolls", lang=lang )}}</td>
@@ -140,12 +169,14 @@
     </div>
     <hr>
       <div class="row">
-        <label>Damage: |</label>
+        <h3>Damage: |</h3>
         <input
+          class="input-lg"
           id="damage"
           value="0"
           min="0"
           type="number"
+          style="text-align:center"
           onchange="updateDamage()"
           > |
         <button
@@ -174,8 +205,10 @@
       <hr>
 
       <div class="row">
-        <label>Wounds: |</label>
+        <h3>Wounds: |</h3>
         <input
+          class="input-lg"
+          style="text-align:center"
           id="wounds"
           type="number"
           min="0"
@@ -194,17 +227,8 @@
           onclick="subtractOneWound()"
         >Subtract 1</button> 
       </div>
-
-
     <hr>
-    <div class="row">
-      <ul>{{ fluent(key="movement", lang=lang )}}: {{ creature.movement }}</ul>
-    </div>
-    <div class="row">
-      <ul>{{ fluent(key="actions", lang=lang )}}: {{ creature.actions }}</ul>
-    </div>
-
-    <hr>
+    
   </div>
 </div> <!-- End of Creature -->
 
@@ -214,11 +238,41 @@
   </div>
     {% if attacks %}
       {% for attack in attacks %}
-      <div>
-        <li>
-          {{ attack.name }}: {{ attack.action_step}}: {{ steps | nth(n=attack.action_step - 1) }} ({{ attack.effect_step }}: {{ steps | nth(n=attack.effect_step - 1) }}){% if attack.details %}: {{ attack.details }}{% endif %}
-        </li>
-      </div>
+      <table style="Table-Layout:fixed">
+        <tr>
+          <th style="text-align:center">Name</th>
+          <th style="text-align:center">Action</th>
+          <th style="text-align:center">Action Step</th>
+          <th style="text-align:center">Effect</th>
+          <th style="text-align:center">Effect Step</th>
+        </tr>
+        <tr>
+          <td id="attack_name-{{ loop.index0 }}">
+            {{ attack.name }}
+          </td>
+          <td id="attack-action_step-{{ loop.index0 }}" style="text-align:center">
+            {{ attack.action_step }}
+          </td>
+          <td id="attack-action_dice-{{ loop.index0 }}" style="text-align:center">
+            {{ steps | nth(n=attack.action_step - 1) }}
+          </td>
+          <td id="attack-effect_step-{{ loop.index0 }}" style="text-align:center">
+            {{ attack.effect_step }}
+          </td>
+          <td id="attack-effect_dice-{{ loop.index0 }}" style="text-align:center">
+            {{ steps | nth(n=attack.effect_step - 1) }}
+          </td>
+        </tr>
+        </table>
+        {% if attack.details %}
+        <table>
+          <tr>
+              <td>{{ attack.details }}</td>
+          </tr>
+        </table>
+        {% endif %}
+      </table>
+      <br>
       {% endfor %} <!-- attacks -->
     {% else %}
         <li>None</li>
@@ -231,9 +285,61 @@
     </div> 
       {% if powers %}
         {% for power in powers %}
-        <div>
-          <li>{{ power.name }} ({{ power.action_type }} {% if power.target != 'NotApplicable' %} vs. {{ power.target }}{% endif %}): {{ power.action_step}}: {{ steps | nth(n=power.action_step - 1) }} ({{ power.effect_step }}: {{ steps | nth(n=power.effect_step - 1) }}{% if power.resisted_by != 'NotApplicable' %} | {{ power.resisted_by }}{% endif %}){% if power.details %}: {{ power.details }}{% endif %}   
-        </div>
+        <table style="Table-Layout:fixed">
+          <tr>
+            <th style="text-align:center">Name</th>
+            <th style="text-align:center">Action Type</th>
+            {% if power.target != 'NotApplicable' %}
+            <th style="text-align:center">Target</th>
+            {% endif %}
+            <th style="text-align:center">Action Step</th>
+            <th style="text-align:center">Action Dice</th>
+            <th style="text-align:center">Effect Step</th>
+            <th style="text-align:center">Effect Dice</th>
+            {% if power.resisted_by != 'NotApplicable' %}
+            <th style="text-align:center">Resisted By</th>
+            {% endif %}
+          </tr>
+          <tr>
+            <td id="power_name-{{ loop.index0 }}">
+              {{ power.name }}
+            </td>
+            <td id="power_action_type-{{ loop.index0 }}" style="text-align:center">
+              {{ power.action_type }}
+            </td>
+            {% if power.target != 'NotApplicable' %}
+            <td id="power_target-{{ loop.index0 }}" style="text-align:center">
+              {{ power.target }}
+            </td>
+            {% endif %}
+            <td id="power-action_step-{{ loop.index0 }}" style="text-align:center">
+              {{ power.action_step }}
+            </td>
+            <td id="power-action_dice-{{ loop.index0 }}" style="text-align:center">
+              {{ steps | nth(n=power.action_step - 1) }}
+            </td>
+            <td id="power-effect_step-{{ loop.index0 }}" style="text-align:center">
+              {{ power.effect_step }}
+            </td>
+            <td id="power-effect_dice-{{ loop.index0 }}" style="text-align:center">
+              {{ steps | nth(n=power.effect_step - 1) }}
+            </td>
+            {% if power.resisted_by != 'NotApplicable' %}
+            <td id="power_resisted_by-{{ loop.index0 }}">
+              {{ power.resisted_by }}
+            </td>
+            {% endif %}
+          </tr>
+          </table>
+          {% if power.details %}
+          <table>
+            <tr>
+                <td>{{ power.details }}</td>
+            </tr>
+          </table>
+          {% endif %}
+        </table>
+        <br>
         {% endfor %}
       {% else %}
       <li>None</li>
@@ -246,11 +352,20 @@
   <h3>Special Maneuvers</h3><br>
 </div> 
   {% if maneuvers %}
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Source</th>
+      <th>Description</th>
+    </tr>
     {% for maneuver in maneuvers %}
-    <div>
-      <li>{{ maneuver.name }} [{{ maneuver.source}}]: {{ maneuver.details }} 
-    </div>
-    {% endfor %}
+    <tr>
+      <td>{{ maneuver.name }}</td>
+      <td>{{ maneuver.source}}</td>
+      <td>{{ maneuver.details }} </td>
+    </tr>
+      {% endfor %}
+    </table>
   {% else %}
   <li>None</li>
   {% endif %}  
@@ -381,6 +496,47 @@
       getStep("initiative-step", ini);
       getStep("knockdown-step", kno);
 
+      updateAttacks(val);
+      updatePowers(val);
+
+    }
+
+    function updateAttacks(val) {
+
+      for (let i=0; i < parseInt(`{{ attacks_len }}`); i++) {
+
+        action = document.getElementById(`attack-action_step-${i}`);
+        effect = document.getElementById(`attack-effect_step-${i}`);
+
+        action_step = parseInt(action.innerHTML) - val;
+        effect_step = parseInt(effect.innerHTML) - val;
+
+        action.innerHTML = action_step;
+        effect.innerHTML = effect_step;
+
+        getStep(`attack-action_dice-${i}`, action_step);
+        getStep(`attack-effect_dice-${i}`, effect_step);
+
+      }
+    }
+
+    function updatePowers(val) {
+
+      for (let i=0; i < parseInt(`{{ powers_len }}`); i++) {
+
+        action = document.getElementById(`power-action_step-${i}`);
+        effect = document.getElementById(`power-effect_step-${i}`);
+
+        action_step = parseInt(action.innerHTML) - val;
+        effect_step = parseInt(effect.innerHTML) - val;
+
+        action.innerHTML = action_step;
+        effect.innerHTML = effect_step;
+
+        getStep(`power-action_dice-${i}`, action_step);
+        getStep(`power-effect_dice-${i}`, effect_step);
+
+      }
     }
 
     function getStep(id, num) {
@@ -389,7 +545,6 @@
 
       var inum = parseInt(num);
 
-      console.log(steps[inum])
       e.innerHTML = steps[inum]
     }
   </script>

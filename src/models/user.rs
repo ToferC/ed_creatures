@@ -4,6 +4,7 @@ use uuid::Uuid;
 use chrono::prelude::*;
 use serde::{Serialize, Deserialize};
 use inflector::Inflector;
+use diesel_derive_enum::DbEnum;
 
 use crate::schema::users;
 use crate::database;
@@ -23,8 +24,16 @@ pub struct User {
     pub user_name: String,
     pub slug: String,
     pub created_at: NaiveDateTime,
-    pub role: String,
+    pub role: UserRole,
     pub validated: bool,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, DbEnum, Serialize, Deserialize, QueryId)]
+#[ExistingTypePath = "crate::schema::sql_types::UserRoles"]
+pub enum UserRole {
+    Visitor,
+    User,
+    Admin,
 }
 
 #[derive(Debug, Insertable)]
@@ -36,7 +45,7 @@ pub struct InsertableUser {
     pub user_name: String,
     pub slug: String,
     pub created_at: NaiveDateTime,
-    pub role: String,
+    pub role: UserRole,
     pub validated: bool,
 }
 
@@ -45,7 +54,7 @@ pub struct SlimUser {
     pub user_name: String,
     pub email: String,
     pub slug: String,
-    pub role: String,
+    pub role: UserRole,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -53,7 +62,7 @@ pub struct UserData {
     pub user_name: String,
     pub email: String,
     pub password: String,
-    pub role: String,
+    pub role: UserRole,
     pub validated: bool,
 }
 
@@ -118,7 +127,7 @@ impl User {
     pub fn find_admins() -> Result<Vec<Self>, CustomError> {
         let mut conn = database::connection()?;
         let users = users::table
-            .filter(users::role.eq("admin"))
+            .filter(users::role.eq(UserRole::Admin))
             .load::<User>(&mut conn)?;
         Ok(users)
     }
@@ -207,7 +216,7 @@ impl User {
             user_name: "dummy".to_string(),
             slug: "".to_string(),
             created_at: NaiveDateTime::from_timestamp_opt(1_000_000_000, 0).unwrap(),
-            role: "".to_string(),
+            role: UserRole::User,
             validated: false,
         }
     }
@@ -261,7 +270,7 @@ pub fn verify(user: &User, password: &str) -> bool {
     make_hash(password, salt).as_bytes().to_vec() == *hash
 }
 
-pub fn has_role(user: &LoggedUser, role: &str) -> Result<bool, CustomError> {
+pub fn has_role(user: &LoggedUser, role: UserRole) -> Result<bool, CustomError> {
     match user.0 {
         Some(ref user) if user.role == role => Ok(true),
         _ => Err(CustomError::new(002, "Role not present".to_string())),

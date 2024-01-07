@@ -26,7 +26,7 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.role }}</td>
                     <td><a href="/{{ lang }}/user/{{ user.slug }}">{{ fluent(key="link", lang=lang )}}</a></td>
-                    <td><a style="color:red" href="/{{ lang }}/delete_user/{{ user.id }}">{{ fluent(key="delete-button", lang=lang )}}</a></td>
+                    <td><a style="color:red" href="/{{ lang }}/delete_user/{{ user.slug }}">{{ fluent(key="delete-button", lang=lang )}}</a></td>
                 </tr>
                         
                 {% endfor %}

@@ -1,25 +1,29 @@
 // @generated automatically by Diesel CLI.
 
 pub mod sql_types {
-    #[derive(diesel::sql_types::SqlType)]
+    #[derive(diesel::query_builder::QueryId, diesel::sql_types::SqlType)]
     #[diesel(postgres_type(name = "action_targets"))]
     pub struct ActionTargets;
 
-    #[derive(diesel::sql_types::SqlType)]
+    #[derive(diesel::query_builder::QueryId, diesel::sql_types::SqlType)]
     #[diesel(postgres_type(name = "action_types"))]
     pub struct ActionTypes;
 
-    #[derive(diesel::sql_types::SqlType)]
+    #[derive(diesel::query_builder::QueryId, diesel::sql_types::SqlType)]
     #[diesel(postgres_type(name = "locales"))]
     pub struct Locales;
 
-    #[derive(diesel::sql_types::SqlType)]
+    #[derive(diesel::query_builder::QueryId, diesel::sql_types::SqlType)]
     #[diesel(postgres_type(name = "rarities"))]
     pub struct Rarities;
 
-    #[derive(diesel::sql_types::SqlType)]
+    #[derive(diesel::query_builder::QueryId, diesel::sql_types::SqlType)]
     #[diesel(postgres_type(name = "resisted_bys"))]
     pub struct ResistedBys;
+
+    #[derive(diesel::query_builder::QueryId, diesel::sql_types::SqlType)]
+    #[diesel(postgres_type(name = "user_roles"))]
+    pub struct UserRoles;
 }
 
 diesel::table! {
@@ -45,6 +49,8 @@ diesel::table! {
     creatures (id) {
         id -> Uuid,
         creator_id -> Uuid,
+        #[max_length = 256]
+        creator_slug -> Varchar,
         #[max_length = 128]
         name -> Varchar,
         found_in -> Array<Nullable<Locales>>,
@@ -141,6 +147,9 @@ diesel::table! {
 }
 
 diesel::table! {
+    use diesel::sql_types::*;
+    use super::sql_types::UserRoles;
+
     users (id) {
         id -> Uuid,
         hash -> Bytea,
@@ -153,8 +162,7 @@ diesel::table! {
         #[max_length = 32]
         slug -> Varchar,
         created_at -> Timestamp,
-        #[max_length = 32]
-        role -> Varchar,
+        role -> UserRoles,
         validated -> Bool,
     }
 }

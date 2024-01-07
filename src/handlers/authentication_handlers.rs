@@ -10,7 +10,7 @@ use serde::Deserialize;
 use crate::{AppData, generate_basic_context, generate_email_context, extract_identity_data, APP_NAME};
 use crate::models::{User, verify, UserData, EmailVerification, 
     InsertableVerification, Email, PasswordResetToken, 
-    InsertablePasswordResetToken};
+    InsertablePasswordResetToken, UserRole};
 
 use super::EmailForm;
 
@@ -157,7 +157,7 @@ pub async fn register_form_input(
         email: form.email.to_lowercase().trim().to_owned(),
         user_name: form.user_name.trim().to_owned(),
         password: form.password.trim().to_owned(),
-        role: "user".to_owned(),
+        role: UserRole::User,
         validated: false,
     };
 
@@ -179,7 +179,7 @@ pub async fn register_form_input(
                 &InsertableVerification::new(&user.email)
             ).expect("Unable to create verification");
 
-            let (mut email_ctx, _, _, _) = generate_email_context(user.slug.to_owned(), user.role.to_owned(), &lang, req.uri().path());
+            let (mut email_ctx, _, _, _) = generate_email_context(user.slug.to_owned(), user.role, &lang, req.uri().path());
             email_ctx.insert("user", &user);
             email_ctx.insert("verification", &verification);
 
@@ -232,7 +232,7 @@ pub async fn email_verification(
     
     let (mut ctx, session_user, role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
-    if session_user == "".to_string() && role != "admin".to_string() {
+    if session_user == "".to_string() && role != UserRole::Admin {
         // person signed in shouldn't be here
         return HttpResponse::Found().append_header(("Location", format!("/{}", &lang))).finish()
     };
@@ -265,7 +265,7 @@ pub async fn resend_email_verification(
     
     let (mut ctx, session_user, role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
-    if session_user == "".to_string() && role != "admin".to_string() {
+    if session_user == "".to_string() && role != UserRole::Admin {
         // person signed in shouldn't be here
         return HttpResponse::Found().append_header(("Location", format!("/{}", &lang))).finish()
     };

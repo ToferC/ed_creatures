@@ -31,7 +31,7 @@ pub async fn new_creature_form(
 
     let user = user.unwrap();
 
-    let creature = InsertableCreature::default(user.id);
+    let creature = InsertableCreature::default(user.id, session_user);
 
     ctx.insert("creature", &creature);
 
@@ -124,6 +124,7 @@ pub async fn post_creature(
 
     let new_creature = InsertableCreature::new(
         user.id,
+        user.slug,
         form.name.to_owned(),
         found_in,
         form.rarity.to_owned(),
@@ -243,6 +244,7 @@ pub async fn edit_creature_post(
     let mut our_creature = Creature {
         id: creature.id,
         creator_id: user.id,
+        creator_slug: creature.creator_slug,
         name: form.name.to_owned(),
         found_in: found_in,
         rarity: form.rarity.to_owned(),

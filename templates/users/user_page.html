@@ -15,9 +15,11 @@
     
                 <p>{{ user.email }}</p>
 
+                <p>{{ user.role }}</p>
+
                 <h2>{{ fluent(key="account-options", lang=lang )}}</h2>
                 <p>
-                    {% if role == "admin" %}
+                    {% if role == "Admin" %}
                     <a class="btn btn-dark" href="/{{ lang }}/admin_edit_user/{{ user.slug }}">{{ fluent(key="edit-as-admin", lang=lang )}}</a>
                     {% else %}
                     <a class="btn btn-dark" href="/{{ lang }}/edit_user/{{ user.slug }}">{{ fluent(key="change-username-email", lang=lang )}}</a>

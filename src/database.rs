@@ -48,7 +48,7 @@ pub fn init() {
                 email: admin_email.trim().to_owned(),
                 password: admin_pwd.trim().to_owned(),
                 validated: true,
-                role: "admin".to_owned(),
+                role: crate::models::UserRole::Admin,
             };
         
             let admin = User::create(admin_data)
@@ -63,7 +63,7 @@ pub fn init() {
                 email: "someone@email.com".to_owned(),
                 password: "WOOLYHIPPOSOUNDFILE".to_owned(),
                 validated: true,
-                role: "user".to_owned(),
+                role: crate::models::UserRole::User,
             };
         
             let user = User::create(user_data)
@@ -71,7 +71,7 @@ pub fn init() {
         
             println!("User created: {:?}", &admin);
 
-            let _r = pre_populate_creatures(user.id);
+            let _r = pre_populate_creatures(user.id, user.slug);
         }
     }
 }
@@ -81,9 +81,9 @@ pub fn connection() -> Result<DbConnection, CustomError> {
         .map_err(|e| CustomError::new(500, format!("Failed getting DB connection: {}", e)))
 }
 
-pub fn pre_populate_creatures(user_id: Uuid) -> Result<(), CustomError> {
+pub fn pre_populate_creatures(user_id: Uuid, user_slug: String) -> Result<(), CustomError> {
     
-    let mut c1 = InsertableCreature::default(user_id);
+    let mut c1 = InsertableCreature::default(user_id, user_slug.to_owned());
 
     c1.name = "Esparaga".to_string();
     c1.slug = "espagra".to_string();
@@ -98,7 +98,7 @@ pub fn pre_populate_creatures(user_id: Uuid) -> Result<(), CustomError> {
 
     Power::create(&p1).expect("Unable to create attack");
 
-    let mut c2 = InsertableCreature::default(user_id);
+    let mut c2 = InsertableCreature::default(user_id, user_slug.to_owned());
 
     c2.name = "Ghoul".to_string();
     c2.slug = "ghoul".to_string();
@@ -106,7 +106,7 @@ pub fn pre_populate_creatures(user_id: Uuid) -> Result<(), CustomError> {
 
     Creature::get_or_create(&c2)?;
 
-    let mut c3 = InsertableCreature::default(user_id);
+    let mut c3 = InsertableCreature::default(user_id, user_slug);
 
     c3.name = "Cadaverman".to_string();
     c3.dexterity = 5;

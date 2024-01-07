@@ -172,6 +172,7 @@ active-users = Active users on { -app-name }
 email = Email
 role = Role
 link = Link
+delete-button = Delete
 
 ## Email Verification
 hello = Hello and welcome to Earthdawn Creatures

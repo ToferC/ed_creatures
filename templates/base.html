@@ -344,7 +344,7 @@
                     aria-label="Search"
                     hx-post="/{{ lang }}/search"
                     hx-trigger="keyup changed delay:1s"
-                    hx-target="#search-results"
+                    hx-target="#main-body"
                     hx-swap="outerHTML"
                 >
             </form>
@@ -357,7 +357,7 @@
 
     <div class="row">
 
-        <div id="search-results">
+        <div id="main-body">
             {% block content %}
             {% endblock content %}
         </div>

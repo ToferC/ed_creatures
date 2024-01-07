@@ -12,6 +12,8 @@ use diesel::{RunQueryDsl, QueryDsl};
 use diesel_derive_enum::DbEnum;
 
 use inflector::Inflector;
+use std::str::FromStr;
+use strum::EnumString;
 
 use crate::models::{Attack, Power };
 
@@ -120,6 +122,18 @@ impl Creature {
         Ok(res)
     }
 
+    pub fn search_by_location(location: Locales) -> Result<Vec<Self>, CustomError> {
+        let mut conn = connection()?;
+
+        let location = vec![Some(location)];
+
+        let res = creatures::table
+            .filter(creatures::found_in.overlaps_with(location))
+            .load::<Creature>(&mut conn)?;
+
+        Ok(res)
+    }
+
     pub fn get_all() -> Result<Vec<Self>, CustomError> {
         let mut conn = connection()?;
 
@@ -162,18 +176,28 @@ pub enum Rarity {
     Unique,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, DbEnum, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, DbEnum, Serialize, Deserialize, QueryId, EnumString)]
 #[ExistingTypePath = "crate::schema::sql_types::Locales"]
 pub enum Locales {
+    #[strum(serialize = "Jungle", serialize = "jungle")]
     Jungle,
+    #[strum(serialize = "Desert", serialize = "desert")]
     Desert,
+    #[strum(serialize = "Forest", serialize = "forest")]
     Forest,
+    #[strum(serialize = "Plains", serialize = "plains")]
     Plains,
+    #[strum(serialize = "Urban", serialize = "urban")]
     Urban,
+    #[strum(serialize = "Mountain", serialize = "mountain")]
     Mountain,
+    #[strum(serialize = "Cavern", serialize = "cavern")]
     Cavern,
+    #[strum(serialize = "Swamp", serialize = "swamp")]
     Swamp,
+    #[strum(serialize = "Kaer", serialize = "kaer")]
     Kaer,
+    #[strum(serialize = "Any", serialize = "any")]
     Any,
 }
 

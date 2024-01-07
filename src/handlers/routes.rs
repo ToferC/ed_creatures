@@ -5,6 +5,7 @@ use crate::handlers::{
     index,
     raw_index,
     search,
+    creature_by_location,
 
     //about,
     toggle_language,
@@ -89,6 +90,7 @@ pub fn configure_services(config: &mut web::ServiceConfig) {
     config.service(index);
     config.service(raw_index);
     config.service(search);
+    config.service(creature_by_location);
 
     //config.service(about);
     config.service(toggle_language);

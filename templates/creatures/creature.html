@@ -19,8 +19,18 @@
 
   <h4>{{ fluent(key="circle", lang=lang )}}: {{ creature.circle_rank }}</h4>
   <h4>{{ fluent(key="rarity", lang=lang )}}: {{ creature.rarity }}</h4>
-  <h4>{{ fluent(key="found-in", lang=lang )}}: {{ creature.found_in }}</h4>
-    <small>Created at: {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }}</small>
+  <h4>{{ fluent(key="found-in", lang=lang )}}: {% for location in creature.found_in %}
+    <button
+      hx-get="/{{ lang }}/location/{{ location }}"
+      hx-trigger="click"
+      hx-target="#main-body"
+      hx-swap="outerHTML"
+      class="btn btn-sm btn-info" 
+      >{{ location }}
+    </button>
+    {% endfor %}
+  </h4>
+    <small>Created at: {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }} by {{ creature.creator_slug }};</small>
     <small>Updated at: {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</small>
 
     <hr>

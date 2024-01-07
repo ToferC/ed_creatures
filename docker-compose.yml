@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=chris
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=earthdawn_creatures
+    ports:
+    - 5432:5432
+
+  earthdawn_creatures:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: always
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8080
+      - DATABASE_URL=postgres://chris:12345@db/earthdawn_creatures?sslmode=disable
+    env_file:
+      - .env
+    depends_on:
+      - db
+    ports:
+      - 8080:8080

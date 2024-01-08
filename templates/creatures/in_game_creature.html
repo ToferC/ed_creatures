@@ -178,7 +178,7 @@
     </div>
     <hr>
       <div class="row">
-        <h3>Damage: |</h3>
+        <h4>Damage: |
         <input
           class="input-lg"
           id="damage"
@@ -187,7 +187,7 @@
           type="number"
           style="text-align:center"
           onchange="updateDamage()"
-          > |
+          > |</h4>
         <button
           id="damage_add_1"
           class="btn btn-primary"
@@ -214,7 +214,7 @@
       <hr>
 
       <div class="row">
-        <h3>Wounds: |</h3>
+        <h4>Wounds: |
         <input
           class="input-lg"
           style="text-align:center"
@@ -224,7 +224,7 @@
           value="0"
           onchange="updateWounds()"
           readonly
-        > |
+        > |</h4>
         <button
           id="wound_add_1"
           class="btn btn-primary"
@@ -237,6 +237,31 @@
         >Subtract 1</button> 
       </div>
     <hr>
+
+    <div class="row">
+      <h4>Action Penalty: |
+      <input
+        class="input-lg"
+        style="text-align:center"
+        id="penalties"
+        type="number"
+        min="0"
+        value="0"
+        onchange="updatePenalties()"
+        readonly
+      > |</h4>
+      <button
+        id="penalty_add_1"
+        class="btn btn-secondary"
+        onclick="addOnePenalty()"
+      >Add 1</button> 
+      <button
+        id="penalty_add_1"
+        class="btn btn-secondary"
+        onclick="subtractOnePenalty()"
+      >Subtract 1</button> 
+    </div>
+  <hr>
     
   </div>
 </div> <!-- End of Creature -->
@@ -276,7 +301,7 @@
         {% if attack.details %}
         <table>
           <tr>
-              <td>{{ attack.details }}</td>
+              <td class="text">{{ attack.details }}</td>
           </tr>
         </table>
         {% endif %}
@@ -343,7 +368,7 @@
           {% if power.details %}
           <table>
             <tr>
-                <td>{{ power.details }}</td>
+                <td class="text">{{ power.details }}</td>
             </tr>
           </table>
           {% endif %}
@@ -371,7 +396,7 @@
     <tr>
       <td>{{ maneuver.name }}</td>
       <td>{{ maneuver.source}}</td>
-      <td>{{ maneuver.details }} </td>
+      <td class="text">{{ maneuver.details }} </td>
     </tr>
       {% endfor %}
     </table>
@@ -398,6 +423,7 @@
     const selectDeathMax = document.getElementById('death_max')
     const damageCounter = document.getElementById('damage')
     const woundCounter = document.getElementById('wounds')
+    const penaltyCounter = document.getElementById('penalties')
 
     const steps = "{{ steps }}".split(", ");
 
@@ -454,8 +480,6 @@
     }
 
     function addOneWound() {
-
-
       val = parseInt(woundCounter.value) + 1;
 
       woundCounter.value = val
@@ -463,7 +487,6 @@
     }
     
     function subtractOneWound() {
-
       val = parseInt(woundCounter.value) - 1;
 
       if (val < 0) {
@@ -473,7 +496,25 @@
         woundCounter.value = val
         updateWounds(-1);
       };
+    }
 
+    function addOnePenalty() {
+      val = parseInt(penaltyCounter.value) + 1;
+
+      penaltyCounter.value = val
+      updateActionPenalty(1);
+    }
+    
+    function subtractOnePenalty() {
+      val = parseInt(penaltyCounter.value) - 1;
+
+      if (val < 0) {
+        val = 0
+        
+      } else {
+        penaltyCounter.value = val
+        updateActionPenalty(-1);
+      };
     }
 
     function updateWounds(val) {
@@ -507,7 +548,30 @@
 
       updateAttacks(val);
       updatePowers(val);
+    }
 
+    function updateActionPenalty(val) {
+
+      dex = parseInt(dexterity.innerHTML) - val;
+      per = parseInt(perception.innerHTML) - val;
+      cha = parseInt(charisma.innerHTML) - val;
+      ini = parseInt(initiative.innerHTML) - val;
+      kno = parseInt(knockdown.innerHTML) - val;
+
+      dexterity.innerHTML = dex;
+      perception.innerHTML = per;
+      charisma.innerHTML = cha;
+      initiative.innerHTML = ini;
+      knockdown.innerHTML = kno;
+
+      getStep("dexterity-step", dex);
+      getStep("perception-step", per);
+      getStep("charisma-step", cha);
+      getStep("initiative-step", ini);
+      getStep("knockdown-step", kno);
+
+      updateAttackActions(val);
+      updatePowerActions(val);
     }
 
     function updateAttacks(val) {
@@ -525,7 +589,20 @@
 
         getStep(`attack-action_dice-${i}`, action_step);
         getStep(`attack-effect_dice-${i}`, effect_step);
+      }
+    }
 
+    function updateAttackActions(val) {
+
+      for (let i=0; i < parseInt(`{{ attacks_len }}`); i++) {
+
+        action = document.getElementById(`attack-action_step-${i}`);
+
+        action_step = parseInt(action.innerHTML) - val;
+
+        action.innerHTML = action_step;
+
+        getStep(`attack-action_dice-${i}`, action_step);
       }
     }
 
@@ -545,6 +622,20 @@
         getStep(`power-action_dice-${i}`, action_step);
         getStep(`power-effect_dice-${i}`, effect_step);
 
+      }
+    }
+
+    function updatePowerActions(val) {
+
+      for (let i=0; i < parseInt(`{{ powers_len }}`); i++) {
+
+        action = document.getElementById(`power-action_step-${i}`);
+
+        action_step = parseInt(action.innerHTML) - val;
+
+        action.innerHTML = action_step;
+
+        getStep(`power-action_dice-${i}`, action_step);
       }
     }
 

@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS creatures (
     found_in locales[] NOT NULL DEFAULT '{cavern}',
     rarity rarities NOT NULL DEFAULT 'common',
     circle_rank INT NOT NULL DEFAULT 1,
+    description TEXT NOT NULL DEFAULT '',
     dexterity INT NOT NULL DEFAULT 5,
     strength INT NOT NULL DEFAULT 5,
     constitution INT NOT NULL DEFAULT 5,

@@ -55,6 +55,8 @@ actions = Actions
 movement = Movement
 attacks = Attacks
 add-attacks-later = You will be able to add attacks and powers from Edit Creature.
+creature-description = Creature Description
+creature-description-helper = Enter any useful information about the creature, its environment, allies, equipment or treasure.
 
 ## Attacks
 action-step = Action Step

@@ -56,6 +56,7 @@ diesel::table! {
         found_in -> Array<Nullable<Locales>>,
         rarity -> Rarities,
         circle_rank -> Int4,
+        description -> Text,
         dexterity -> Int4,
         strength -> Int4,
         constitution -> Int4,

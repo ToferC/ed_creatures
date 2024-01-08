@@ -1,6 +1,6 @@
-# Web Starter Rust
+# Earthdawn Creatures
 
-This repo is a starter app for my Web-dev. I've probably built something similar about six times, so hopefully this forestalls a 7th.
+This repo is an app to help GMs run the Earthdawn 4e RPG. It allows people to create, edit and update any type of earthdawn creature or NPC and then provides some helpful tracking tools for in-game play.
 
 - [x] Actix-Web w/ async
 - [x] Tera for templates
@@ -28,3 +28,13 @@ This repo is a starter app for my Web-dev. I've probably built something similar
 * Change APP_NAME const in lib.rs to your app
 * `diesel migration run`
 * `cargo run`
+
+# Dan's notes for docker deployment
+
+docker compose down; sleep 2; docker compose up -d db; sleep 10; diesel migration run
+docker compose exec -it db psql -U christopherallison -W people_data_api
+docker compose logs -f
+
+time docker compose build people-data-api
+docker images | grep epi
+docker compose up

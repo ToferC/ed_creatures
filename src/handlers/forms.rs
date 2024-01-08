@@ -22,6 +22,7 @@ pub struct CreatureForm {
     pub kaer: Option<String>,
     pub any: Option<String>,
     pub circle_rank: i32,
+    pub description: String,
     pub dexterity: i32,
     pub strength: i32,
     pub constitution: i32,

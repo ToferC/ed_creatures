@@ -21,7 +21,7 @@ COPY i18n i18n
 RUN cargo build --release
 
 # Final Stage
-FROM debian:bookworm-20210902-slim
+FROM debian:bookworm-slim
 
 # install dependencies
 RUN apt-get update && apt-get install -y \

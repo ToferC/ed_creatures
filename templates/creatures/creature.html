@@ -32,8 +32,12 @@
   </h4>
     <small>Created at: {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }} by {{ creature.creator_slug }};</small>
     <small>Updated at: {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</small>
-
     <hr>
+  
+    {% if creature.description != "" %}
+          <p>{{ creature.description }}</p>
+    <hr>
+    {% endif %}
 
   <h3>Attributes</h3>
   <div>

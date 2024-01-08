@@ -335,7 +335,7 @@
             {% endif %}
           </tr>
           <tr>
-            <td id="power_name-{{ loop.index0 }}">
+            <td id="power_name-{{ loop.index0 }}" style="text-align:center">
               {{ power.name }}
             </td>
             <td id="power_action_type-{{ loop.index0 }}" style="text-align:center">
@@ -359,7 +359,7 @@
               {{ steps | nth(n=power.effect_step - 1) }}
             </td>
             {% if power.resisted_by != 'NotApplicable' %}
-            <td id="power_resisted_by-{{ loop.index0 }}">
+            <td id="power_resisted_by-{{ loop.index0 }}" style="text-align:center">
               {{ power.resisted_by }}
             </td>
             {% endif %}
@@ -394,9 +394,9 @@
     </tr>
     {% for maneuver in maneuvers %}
     <tr>
-      <td>{{ maneuver.name }}</td>
-      <td>{{ maneuver.source}}</td>
-      <td class="text">{{ maneuver.details }} </td>
+      <td style="text-align:center">{{ maneuver.name }}</td>
+      <td style="text-align:center">{{ maneuver.source}}</td>
+      <td  class="text">{{ maneuver.details }} </td>
     </tr>
       {% endfor %}
     </table>

@@ -338,8 +338,12 @@
             
             <form 
                 class="form-inline my-2 my-lg-0"
-                action="/{{ lang }}/post_creature"
-                method="POST"
+                name="search_form"
+                type="search"
+                hx-post="/{{ lang }}/search"
+                hx-trigger="submit"
+                hx-target="#main-body"
+                hx-swap="outerHTML"
             >
                 <input
                     name="search"

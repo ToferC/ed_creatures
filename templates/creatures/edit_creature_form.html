@@ -266,7 +266,7 @@
         hx-target="this"
         hx-swap="outerHTML"
       >
-        <li>{{ attack.name }}: {{ attack.action_step}} ({{ attack.effect_step }}){% if attack.details %}: {{ attack.details }}{% endif %}   
+        <li><strong>{{ attack.name }}</strong>: {{ attack.action_step}} ({{ attack.effect_step }}){% if attack.details %}: {{ attack.details }}{% endif %}   
         <button
           hx-get="/{{ lang }}/edit_attack/{{ attack.id }}"
           hx-target="#attack-{{ attack.id }}"
@@ -311,7 +311,7 @@ hx-swap="outerHTML"
     hx-swap="outerHTML"
   >
     <li>
-        {{ power.name }} ({{ power.action_type }} vs. {{ power.target }}): {{ power.action_step}} ({{ power.effect_step }}{% if power.resisted_by != 'NotApplicable' %} | {{ power.resisted_by }}{% endif %}){% if power.details %}: {{ power.details }}{% endif %}   
+        <strong>{{ power.name }}</strong> ({{ power.action_type }} vs. {{ power.target }}): {{ power.action_step}} ({{ power.effect_step }}{% if power.resisted_by != 'NotApplicable' %}/<i>{{ power.resisted_by }}</i>{% endif %}){% if power.details %}: {{ power.details }}{% endif %}   
         <button
         hx-get="/{{ lang }}/edit_power/{{ power.id }}"
         hx-target="#power-{{ power.id }}"
@@ -355,7 +355,7 @@ hx-swap="outerHTML"
         hx-target="this"
         hx-swap="outerHTML"
       >
-      <li>{{ maneuver.name }} [{{ maneuver.source}}]: {{ maneuver.details }} 
+      <li><strong>{{ maneuver.name }}</strong> [{{ maneuver.source}}]: {{ maneuver.details }} 
             <button
             hx-get="/{{ lang }}/edit_maneuver/{{ maneuver.id }}"
             hx-target="#maneuver-{{ maneuver.id }}"

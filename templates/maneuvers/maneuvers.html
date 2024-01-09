@@ -14,7 +14,7 @@
           hx-target="this"
           hx-swap="outerHTML"
         >
-          <li>{{ maneuver.name }} [{{ maneuver.source}}]: {{ maneuver.details }} 
+          <li><strong>{{ maneuver.name }}</strong> [{{ maneuver.source}}]: {{ maneuver.details }} 
             <button
             hx-get="/{{ lang }}/edit_maneuver/{{ maneuver.id }}"
             hx-target="#maneuver-{{ maneuver.id }}"

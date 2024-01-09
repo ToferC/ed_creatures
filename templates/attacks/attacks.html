@@ -15,7 +15,7 @@
           hx-swap="outerHTML"
         >
         <li>
-          {{ attack.name }}: {{ attack.action_step}} ({{ attack.effect_step }}){% if attack.details %}: {{ attack.details }}{% endif %}   
+          <strong>{{ attack.name }}</strong>: {{ attack.action_step}} ({{ attack.effect_step }}){% if attack.details %}: {{ attack.details }}{% endif %}   
           <button
             hx-get="/{{ lang }}/edit_attack/{{ attack.id }}"
             hx-target="#attack-{{ attack.id }}"

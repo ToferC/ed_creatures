@@ -94,7 +94,7 @@
         hx-swap="outerHTML"
       >
       <li>
-        {{ attack.name }}: {{ attack.action_step}}: {{ steps | nth(n=attack.action_step - 1) }} ({{ attack.effect_step }}: {{ steps | nth(n=attack.effect_step - 1) }}){% if attack.details %}: {{ attack.details }}{% endif %}
+        <strong>{{ attack.name }}</strong>: {{ attack.action_step}}: {{ steps | nth(n=attack.action_step - 1) }} ({{ attack.effect_step }}: {{ steps | nth(n=attack.effect_step - 1) }}){% if attack.details %}: {{ attack.details }}{% endif %}
       
        {% if session_user == creature.creator_slug or role == "Admin" %}
           <button
@@ -143,7 +143,7 @@ hx-swap="outerHTML"
     hx-swap="outerHTML"
   >
     <li>
-      {{ power.name }} ({{ power.action_type }} {% if power.target != 'NotApplicable' %} vs. {{ power.target }}{% endif %}): {{ power.action_step}}: {{ steps | nth(n=power.action_step - 1) }} ({{ power.effect_step }}: {{ steps | nth(n=power.effect_step - 1) }}{% if power.resisted_by != 'NotApplicable' %} | {{ power.resisted_by }}{% endif %}){% if power.details %}: {{ power.details }}{% endif %}   
+      <strong>{{ power.name }}</strong> ({{ power.action_type }} {% if power.target != 'NotApplicable' %} vs. {{ power.target }}{% endif %}): {{ power.action_step}}: {{ steps | nth(n=power.action_step - 1) }} ({{ power.effect_step }}: {{ steps | nth(n=power.effect_step - 1) }}{% if power.resisted_by != 'NotApplicable' %}/<i>{{ power.resisted_by }}</i>{% endif %}){% if power.details %}: {{ power.details }}{% endif %}   
         {% if session_user == creature.creator_slug or role == "Admin" %}
         <button
         hx-get="/{{ lang }}/edit_power/{{ power.id }}"
@@ -190,7 +190,7 @@ hx-swap="outerHTML"
         hx-target="this"
         hx-swap="outerHTML"
       >
-      <li>{{ maneuver.name }} [{{ maneuver.source}}]: {{ maneuver.details }} 
+      <li><strong>{{ maneuver.name }}</strong> [{{ maneuver.source}}]: {{ maneuver.details }} 
         {% if session_user == creature.creator_slug or role == "Admin" %}    
         <button
             hx-get="/{{ lang }}/edit_maneuver/{{ maneuver.id }}"

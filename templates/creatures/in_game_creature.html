@@ -38,7 +38,7 @@
       <div class="col">
         <table style="Table-Layout:fixed">
             <tr>
-                <td>{{ fluent(key="dexterity", lang=lang )}}</td>
+                <td>{{ fluent(key="dex", lang=lang )}}</td>
                 <td 
                   style="text-align:center"
                   class="step"
@@ -47,7 +47,7 @@
                 <td style="text-align:center" id="dexterity-step">{{ steps | nth(n=creature.dexterity - 1) }}</td>
             </tr>
             <tr>
-                <td>{{ fluent(key="strength", lang=lang )}}</td>
+                <td>{{ fluent(key="str", lang=lang )}}</td>
                 <td 
                   style="text-align:center"
                   class="step"
@@ -56,7 +56,7 @@
                 <td style="text-align:center" id="strength-step">{{ steps | nth(n=creature.strength - 1) }}</td>
             </tr>
             <tr>
-                <td>{{ fluent(key="constitution", lang=lang )}}</td>
+                <td>{{ fluent(key="con", lang=lang )}}</td>
                 <td 
                   style="text-align:center"
                   class="step"
@@ -65,7 +65,7 @@
                 <td style="text-align:center" id="constitution-step">{{ steps | nth(n=creature.strength - 1) }}</td>
             </tr>
             <tr>
-                <td>{{ fluent(key="perception", lang=lang )}}</td>
+                <td>{{ fluent(key="per", lang=lang )}}</td>
                 <td 
                   style="text-align:center"
                   class="step"
@@ -74,7 +74,7 @@
                 <td style="text-align:center" id="perception-step">{{ steps | nth(n=creature.perception - 1) }}</td>
             </tr>
             <tr>
-                <td>{{ fluent(key="willpower", lang=lang )}}</td>
+                <td>{{ fluent(key="wil", lang=lang )}}</td>
                 <td 
                   style="text-align:center"
                   class="step"
@@ -83,7 +83,7 @@
                 <td style="text-align:center" id="willpower-step">{{ steps | nth(n=creature.willpower - 1) }}</td>
             </tr>
             <tr>
-                <td>{{ fluent(key="charisma", lang=lang )}}</td>
+                <td>{{ fluent(key="cha", lang=lang )}}</td>
                 <td 
                   style="text-align:center"
                   class="step"
@@ -121,23 +121,23 @@
             <td style="text-align:center" id="initiative-step">{{ steps | nth(n=creature.initiative - 1) }}</td>
           </tr>
           <tr>
-            <td>{{ fluent(key="physical-defense", lang=lang )}}</td>
+            <td>PD</td>
             <td style="text-align:center">{{ creature.pd }}</td>
           </tr>
           <tr>
-            <td>{{ fluent(key="mystic-defense", lang=lang )}}</td>
+            <td>MD</td>
             <td style="text-align:center">{{ creature.md }}</td>
           </tr>
           <tr>
-            <td>{{ fluent(key="social-defense", lang=lang )}}</td>
+            <td>SD</td>
             <td style="text-align:center">{{ creature.sd }}</td>
           </tr>
           <tr>
-            <td>{{ fluent(key="physical-armor", lang=lang )}}</td>
+            <td>PA</td>
             <td style="text-align:center">{{ creature.pa }}</td>
           </tr>
           <tr>
-            <td>{{ fluent(key="mystic-armor", lang=lang )}}</td>
+            <td>MA</td>
             <td style="text-align:center">{{ creature.ma }}</td>
           </tr>
 
@@ -146,33 +146,32 @@
       <div class="col">
         <table style="Table-Layout:fixed">
           <tr>
-            <td>{{ fluent(key="unconscious-rating", lang=lang )}}</td>
+            <td>{{ fluent(key="uncon", lang=lang )}}</td>
             <td style="text-align:center" id="unconsciousness_rating">{{ creature.unconsciousness_rating }}</td>
             <td style="text-align:center" id="unconsciousness_max">{{ creature.unconsciousness_rating }}</td>
           </tr>  
           <tr>
-            <td>{{ fluent(key="death-rating", lang=lang )}}</td>
+            <td>{{ fluent(key="death", lang=lang )}}</td>
             <td style="text-align:center" id="death_rating">{{ creature.death_rating }}</td>
             <td style="text-align:center" id="death_max">{{ creature.death_rating }}</td>
           </tr>  
           <tr>
-            <td>{{ fluent(key="wound-rating", lang=lang )}}</td>
+            <td>{{ fluent(key="wound", lang=lang )}}</td>
             <td style="text-align:center">{{ creature.wound }}</td>
           </tr>  
           <tr>
-            <td>{{ fluent(key="knockdown", lang=lang )}}</td>
+            <td>{{ fluent(key="kd", lang=lang )}}</td>
             <td style="text-align:center" id="knockdown">{{ creature.knockdown }}</td>
             <td style="text-align:center" id="knockdown-step">{{ steps | nth(n=creature.knockdown - 1) }}</td>
           </tr>  
           <tr>
-            <td>{{ fluent(key="recovery-rolls", lang=lang )}}</td>
+            <td>{{ fluent(key="recovery", lang=lang )}}</td>
             <td style="text-align:center">{{ creature.recovery_rolls }}</td>
           </tr>  
           <tr>
             <td>{{ fluent(key="karma", lang=lang )}}</td>
             <td style="text-align:center">{{ creature.karma }}</td>
           </tr>  
-
         </table>
       </div>
     </div>
@@ -187,27 +186,29 @@
           type="number"
           style="text-align:center"
           onchange="updateDamage()"
-          > |</h4>
+          > |
         <button
           id="damage_add_1"
-          class="btn btn-primary"
+          class="btn btn-danger"
           onclick="addOneDamage()"
-          >Add 1</button> 
+          >+ 1</button> 
         <button
           id="damage_add_5"
-          class="btn btn-primary"
+          class="btn btn-danger"
           onclick="addFiveDamage()"
-        >Add 5</button> 
+        >+ 5</button>
+        |
         <button
           id="damage_subtract_1"
           class="btn btn-primary" 
           onclick="subtractOneDamage()"
-        >Subtract 1</button> 
+        >- 1</button> 
         <button
           id="damage_subtract_5" 
           class="btn btn-primary"
           onclick="subtractFiveDamage()"
-        >Subtract 5</button> 
+        >- 5</button>
+      </h4>
           
       </div>
 
@@ -227,14 +228,14 @@
         > |</h4>
         <button
           id="wound_add_1"
-          class="btn btn-primary"
+          class="btn btn-danger"
           onclick="addOneWound()"
-        >Add 1</button> 
+        >+ 1</button> 
         <button
           id="wound_add_1"
           class="btn btn-primary"
           onclick="subtractOneWound()"
-        >Subtract 1</button> 
+        >- 1</button> 
       </div>
     <hr>
 
@@ -252,14 +253,14 @@
       > |</h4>
       <button
         id="penalty_add_1"
-        class="btn btn-secondary"
+        class="btn btn-danger"
         onclick="addOnePenalty()"
-      >Add 1</button> 
+      >- 1</button> 
       <button
         id="penalty_add_1"
-        class="btn btn-secondary"
+        class="btn btn-primary"
         onclick="subtractOnePenalty()"
-      >Subtract 1</button> 
+      >- 1</button> 
     </div>
   <hr>
     
@@ -274,11 +275,11 @@
       {% for attack in attacks %}
       <table style="Table-Layout:fixed">
         <tr>
-          <th style="text-align:center">Name</th>
-          <th style="text-align:center">Action</th>
-          <th style="text-align:center">Action Step</th>
-          <th style="text-align:center">Effect</th>
-          <th style="text-align:center">Effect Step</th>
+          <th style="text-align:center">{{ fluent(key="name", lang=lang )}}</th>
+          <th style="text-align:center">{{ fluent(key="action", lang=lang )}}</th>
+          <th style="text-align:center">{{ fluent(key="action-step", lang=lang )}}</th>
+          <th style="text-align:center">{{ fluent(key="effect", lang=lang )}}</th>
+          <th style="text-align:center">{{ fluent(key="effect-step", lang=lang )}}</th>
         </tr>
         <tr>
           <td id="attack_name-{{ loop.index0 }}" style="text-align:center">
@@ -315,23 +316,23 @@
 <hr>
 
     <div class="row">
-      <h3>Powers and Abilities</h3><br>
+      <h3>{{ fluent(key="powers-abilities-spells", lang=lang )}}</h3><br>
     </div> 
       {% if powers %}
         {% for power in powers %}
         <table style="Table-Layout:fixed">
           <tr>
-            <th style="text-align:center">Name</th>
-            <th style="text-align:center">Action Type</th>
+            <th style="text-align:center">{{ fluent(key="name", lang=lang )}}</th>
+            <th style="text-align:center">{{ fluent(key="action-type", lang=lang )}}</th>
             {% if power.target != 'NotApplicable' %}
-            <th style="text-align:center">Target</th>
+            <th style="text-align:center">{{ fluent(key="target", lang=lang )}}</th>
             {% endif %}
-            <th style="text-align:center">Action Step</th>
-            <th style="text-align:center">Action Dice</th>
-            <th style="text-align:center">Effect Step</th>
-            <th style="text-align:center">Effect Dice</th>
+            <th style="text-align:center">{{ fluent(key="action-step", lang=lang )}}</th>
+            <th style="text-align:center">{{ fluent(key="action-dice", lang=lang )}}</th>
+            <th style="text-align:center">{{ fluent(key="effect-step", lang=lang )}}</th>
+            <th style="text-align:center">{{ fluent(key="effect-dice", lang=lang )}}</th>
             {% if power.resisted_by != 'NotApplicable' %}
-            <th style="text-align:center">Resisted By</th>
+            <th style="text-align:center">{{ fluent(key="resisted-by", lang=lang )}}</th>
             {% endif %}
           </tr>
           <tr>
@@ -343,7 +344,15 @@
             </td>
             {% if power.target != 'NotApplicable' %}
             <td id="power_target-{{ loop.index0 }}" style="text-align:center">
-              {{ power.target }}
+              {% if power.target == "PhysicalDefense" %}
+              PD
+              {% elif power.target == "MysticDefense" %}
+              MD
+              {% elif power.target == "SocialDefense" %}
+              SD
+              {% elif power.target == "Other" %}
+              Other
+              {% endif %}
             </td>
             {% endif %}
             <td id="power-action_step-{{ loop.index0 }}" style="text-align:center">
@@ -383,14 +392,14 @@
 <hr>
 
 <div class="row">
-  <h3>Special Maneuvers</h3><br>
+  <h3>{{ fluent(key="special-maneuvers", lang=lang )}}</h3><br>
 </div> 
   {% if maneuvers %}
   <table>
     <tr>
-      <th>Name</th>
-      <th>Source</th>
-      <th>Description</th>
+      <th>{{ fluent(key="name", lang=lang )}}</th>
+      <th>{{ fluent(key="source", lang=lang )}}</th>
+      <th>{{ fluent(key="description", lang=lang )}}</th>
     </tr>
     {% for maneuver in maneuvers %}
     <tr>

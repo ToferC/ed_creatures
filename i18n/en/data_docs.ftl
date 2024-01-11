@@ -3,9 +3,9 @@ welcome-to = Welcome to Earthdawn Creatures
 
 ## General Section
 
-name = Earthdawn Creatures
--app-name = Earthdawn Creatures
-app-description = { -app-name } is a learning project and experiment in constructing organizational documents as native data structures.
+app-name = Earthdawn Creatures
+-app-name-extra = Earthdawn Creatures
+app-description = { -app-name-extra } is a learning project and experiment in constructing organizational documents as native data structures.
 app-mvp = Rust-Actix Web Starter MVP
 -user-support-email = usersupport@intersectional-data.ca
 
@@ -22,7 +22,7 @@ create-creature = Create a Creature
 
 ## Footer
 footer-1 = Please note that this work is a fan project based on Earthdawn which is copyrighted by FASA games.
-available-licence = The { -app-name } project is available on GitHub under an MIT licence here:
+available-licence = The { -app-name-extra } project is available on GitHub under an MIT licence here:
 developed-by = Developed by ToferC 2023
 
 ## Index
@@ -33,12 +33,19 @@ view = View
 search-results-for = Search Results for
 
 ## Creatures
+attributes = Attributes
 dexterity = Dexterity
 strength = Strength
 constitution = Constitution
 perception = Perception
 willpower = Willpower
 charisma = Charisma
+dex = DEX
+str = STR
+con = CON
+per = PER
+wil = WIL
+cha = CHA
 initiative = Initiative
 physical-defense = Physical Defense
 mystic-defense = Mysic Defense
@@ -46,10 +53,15 @@ social-defense = Social Defense
 physical-armor = Physical Armor
 mystic-armor = Mystic Armor
 unconscious-rating = Unconscious Rating
+uncon = Uncon
+death = Death
 death-rating = Death Rating
 wound-rating = Wound Rating
+wound = Wound
 knockdown = Knockdown
+kd = KD
 recovery-rolls = Recovery Rolls
+recovery = Recovery
 karma = Karma
 actions = Actions
 movement = Movement
@@ -57,16 +69,34 @@ attacks = Attacks
 add-attacks-later = You will be able to add attacks and powers from Edit Creature.
 creature-description = Creature Description
 creature-description-helper = Enter any useful information about the creature, its environment, allies, equipment or treasure.
+powers-abilities-spells = Powers, Abilities and Spells
+in-play-view = In-Play View
+created-at = Created at:
+updated-at = Updated at:
+by = by
 
 ## Attacks
+name = Name
 action-step = Action Step
 effect-step = Effect Step
 details = Details
+action = Action
+effect = Effect
+add-an-attack = Add an Attack
 
 ## Powers
 action-type = Action Type
 target = Action Target
 resisted-by = Resisted By
+action-dice = Action Dice
+effect-dice = Effect Dice
+add-power-ability-spell = Add a Power, Ability or Spell
+
+## Maneuvers
+special-maneuvers = Special Maneuvers
+source = Source
+description = Description
+add-maneuver = Add a Maneuver
 
 ## Login Page
 email-address = Email address
@@ -79,7 +109,7 @@ forgot-password = I forgot my password
 login-need-explanation = Here is how you log in
 
 ## Register Page
-register-to-app = Register to { -app-name }
+register-to-app = Register to { -app-name-extra }
 why-register = You need to register an account to create and manage documents.
 register-email-helper = Enter the email address you want to use to log in.
 user-name = User name
@@ -170,7 +200,7 @@ communities = Communities
 
 ## User Index
 user = User
-active-users = Active users on { -app-name }
+active-users = Active users on { -app-name-extra }
 email = Email
 role = Role
 link = Link
@@ -189,7 +219,7 @@ thank-you = Thank you,
 user-support-signature = usersupport@intersectional-data.ca
 
 ## Password reset request
-password-reset-received = We received a request to reset your password on { -app-name }. If you think this is an error, please contact { -user-support-email }.
+password-reset-received = We received a request to reset your password on { -app-name-extra }. If you think this is an error, please contact { -user-support-email }.
 if-you-instructions = If this was you, You can reset your password through the following link.
 from-login-screen = from the log in screen.
 

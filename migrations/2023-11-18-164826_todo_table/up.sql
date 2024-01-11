@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS attacks (
 );
 
 CREATE TYPE action_types as ENUM (
+    'free',
     'simple',
     'standard',
     'move',

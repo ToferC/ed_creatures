@@ -34,6 +34,7 @@ pub struct Power {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, DbEnum, Serialize, Deserialize)]
 #[ExistingTypePath = "crate::schema::sql_types::ActionTypes"]
 pub enum ActionType {
+    Free,
     Simple,
     Standard,
     Move,

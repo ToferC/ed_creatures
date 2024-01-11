@@ -42,6 +42,18 @@ diesel::table! {
 }
 
 diesel::table! {
+    categories (id) {
+        id -> Uuid,
+        #[max_length = 256]
+        en_string -> Varchar,
+        #[max_length = 256]
+        fr_string -> Varchar,
+        en_description -> Nullable<Text>,
+        fr_description -> Nullable<Text>,
+    }
+}
+
+diesel::table! {
     use diesel::sql_types::*;
     use super::sql_types::Locales;
     use super::sql_types::Rarities;
@@ -88,6 +100,21 @@ diesel::table! {
 }
 
 diesel::table! {
+    documents (id) {
+        id -> Uuid,
+        template_id -> Uuid,
+        title_text_id -> Uuid,
+        purpose_text_id -> Uuid,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+        #[max_length = 64]
+        security_classification -> Varchar,
+        published -> Bool,
+        created_by_id -> Uuid,
+    }
+}
+
+diesel::table! {
     email_verification_code (id) {
         id -> Uuid,
         #[max_length = 128]
@@ -95,6 +122,18 @@ diesel::table! {
         #[max_length = 5]
         activation_code -> Varchar,
         expires_on -> Timestamp,
+    }
+}
+
+diesel::table! {
+    keywords (id) {
+        id -> Uuid,
+        #[max_length = 256]
+        en_string -> Varchar,
+        #[max_length = 256]
+        fr_string -> Varchar,
+        en_description -> Nullable<Text>,
+        fr_description -> Nullable<Text>,
     }
 }
 
@@ -108,6 +147,25 @@ diesel::table! {
         #[max_length = 512]
         source -> Varchar,
         details -> Text,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+    }
+}
+
+diesel::table! {
+    metadata (id) {
+        id -> Uuid,
+        #[max_length = 256]
+        searchable_title_en -> Varchar,
+        #[max_length = 256]
+        searchable_title_fr -> Varchar,
+        document_id -> Uuid,
+        author_id -> Uuid,
+        subject_id -> Nullable<Uuid>,
+        category_id -> Nullable<Uuid>,
+        summary_text_en -> Text,
+        summary_text_fr -> Text,
+        keyword_ids -> Nullable<Array<Nullable<Uuid>>>,
         created_at -> Timestamp,
         updated_at -> Timestamp,
     }
@@ -148,6 +206,68 @@ diesel::table! {
 }
 
 diesel::table! {
+    sections (id) {
+        id -> Uuid,
+        document_id -> Uuid,
+        template_section_id -> Uuid,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+        created_by_id -> Uuid,
+    }
+}
+
+diesel::table! {
+    subjects (id) {
+        id -> Uuid,
+        #[max_length = 256]
+        en_string -> Varchar,
+        #[max_length = 256]
+        fr_string -> Varchar,
+        en_description -> Nullable<Text>,
+        fr_description -> Nullable<Text>,
+    }
+}
+
+diesel::table! {
+    template_sections (id) {
+        id -> Uuid,
+        template_id -> Uuid,
+        header_text_id -> Uuid,
+        order_number -> Int4,
+        help_text_id -> Uuid,
+        character_limit -> Nullable<Int4>,
+    }
+}
+
+diesel::table! {
+    templates (id) {
+        id -> Uuid,
+        name_text_id -> Uuid,
+        purpose_text_id -> Uuid,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+        #[max_length = 64]
+        slug -> Varchar,
+        active -> Bool,
+    }
+}
+
+diesel::table! {
+    texts (id, lang) {
+        id -> Uuid,
+        section_id -> Nullable<Uuid>,
+        #[max_length = 2]
+        lang -> Varchar,
+        content -> Array<Nullable<Text>>,
+        keywords -> Nullable<Jsonb>,
+        translated -> Array<Nullable<Bool>>,
+        machine_translation -> Array<Nullable<Bool>>,
+        created_at -> Array<Nullable<Timestamp>>,
+        created_by_id -> Array<Nullable<Uuid>>,
+    }
+}
+
+diesel::table! {
     use diesel::sql_types::*;
     use super::sql_types::UserRoles;
 
@@ -171,17 +291,32 @@ diesel::table! {
 diesel::joinable!(attacks -> creatures (creature_id));
 diesel::joinable!(attacks -> users (creator_id));
 diesel::joinable!(creatures -> users (creator_id));
+diesel::joinable!(documents -> templates (template_id));
 diesel::joinable!(maneuvers -> creatures (creature_id));
 diesel::joinable!(maneuvers -> users (creator_id));
+diesel::joinable!(metadata -> documents (document_id));
 diesel::joinable!(powers -> creatures (creature_id));
 diesel::joinable!(powers -> users (creator_id));
+diesel::joinable!(sections -> documents (document_id));
+diesel::joinable!(sections -> template_sections (template_section_id));
+diesel::joinable!(template_sections -> templates (template_id));
+diesel::joinable!(texts -> sections (section_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     attacks,
+    categories,
     creatures,
+    documents,
     email_verification_code,
+    keywords,
     maneuvers,
+    metadata,
     password_reset_token,
     powers,
+    sections,
+    subjects,
+    template_sections,
+    templates,
+    texts,
     users,
 );

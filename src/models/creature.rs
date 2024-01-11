@@ -12,10 +12,7 @@ use diesel::{RunQueryDsl, QueryDsl};
 use diesel_derive_enum::DbEnum;
 
 use inflector::Inflector;
-use std::str::FromStr;
 use strum::EnumString;
-
-use crate::models::{Attack, Power };
 
 #[derive(Serialize, Deserialize, Queryable, AsChangeset, Insertable, Debug, Identifiable, Clone)]
 #[diesel(table_name = creatures)]

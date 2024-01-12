@@ -191,23 +191,23 @@
           id="damage_add_1"
           class="btn btn-danger"
           onclick="addOneDamage()"
-          >+ 1</button> 
+          >+1</button> 
         <button
           id="damage_add_5"
           class="btn btn-danger"
           onclick="addFiveDamage()"
-        >+ 5</button>
+        >+5</button>
         |
         <button
           id="damage_subtract_1"
           class="btn btn-primary" 
           onclick="subtractOneDamage()"
-        >- 1</button> 
+        >-1</button> 
         <button
           id="damage_subtract_5" 
           class="btn btn-primary"
           onclick="subtractFiveDamage()"
-        >- 5</button>
+        >-5</button>
       </h4>
           
       </div>
@@ -230,12 +230,12 @@
           id="wound_add_1"
           class="btn btn-danger"
           onclick="addOneWound()"
-        >+ 1</button> 
+        >+1</button> 
         <button
           id="wound_add_1"
           class="btn btn-primary"
           onclick="subtractOneWound()"
-        >- 1</button> 
+        >-1</button> 
       </div>
     <hr>
 
@@ -255,12 +255,12 @@
         id="penalty_add_1"
         class="btn btn-danger"
         onclick="addOnePenalty()"
-      >- 1</button> 
+      >+1</button> 
       <button
         id="penalty_add_1"
         class="btn btn-primary"
         onclick="subtractOnePenalty()"
-      >- 1</button> 
+      >-1</button> 
     </div>
   <hr>
     
@@ -329,8 +329,10 @@
             {% endif %}
             <th style="text-align:center">{{ fluent(key="action-step", lang=lang )}}</th>
             <th style="text-align:center">{{ fluent(key="action-dice", lang=lang )}}</th>
+            {% if power.effect_step %}
             <th style="text-align:center">{{ fluent(key="effect-step", lang=lang )}}</th>
             <th style="text-align:center">{{ fluent(key="effect-dice", lang=lang )}}</th>
+            {% endif %}
             {% if power.resisted_by != 'NotApplicable' %}
             <th style="text-align:center">{{ fluent(key="resisted-by", lang=lang )}}</th>
             {% endif %}
@@ -361,12 +363,14 @@
             <td id="power-action_dice-{{ loop.index0 }}" style="text-align:center">
               {{ steps | nth(n=power.action_step - 1) }}
             </td>
+            {% if power.effect_step %}
             <td id="power-effect_step-{{ loop.index0 }}" style="text-align:center">
               {{ power.effect_step }}
             </td>
             <td id="power-effect_dice-{{ loop.index0 }}" style="text-align:center">
               {{ steps | nth(n=power.effect_step - 1) }}
             </td>
+            {% endif %}
             {% if power.resisted_by != 'NotApplicable' %}
             <td id="power_resisted_by-{{ loop.index0 }}" style="text-align:center">
               {{ power.resisted_by }}

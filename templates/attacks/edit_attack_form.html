@@ -3,24 +3,25 @@
     id="attack-edit-{{ attack.id }}"
 >   
     <form hx-post="/{{ lang }}/edit_attack_post/{{ attack.id }}" hx-target="attacks">
+        <hr>
         <div>
-            <label>Attack Name</label><br>
-            <input class="form-control form-control-lg" type="text" name="name" placeholder="Add name here..." size=60 value="{{ attack.name }}" required>
+            <label>{{ fluent(key="attack-name", lang=lang )}}*</label><br>
+            <input class="form-control form-control-lg" type="text" name="name" placeholder="{{ fluent(key="enter-name-here", lang=lang )}}" size=60 value="{{ attack.name }}" required>
         </div>
 
         <div>
-            <label>{{ fluent(key="action-step", lang=lang )}}</label><br>
-            <input class="form-control form-control-lg" type="number" name="action_step" placeholder="5" size=60 value="{{ attack.action_step }}" required>
+            <label>{{ fluent(key="action-step", lang=lang )}}*</label><br>
+            <input class="form-control form-control-lg" type="number" name="action_step" placeholder="{{ fluent(key="enter-action-step", lang=lang )}}" size=60 value="{{ attack.action_step }}" required>
         </div>
 
         <div>
-            <label>{{ fluent(key="effect-step", lang=lang )}}</label><br>
-            <input class="form-control form-control-lg" type="number" name="effect_step" placeholder="5" size=60 value="{{ attack.effect_step }}" required>
+            <label>{{ fluent(key="effect-step", lang=lang )}}*</label><br>
+            <input class="form-control form-control-lg" type="number" name="effect_step" placeholder="{{ fluent(key="enter-effect-step", lang=lang )}}" size=60 value="{{ attack.effect_step }}" required>
         </div>
 
         <div>
             <label>Details</label><br>
-            <input class="form-control form-control-lg" type="text" name="details" placeholder="Add optional details here..." size=60 value="{{ attack.details }}">
+            <input class="form-control form-control-lg" type="text" name="details" placeholder="{{ fluent(key="enter-details-here", lang=lang )}}" size=60 value="{{ attack.details }}">
         </div>
         <button
             hx-post="/{{ lang }}/edit_attack_post/{{ attack.id }}"
@@ -29,5 +30,6 @@
             type="submit"
         >Save
         </button>
+        <hr>
     </form>
 </div>

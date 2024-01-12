@@ -61,7 +61,8 @@ pub struct PowerForm {
     pub target: ActionTarget,
     pub resisted_by: ResistedBy,
     pub action_step: i32,
-    pub effect_step: i32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub effect_step: Option<i32>,
     pub details: Option<String>,
 }
 

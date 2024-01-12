@@ -1,34 +1,35 @@
 <form hx-post="/{{ lang }}/post_power/{{ creature_id }}" hx-target="powers">
-    <h3>Add a Power or Ability</h3><br>
+    <hr>
+    <h3>{{ fluent(key="add-power-ability-spell", lang=lang )}}</h3><br>
     <div>
-        <label>Power Name</label><br>
+        <label>{{ fluent(key="power-name", lang=lang )}}*</label><br>
         <input class="form-control form-control-lg" type="text" name="name" placeholder="Add name here..." size=60 value="" required>
     </div>
 
     <div>
-        <label for="action_type">{{ fluent(key="action-type", lang=lang )}}</label>
+        <label for="action_type">{{ fluent(key="action-type", lang=lang )}}*</label>
         <select name="action_type" id="action_type_select">
-            <option value="Free">Free</option>
-            <option value="Simple">Simple</option>
-            <option selected value="Standard">Standard</option>
-            <option value="Move">Move</option>
-            <option value="Ritual">Ritual</option>
+            <option selected value="Free">{{ fluent(key="free", lang=lang )}}</option>
+            <option value="Simple">{{ fluent(key="simple", lang=lang )}}</option>
+            <option value="Standard">{{ fluent(key="standard", lang=lang )}}</option>
+            <option value="Move">{{ fluent(key="move", lang=lang )}}</option>
+            <option value="Ritual">{{ fluent(key="ritual", lang=lang )}}</option>
         </select>
     </div>
 
     <div>
-        <label for="target">{{ fluent(key="target", lang=lang )}}</label>
+        <label for="target">{{ fluent(key="target", lang=lang )}}*</label>
         <select name="target" id="target_select">
-            <option selected value="MysticDefense">Mystic Defense</option>
+            <option value="MysticDefense">Mystic Defense</option>
             <option value="PhysicalDefense">Physical Defense</option>
             <option value="SocialDefense">Social Defense</option>
             <option value="Other">Other</option>
-            <option value="NotApplicable">Not Applicable</option>
+            <option selected value="NotApplicable">Not Applicable</option>
         </select>
     </div>
 
     <div>
-        <label for="resisted_by">{{ fluent(key="resisted-by", lang=lang )}}</label>
+        <label for="resisted_by">{{ fluent(key="resisted-by", lang=lang )}}*</label>
         <select name="resisted_by" id="resisted_by_select">
             <option value="Mystic">Mystic</option>
             <option value="Physical">Physical</option>
@@ -38,18 +39,18 @@
     </div>
 
     <div>
-        <label>{{ fluent(key="action-step", lang=lang )}}</label><br>
-        <input class="form-control form-control-lg" type="number" name="action_step" placeholder="Add action step here" size=60 value="" required>
+        <label>{{ fluent(key="action-step", lang=lang )}}*</label><br>
+        <input class="form-control form-control-lg" type="number" name="action_step" placeholder="{{ fluent(key="enter-action-step", lang=lang )}}" size=60 value="" required>
     </div>
 
     <div>
         <label>{{ fluent(key="effect-step", lang=lang )}}</label><br>
-        <input class="form-control form-control-lg" type="number" name="effect_step" placeholder="Add effect step here" size=60 value="" required>
+        <input class="form-control form-control-lg" type="number" name="effect_step" placeholder="{{ fluent(key="enter-effect-option", lang=lang )}}" size=60 value="">
     </div>
 
     <div>
         <label>Details</label><br>
-        <input class="form-control form-control-lg" type="text" name="details" placeholder="Add optional details here..." size=60 value="">
+        <input class="form-control form-control-lg" type="text" name="details" placeholder="{{ fluent(key="enter-details-here", lang=lang )}}" size=60 value="">
     </div>
     <br>
     <button

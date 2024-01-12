@@ -1,23 +1,24 @@
 <form hx-post="/{{ lang }}/post_attack/{{ creature_id }}" hx-target="attacks">
-    <h3>Add an Attack</h3><br>
+    <hr>
+    <h3>{{ fluent(key="add-an-attack", lang=lang )}}</h3><br>
     <div>
-        <label>Attack Name</label><br>
-        <input class="form-control form-control-lg" type="text" name="name" placeholder="Add name here..." size=60 value="" required>
+        <label>{{ fluent(key="attack-name", lang=lang )}}*</label><br>
+        <input class="form-control form-control-lg" type="text" name="name" placeholder="{{ fluent(key="enter-name-here", lang=lang )}}" size=60 value="" required>
     </div>
 
     <div>
-        <label>{{ fluent(key="action-step", lang=lang )}}</label><br>
-        <input class="form-control form-control-lg" type="number" name="action_step" placeholder="5" size=60 value="8" required>
+        <label>{{ fluent(key="action-step", lang=lang )}}*</label><br>
+        <input class="form-control form-control-lg" type="number" name="action_step" placeholder="{{ fluent(key="enter-action-step", lang=lang )}}" size=60 value="" required>
     </div>
 
     <div>
-        <label>{{ fluent(key="effect-step", lang=lang )}}</label><br>
-        <input class="form-control form-control-lg" type="number" name="effect_step" placeholder="5" size=60 value="8" required>
+        <label>{{ fluent(key="effect-step", lang=lang )}}*</label><br>
+        <input class="form-control form-control-lg" type="number" name="effect_step" placeholder="{{ fluent(key="enter-effect-step", lang=lang )}}" size=60 value="" required>
     </div>
 
     <div>
         <label>Details</label><br>
-        <input class="form-control form-control-lg" type="text" name="details" placeholder="Add optional details here..." size=60 value="">
+        <input class="form-control form-control-lg" type="text" name="details" placeholder="{{ fluent(key="enter-details-here", lang=lang )}}" size=60 value="">
     </div>
     <button
         hx-post="/{{ lang }}/post_attack/{{ creature_id }}"
@@ -26,4 +27,5 @@
         type="submit"
     >Save
     </button>
+    <hr>
   </form>

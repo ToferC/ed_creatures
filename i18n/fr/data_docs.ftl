@@ -77,6 +77,7 @@ by = by
 
 ## Attacks
 name = Name
+attack-name = Attack Name
 action-step = Action Step
 effect-step = Effect Step
 details = Details
@@ -85,18 +86,33 @@ effect = Effect
 add-an-attack = Add an Attack
 
 ## Powers
+power-name = Power Name
 action-type = Action Type
 target = Action Target
 resisted-by = Resisted By
 action-dice = Action Dice
 effect-dice = Effect Dice
 add-power-ability-spell = Add a Power, Ability or Spell
+free = Free
+simple = Simple
+standard = Standard
+move = Move
+ritual = Ritual
+
 
 ## Maneuvers
 special-maneuvers = Special Maneuvers
 source = Source
 description = Description
 add-maneuver = Add a Maneuver
+
+## New / Edit Creature
+enter-name-here = Enter name here...
+enter-value-here = Enter value here...
+enter-action-step = Enter action step here...
+enter-effect-step = Enter effect step here...
+enter-effect-option = Enter effect step here or 0 for none...
+enter-details-here = Enter optional details here...
 
 ## Login Page
 email-address = Email address

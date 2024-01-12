@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS powers (
     target action_targets NOT NULL DEFAULT 'physical_defense',
     resisted_by resisted_bys NOT NULL DEFAULT 'physical',
     action_step INT NOT NULL DEFAULT 9,
-    effect_step INT NOT NULL DEFAULT 9,
+    effect_step INT DEFAULT 9,
     details TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()

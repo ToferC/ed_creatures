@@ -143,7 +143,7 @@ pub async fn edit_attack(
 
 #[post("/{lang}/edit_attack_post/{attack_id}")]
 pub async fn edit_attack_post(
-    data: web::Data<AppData>,
+    _data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
     form: web::Form<AttackForm>,
     id: Option<Identity>,
@@ -159,7 +159,7 @@ pub async fn edit_attack_post(
 
     let attack = match result {
         Ok(c) => c,
-        Err(r) => {
+        Err(_e) => {
             // Unable to retrieve attack
             // validate form has data or and permissions exist
             return HttpResponse::Found().append_header(("Location", format!("/{}/edit_attack/{}", &lang, &attack_id))).finish()

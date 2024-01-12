@@ -6,9 +6,7 @@ pub mod schema;
 pub mod steps;
 
 use models::UserRole;
-use serde_json::to_value;
-use steps::steps::STEPS;
-use tera::{Tera, Context, Function};
+use tera::{Tera, Context};
 use actix_identity::Identity;
 use actix_session::Session;
 
@@ -20,7 +18,6 @@ use sendgrid::SGClient;
 #[macro_use]
 extern crate diesel;
 
-#[macro_use]
 extern crate diesel_migrations;
 
 pub const APP_NAME: &str = "Earthdawn Creatures";

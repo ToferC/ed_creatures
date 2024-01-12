@@ -1,4 +1,4 @@
-use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest, put};
+use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest};
 use actix_identity::Identity;
 use inflector::Inflector;
 
@@ -24,7 +24,7 @@ pub async fn new_creature_form(
 
     if let Err(e) = user {
         // no user found so redirect to home
-        println!("No user found. Redirecting");
+        println!("No user found: {:?}. Redirecting", &e);
         return HttpResponse::Found()
         .append_header(("Location", format!("/{}/", &lang))).finish()
     };
@@ -89,7 +89,7 @@ pub async fn get_creature(
 
 #[post("/{lang}/post_creature")]
 pub async fn post_creature(
-    data: web::Data<AppData>,
+    _data: web::Data<AppData>,
     path: web::Path<String>,
     form: web::Form<CreatureForm>,
     id: Option<Identity>,
@@ -103,6 +103,7 @@ pub async fn post_creature(
 
     if let Err(e) = user {
         // no user found so redirect to home
+        println!("{:?}", &e);
         return HttpResponse::Found()
         .append_header(("Location", format!("/{}/", &lang))).finish()
     }
@@ -203,7 +204,7 @@ pub async fn edit_creature(
 
 #[post("/{lang}/edit_creature_post/{creature_id}")]
 pub async fn edit_creature_post(
-    data: web::Data<AppData>,
+    _data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
     form: web::Form<CreatureForm>,
     id: Option<Identity>,
@@ -219,8 +220,9 @@ pub async fn edit_creature_post(
 
     let creature = match result {
         Ok(c) => c,
-        Err(r) => {
+        Err(e) => {
             // Unable to retrieve creature
+            println!("{:?}", &e);
             // validate form has data or and permissions exist
             return HttpResponse::Found().append_header(("Location", format!("/{}/edit_creature/{}", &lang, &creature_id))).finish()
         }

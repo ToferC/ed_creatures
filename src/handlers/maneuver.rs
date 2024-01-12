@@ -1,4 +1,4 @@
-use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest, put};
+use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest};
 use actix_identity::Identity;
 
 use crate::{generate_basic_context, AppData, models::{User, Maneuver, InsertableManeuver}, handlers::ManeuverForm};
@@ -140,7 +140,7 @@ pub async fn edit_maneuver(
 
 #[post("/{lang}/edit_maneuver_post/{maneuver_id}")]
 pub async fn edit_maneuver_post(
-    data: web::Data<AppData>,
+    _data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
     form: web::Form<ManeuverForm>,
     id: Option<Identity>,
@@ -156,8 +156,9 @@ pub async fn edit_maneuver_post(
 
     let maneuver = match result {
         Ok(c) => c,
-        Err(r) => {
+        Err(e) => {
             // Unable to retrieve maneuver
+            println!("Error: {:?}", &e);
             // validate form has data or and permissions exist
             return HttpResponse::Found().append_header(("Location", format!("/{}/edit_maneuver/{}", &lang, &maneuver_id))).finish()
         }

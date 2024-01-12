@@ -82,6 +82,7 @@ pub async fn post_power(
 
     if let Err(e) = user {
         // no user found so redirect to home
+        println!("Error: {:?}", &e);
         return HttpResponse::Found()
         .append_header(("Location", format!("/{}/", &lang))).finish()
     }
@@ -147,7 +148,7 @@ pub async fn edit_power(
 
 #[post("/{lang}/edit_power_post/{power_id}")]
 pub async fn edit_power_post(
-    data: web::Data<AppData>,
+    _data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
     form: web::Form<PowerForm>,
     id: Option<Identity>,
@@ -163,8 +164,9 @@ pub async fn edit_power_post(
 
     let power = match result {
         Ok(c) => c,
-        Err(r) => {
+        Err(e) => {
             // Unable to retrieve power
+            println!("Error: {:?}", &e);
             // validate form has data or and permissions exist
             return HttpResponse::Found().append_header(("Location", format!("/{}/edit_power/{}", &lang, &power_id))).finish()
         }

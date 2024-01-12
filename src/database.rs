@@ -56,22 +56,28 @@ pub fn init() {
         
             println!("Admin created: {:?}", &admin);
 
-            // Create user and pre-populate to-dos
-
-            let user_data = UserData {
-                user_name: "Some Person".to_owned(),
-                email: "someone@email.com".to_owned(),
-                password: "WOOLYHIPPOSOUNDFILE".to_owned(),
-                validated: true,
-                role: crate::models::UserRole::User,
+            let environment = match environment {
+                Ok(v) => v,
+                Err(_) => String::from("test"),
             };
-        
-            let user = User::create(user_data)
-                .expect("Unable to create user");
-        
-            println!("User created: {:?}", &admin);
 
-            let _r = pre_populate_creatures(user.id, user.slug);
+            if environment != "production" {
+                // Create user and pre-populate creatures on test
+                let user_data = UserData {
+                    user_name: "Some Person".to_owned(),
+                    email: "someone@email.com".to_owned(),
+                    password: "WOOLYHIPPOSOUNDFILE".to_owned(),
+                    validated: true,
+                    role: crate::models::UserRole::User,
+                };
+            
+                let user = User::create(user_data)
+                    .expect("Unable to create user");
+            
+                println!("User created: {:?}", &admin);
+    
+                let _r = pre_populate_creatures(user.id, user.slug);
+            }
         }
     }
 }

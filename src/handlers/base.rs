@@ -35,6 +35,24 @@ pub async fn index(
 
 }
 
+#[get("/{lang}/about")]
+pub async fn about(
+    data: web::Data<AppData>,
+    path: web::Path<String>,
+
+    id: Option<Identity>,
+    req: HttpRequest,
+) -> impl Responder {
+
+    let lang = path.into_inner();
+
+    let (ctx, _, _, _) = generate_basic_context(id, &lang, req.uri().path());
+
+    let rendered = data.tmpl.render("about.html", &ctx).unwrap();
+    HttpResponse::Ok().body(rendered)
+
+}
+
 #[post("/{lang}/search")]
 pub async fn search(
     data: web::Data<AppData>,

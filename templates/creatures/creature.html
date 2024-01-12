@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
+{% block title %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content={{ fluent(key="app-description", lang=lang )}}>
+        <meta name="author" content="ToferC">
+        <meta property="og:title" content="{{ creature.name }}">
+        <title>{{ creature.name }} - Earthdawn Creatures</title>
+        {% endblock title %}
+
 {% block content %}
 
   <br><br>

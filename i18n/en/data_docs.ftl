@@ -75,6 +75,11 @@ created-at = Created at:
 updated-at = Updated at:
 by = by
 
+## In-Play
+damage = Damage:
+wounds = Wounds:
+action-step-penalty = Action Step Penalty:
+
 ## Attacks
 name = Name
 attack-name = Attack Name

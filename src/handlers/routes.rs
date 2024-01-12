@@ -3,6 +3,7 @@ use actix_web::web;
 use crate::handlers::{
     // base
     index,
+    about,
     raw_index,
     search,
     creature_by_location,
@@ -88,6 +89,7 @@ use crate::handlers::{
 
 pub fn configure_services(config: &mut web::ServiceConfig) {
     config.service(index);
+    config.service(about);
     config.service(raw_index);
     config.service(search);
     config.service(creature_by_location);

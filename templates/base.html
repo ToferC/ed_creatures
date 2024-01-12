@@ -13,18 +13,11 @@
 
     {% block preload %}
 
-        <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+        <script href="/static/htmx/htmx.min.js"></script>
         <!-- Bootstrap core CSS 
         -->
         <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        
-        <link href="/static/jquery-ui/jquery-ui.min.css" rel="stylesheet">
-        
-        <script type="text/javascript" src="/static/jquery/js/jquery.min.js"></script>
-        
-        <script type="text/javascript" src="/static/jquery-ui/jquery-ui.min.js"></script>
-        <!--
-        -->
+
         <!-- Bootstrap core JavaScript --> 
        <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
     {% endblock preload %}
@@ -384,7 +377,7 @@
                     <hr>
                     
                     <p>{{ fluent(key="footer-1", lang=lang )}}</p>
-                    <p>{{ fluent(key="available-licence", lang=lang )}} <a href="https://github.com/ToferC/earthdawn_creatures">{{ fluent(key="name", lang=lang )}}</a></p>
+                    <p>{{ fluent(key="available-licence", lang=lang )}} <a href="https://github.com/ToferC/ed_creatures">{{ fluent(key="app-name", lang=lang )}}</a></p>
                         <p>{{ fluent(key="developed-by", lang=lang )}}</p>
                 </div>
 

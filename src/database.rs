@@ -56,6 +56,8 @@ pub fn init() {
         
             println!("Admin created: {:?}", &admin);
 
+            let environment = env::var("ENVIRONMENT");
+            
             let environment = match environment {
                 Ok(v) => v,
                 Err(_) => String::from("test"),

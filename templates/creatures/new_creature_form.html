@@ -11,22 +11,22 @@
     >
         <div>
             <label>Creature Name</label><br>
-            <input class="form-control form-control-lg" type="text" name="name" placeholder="Add name here..." size=60 value="{{ creature.name }}" required>
+            <input class="form-control form-control-lg" type="text" name="name" placeholder="Add name here..." size=60 value="" required>
         </div>
         <br>
 
         <div>
             <label>{{ fluent(key="circle", lang=lang )}}</label><br>
-            <input class="form-control form-control-lg" type="number" name="circle_rank" placeholder="1" size=60 value="{{ creature.circle_rank }}" required>
+            <input class="form-control form-control-lg" type="number" name="circle_rank" placeholder="1" size=60 value="" required>
         </div>
 
         <div>
             <label for="rarity">{{ fluent(key="rarity", lang=lang )}}</label>
             <select name="rarity" id="rarity_select">
-                <option {% if creature.rarity == "Common" %}selected{% endif %} value="Common">Common</option>
-                <option {% if creature.rarity == "Uncommon" %}selected{% endif %} value="Uncommon">Uncommon</option>
-                <option {% if creature.rarity == "Rare" %}selected{% endif %} value="Rare">Rare</option>
-                <option {% if creature.rarity == "Unique" %}selected{% endif %} value="Unique">Unique</option>
+                <option selected value="Common">Common</option>
+                <option value="Uncommon">Uncommon</option>
+                <option value="Rare">Rare</option>
+                <option value="Unique">Unique</option>
             </select>
         </div>
 
@@ -37,22 +37,22 @@
             <div class="col-md-4">
                 <div class="input-grp">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="jungle" id="flexSwitchCheckDefault" {%if 'Jungle' in creature.found_in %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" name="jungle" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Jungle</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="desert" id="flexSwitchCheckDefault" {%if 'Desert' in creature.found_in %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" name="desert" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Desert</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="forest" id="flexSwitchCheckDefault" {%if 'Forest' in creature.found_in %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" name="forest" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Forest</label>
                     </div>
     
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="plains" id="flexSwitchCheckDefault" {%if 'Plains' in creature.found_in %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" name="plains" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Plains</label>
                     </div>
                     </div>
@@ -62,17 +62,17 @@
                     <div class="input-grp">
     
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="urban" id="flexSwitchCheckDefault" {%if 'Urban' in creature.found_in %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" name="urban" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Urban</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="mountain" id="flexSwitchCheckDefault" {%if 'Mountain' in creature.found_in %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" name="mountain" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Mountain</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="cavern" id="flexSwitchCheckDefault" {%if 'Cavern' in creature.found_in %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" name="cavern" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Cavern</label>
                     </div>
                     </div>
@@ -82,17 +82,17 @@
                     <div class="input-grp">
     
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="swamp" id="flexSwitchCheckDefault" {%if 'Swamp' in creature.found_in %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" name="swamp" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Swamp</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="kaer" id="flexSwitchCheckDefault" {%if 'Kaer' in creature.found_in %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" name="kaer" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Kaer</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="any" id="flexSwitchCheckDefault" {%if 'Any' in creature.found_in %}checked{% endif %}>
+                        <input class="form-check-input" type="checkbox" name="any" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Any</label>
                     </div>
                 </div>
@@ -115,37 +115,37 @@
         <ul>
             <div>
                 <label>{{ fluent(key="dexterity", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="dexterity" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.dexterity }}" required>
+                <input class="form-control form-control-lg" type="number" name="dexterity" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="strength", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="strength" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.strength }}" required>
+                <input class="form-control form-control-lg" type="number" name="strength" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="constitution", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="constitution" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.constitution }}" required>
+                <input class="form-control form-control-lg" type="number" name="constitution" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="perception", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="perception" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.perception }}" required>
+                <input class="form-control form-control-lg" type="number" name="perception" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="willpower", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="willpower" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.willpower }}" required>
+                <input class="form-control form-control-lg" type="number" name="willpower" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="charisma", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="charisma" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.charisma }}" required>
+                <input class="form-control form-control-lg" type="number" name="charisma" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
       </div>
@@ -153,37 +153,37 @@
         <ul>
             <div>
                 <label>{{ fluent(key="initiative", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="initiative" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.initiative }}" required>
+                <input class="form-control form-control-lg" type="number" name="initiative" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="physical-defense", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="pd" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.pd }}" required>
+                <input class="form-control form-control-lg" type="number" name="pd" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="mystic-defense", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="md" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.md }}" required>
+                <input class="form-control form-control-lg" type="number" name="md" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="social-defense", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="sd" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.sd }}" required>
+                <input class="form-control form-control-lg" type="number" name="sd" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="physical-armor", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="pa" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.pa }}" required>
+                <input class="form-control form-control-lg" type="number" name="pa" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="mystic-armor", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="ma" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.ma }}" required>
+                <input class="form-control form-control-lg" type="number" name="ma" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
       </div>
@@ -191,37 +191,37 @@
         <ul>
             <div>
                 <label>{{ fluent(key="unconscious-rating", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="unconsciousness_rating" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.unconsciousness_rating }}" required>
+                <input class="form-control form-control-lg" type="number" name="unconsciousness_rating" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="death-rating", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="death_rating" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.death_rating }}" required>
+                <input class="form-control form-control-lg" type="number" name="death_rating" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="wound-rating", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="wound" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.wound }}" required>
+                <input class="form-control form-control-lg" type="number" name="wound" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="knockdown", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="knockdown" placeholder="Enter knockdown here" size=60 value="{{ creature.knockdown }}">
+                <input class="form-control form-control-lg" type="number" name="knockdown" placeholder="Enter knockdown here" size=60 value=">
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="recovery-rolls", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="recovery_rolls" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.recovery_rolls }}" required>
+                <input class="form-control form-control-lg" type="number" name="recovery_rolls" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="karma", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="karma" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.karma }}" required>
+                <input class="form-control form-control-lg" type="number" name="karma" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
       </div>
@@ -230,11 +230,11 @@
         <ul>
                 <div>
                     <label>{{ fluent(key="movement", lang=lang )}}</label><br>
-                    <input class="form-control form-control-lg" type="text" name="movement" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.movement }}" required>
+                    <input class="form-control form-control-lg" type="text" name="movement" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
                 </div>
                 <div>
                 <label>{{ fluent(key="actions", lang=lang )}}</label><br>
-                <input class="form-control form-control-lg" type="number" name="actions" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="{{ creature.actions }}" required>
+                <input class="form-control form-control-lg" type="number" name="actions" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
             </div>
         </ul>
     </div>

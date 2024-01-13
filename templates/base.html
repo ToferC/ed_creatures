@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html lang="{{ lang }}">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content={{ fluent(key="app-description", lang=lang )}}>
-    <meta name="author" content="ToferC">
-    <meta property="og:title" content={{ fluent(key="app-mvp", lang=lang )}}>
     
     {% block title %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content={{ fluent(key="app-description", lang=lang )}}>
+        <meta name="author" content="ToferC">
+        <meta property="og:title" content={{ fluent(key="app-mvp", lang=lang )}}>
         <title>{{ fluent(key="app-name", lang=lang )}}</title>
     {% endblock title %}
 
     {% block preload %}
 
-        <script href="/static/htmx/htmx.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.9.10/htmx.min.js" integrity="sha512-9qpauSP4+dDIldsrdNEZ2Z7JoyLZGfJsAP2wfXnc3drOh+5NXOBxjlq3sGXKdulmN9W+iwLxRt42zKMa8AHEeg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <!-- Bootstrap core CSS 
         -->
-        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Bootstrap core JavaScript --> 
-       <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js" integrity="sha512-X/YkDZyjTf4wyc2Vy16YGCPHwAY8rZJY+POgokZjQB2mhIRFJCckEGc6YyX9eNsPfn0PzThEuNs+uaomE5CO6A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {% endblock preload %}
         
     {% block style %}

@@ -2,10 +2,10 @@ use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest};
 use actix_identity::Identity;
 use inflector::Inflector;
 
-use crate::{generate_basic_context, AppData, models::{User, Attack, Power, Locales, Maneuver}, handlers::CreatureForm};
+use crate::{generate_basic_context, AppData, models::{User, Attack, Power, Locales, Maneuver, InsertableAttack, InsertablePower}, handlers::CreatureForm};
 use uuid::Uuid;
 
-use crate::models::{Creature, InsertableCreature};
+use crate::models::{Creature, InsertableCreature, InsertableManeuver};
 
 #[get("/{lang}/new_creature_form")]
 pub async fn new_creature_form(
@@ -288,4 +288,157 @@ pub async fn edit_creature_post(
     // Redirect to creature
     return HttpResponse::Found()
         .append_header(("Location", format!("/{}/creature/view/{}", &lang, &creature.slug))).finish()
+}
+
+#[post("/{lang}/copy_creature/{creature_id}")]
+pub async fn copy_creature_post(
+    _data: web::Data<AppData>,
+    path: web::Path<(String, Uuid)>,
+    form: web::Form<CreatureForm>,
+    id: Option<Identity>,
+    req:HttpRequest) -> impl Responder {
+
+    let (lang, creature_id) = path.into_inner();
+
+    let (mut ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+
+    let user = User::get_from_slug(&session_user).expect("Unable to retrive user");
+
+    let result = Creature::get_by_id(&creature_id);
+
+    let creature = match result {
+        Ok(c) => c,
+        Err(e) => {
+            // Unable to retrieve creature
+            println!("{:?}", &e);
+            // validate form has data or and permissions exist
+            return HttpResponse::Found().append_header(("Location", format!("/{}/edit_creature/{}", &lang, &creature_id))).finish()
+        }
+    };
+
+    let today = chrono::Utc::now().naive_utc();
+
+    let new_name = format!("Copy of {}", creature.name.to_owned());
+
+    let slug = new_name.trim().to_snake_case();
+
+    let mut our_creature = InsertableCreature {
+        creator_id: user.id,
+        creator_slug: user.slug,
+        name: new_name,
+        found_in: creature.found_in,
+        rarity: creature.rarity.to_owned(),
+        circle_rank: creature.circle_rank,
+        description: creature.description.to_owned(),
+        dexterity: creature.dexterity,
+        strength: creature.strength,
+        constitution: creature.constitution,
+        perception: creature.perception,
+        willpower: creature.willpower,
+        charisma: creature.charisma,
+        initiative: creature.initiative,
+        pd: creature.pd,
+        md: creature.md,
+        sd: creature.sd,
+        pa: creature.pa,
+        ma: creature.ma,
+        unconsciousness_rating: creature.unconsciousness_rating,
+        death_rating: creature.death_rating,
+        wound: creature.wound,
+        knockdown: creature.knockdown,
+        actions: creature.actions,
+        movement: creature.movement.to_owned(),
+        recovery_rolls: creature.recovery_rolls,
+        karma: creature.karma,
+        slug,
+        image_url: None,
+        created_at: today,
+        updated_at: today,
+    };
+
+    let new_creature = Creature::create(&mut our_creature).expect("Unable to create creature");
+
+    let r_attacks = Attack::get_by_creature_id(creature.id);
+
+    let r_powers = Power::get_by_creature_id(creature.id);
+
+    let r_maneuvers = Maneuver::get_by_creature_id(creature.id);
+
+    if let Ok(data) = r_attacks {
+
+        for element in &data {
+
+            let details = match &element.details {
+                Some(s) => Some(s.to_owned()),
+                None => None,
+            };
+
+            let new_el = InsertableAttack::new(
+                user.id,
+                new_creature.id,
+                element.name.to_owned(),
+                element.action_step,
+                element.effect_step,
+                details,
+            );
+
+            let _new_attack = Attack::create(&new_el)
+                .expect("Unable to create attack");
+        };
+        
+        ctx.insert("attacks", &data);
+    }
+
+    if let Ok(data) = r_powers {
+
+        for element in &data {
+
+            let details = match &element.details {
+                Some(s) => Some(s.to_owned()),
+                None => None,
+            };
+
+            let new_el = InsertablePower::new(
+                user.id,
+                new_creature.id,
+                element.name.to_owned(),
+                element.action_type,
+                element.target,
+                element.resisted_by,
+                element.action_step,
+                element.effect_step,
+                details,
+            );
+
+            let _new_power = Power::create(&new_el)
+                .expect("Unable to create power");
+        };
+        
+        ctx.insert("powers", &data);
+    }
+
+    if let Ok(data) = r_maneuvers {
+
+        for element in &data {
+            let new_el = InsertableManeuver::new(
+                user.id,
+                new_creature.id,
+                element.name.to_owned(),
+                element.source.to_owned(),
+                element.details.to_owned(),
+            );
+
+            let _new_maneuver = Maneuver::create(&new_el)
+                .expect("Unable to create maneuver");
+        }
+        ctx.insert("maneuvers", &data);
+    }
+
+    println!("Saved!");
+
+    ctx.insert("creature", &new_creature);
+
+    // Redirect to creature
+    return HttpResponse::Found()
+        .append_header(("Location", format!("/{}/creature/edit_creature/{}", &lang, &new_creature.id))).finish()
 }

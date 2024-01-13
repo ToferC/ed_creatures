@@ -291,10 +291,9 @@ pub async fn edit_creature_post(
 }
 
 #[post("/{lang}/copy_creature/{creature_id}")]
-pub async fn copy_creature_post(
+pub async fn copy_creature(
     _data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
-    form: web::Form<CreatureForm>,
     id: Option<Identity>,
     req:HttpRequest) -> impl Responder {
 

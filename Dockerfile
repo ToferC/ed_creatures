@@ -39,7 +39,6 @@ WORKDIR /app
 COPY --from=builder /app/target/release/earthdawn_creatures .
 
 COPY templates templates
-COPY static static
 COPY i18n i18n
 
 USER rusty

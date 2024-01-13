@@ -25,6 +25,9 @@
                     </button>
                       {% endfor %}</p>
                     <a method="get" href="/{{lang}}/creature/view/{{ creature.slug }}" class="btn btn-primary">{{ fluent(key="view", lang=lang) }}</a>
+                    {% if session_user != ""%}
+                    <a class="btn btn-secondary" method="get" href="/{{ lang }}/copy_creature/{{ creature.id }}">Copy and Edit</a>
+                    {% endif %}
                   </div>
                 </div>
                 <br>

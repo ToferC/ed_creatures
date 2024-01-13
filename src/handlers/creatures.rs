@@ -2,7 +2,7 @@ use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest};
 use actix_identity::Identity;
 use inflector::Inflector;
 
-use crate::{generate_basic_context, AppData, models::{User, Attack, Power, Locales, Maneuver, InsertableAttack, InsertablePower}, handlers::CreatureForm};
+use crate::{generate_basic_context, AppData, models::{User, Attack, Power, Locales, Maneuver, InsertableAttack, InsertablePower, UserRole}, handlers::CreatureForm, generate_unique_code};
 use uuid::Uuid;
 
 use crate::models::{Creature, InsertableCreature, InsertableManeuver};
@@ -174,9 +174,14 @@ pub async fn edit_creature(
 
     let (lang, creature_id) = path.into_inner();
 
-    let (mut ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+    let (mut ctx, session_user, role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
     let creature = Creature::get_by_id(&creature_id).expect("Unable to retrieve creature");
+
+    if session_user != creature.creator_slug && role != UserRole::Admin {
+        // Shouldn't be editing this creature. Redirect to the creature view
+        return HttpResponse::Found().append_header(("Location", format!("/{}/creature/{}", &lang, &creature.slug))).finish()
+    };
 
     let r_attacks = Attack::get_by_creature_id(creature.id);
 
@@ -212,7 +217,7 @@ pub async fn edit_creature_post(
 
     let (lang, creature_id) = path.into_inner();
 
-    let (mut ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+    let (mut ctx, session_user, role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
     let user = User::get_from_slug(&session_user).expect("Unable to retrive user");
 
@@ -226,6 +231,11 @@ pub async fn edit_creature_post(
             // validate form has data or and permissions exist
             return HttpResponse::Found().append_header(("Location", format!("/{}/edit_creature/{}", &lang, &creature_id))).finish()
         }
+    };
+
+    if session_user != creature.creator_slug && role != UserRole::Admin {
+        // Shouldn't be editing this creature. Redirect to the creature view
+        return HttpResponse::Found().append_header(("Location", format!("/{}/creature/{}", &lang, &creature.slug))).finish()
     };
 
     let today = chrono::Utc::now().naive_utc();
@@ -290,7 +300,7 @@ pub async fn edit_creature_post(
         .append_header(("Location", format!("/{}/creature/view/{}", &lang, &creature.slug))).finish()
 }
 
-#[post("/{lang}/copy_creature/{creature_id}")]
+#[get("/{lang}/copy_creature/{creature_id}")]
 pub async fn copy_creature(
     _data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
@@ -299,7 +309,7 @@ pub async fn copy_creature(
 
     let (lang, creature_id) = path.into_inner();
 
-    let (mut ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+    let (mut ctx, session_user, role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
     let user = User::get_from_slug(&session_user).expect("Unable to retrive user");
 
@@ -315,9 +325,16 @@ pub async fn copy_creature(
         }
     };
 
+    if session_user != creature.creator_slug && role != UserRole::Admin {
+        // Shouldn't be editing this creature. Redirect to the creature view
+        return HttpResponse::Found().append_header(("Location", format!("/{}/creature/{}", &lang, &creature.slug))).finish()
+    };
+
     let today = chrono::Utc::now().naive_utc();
 
-    let new_name = format!("Copy of {}", creature.name.to_owned());
+    let rand_string = generate_unique_code(8, false);
+
+    let new_name = format!("Copy of {}-{}", creature.name.to_owned(), rand_string.to_owned());
 
     let slug = new_name.trim().to_snake_case();
 
@@ -439,5 +456,5 @@ pub async fn copy_creature(
 
     // Redirect to creature
     return HttpResponse::Found()
-        .append_header(("Location", format!("/{}/creature/edit_creature/{}", &lang, &new_creature.id))).finish()
+        .append_header(("Location", format!("/{}/edit_creature/{}", &lang, &new_creature.id))).finish()
 }

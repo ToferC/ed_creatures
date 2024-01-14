@@ -191,111 +191,90 @@
       <div class="row">
         <table>
           <tr>
-            <td style="text-align:center">{{ fluent(key="damage", lang=lang )}}</td>
-            <td
-              id="damage"
-              style="text-align:center"
-            >0</td>
+            <th style="text-align:center">{{ fluent(key="damage", lang=lang )}}</th>
+            <th style="text-align:center">{{ fluent(key="wounds", lang=lang )}}</th>
+            <th style="text-align:center">{{ fluent(key="action-step-penalty", lang=lang )}}</th>
+          </tr>
+          <tr style="font-size: 35px; ">
+            <td id="damage" style="text-align:center">0</td>
+            <td id="wounds" style="text-align:center">0</td>
+            <td id="penalties" style="text-align:center">0</td>
+          </tr>
+          <tr style="line-height: 30px">
             <td style="text-align:center">
-              <button
+              <button 
+                type="button" 
+                class="btn btn-danger btn-floating"
                 id="damage_add_1"
-                class="btn btn-danger"
                 onclick="addOneDamage()"
-                >+1
-              </button> 
-            </td>
-            <td style="text-align:center">
-              <button
+                data-mdb-ripple-init>
+                <i class="fas fa-lg fa-circle-plus"><strong>+</strong></i>
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-danger btn-lg btn-floating"
                 id="damage_add_5"
-                class="btn btn-danger"
                 onclick="addFiveDamage()"
-              >+5
-            </button>
-            </td>
-            <td style="text-align:center">
-              <button
-                id="damage_subtract_1"
-                class="btn btn-primary" 
-                onclick="subtractOneDamage()"
-              >-1
-            </button> 
-            </td>
-            <td style="text-align:center">
-              <button
-                id="damage_subtract_5" 
-                class="btn btn-primary"
+                data-mdb-ripple-init>
+                <i class="fas fa-2x fa-circle-plus"><strong>+</strong></i>
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-success btn-lg btn-floating"
+                id="damage_subtract_5"
                 onclick="subtractFiveDamage()"
-              >-5
-            </button>
+                data-mdb-ripple-init>
+                <i class="fas fa-2x fa-circle-minus"><strong>-</strong></i>
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-success btn-floating"
+                id="damage_subtract_1"
+                onclick="subtractOneDamage()"
+                data-mdb-ripple-init>
+                <i class="fas fa-lg fa-circle-minus"><strong>-</strong></i>
+              </button>
+            </td>
+            <td style="text-align:center">
+              <button 
+                type="button" 
+                class="btn btn-danger btn-floating"
+                id="wound_add_1"
+                onclick="addOneWound()"
+                data-mdb-ripple-init>
+                <i class="fas fa-lg fa-circle-plus"><strong>+</strong></i>
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-success btn-floating"
+                id="wound_subtract_1"
+                onclick="subtractOneWound()"
+                data-mdb-ripple-init>
+                <i class="fas fa-lg fa-circle-minus"><strong>-</strong></i>
+              </button>
+            </td>
+            <td style="text-align:center">
+              <button 
+                type="button" 
+                class="btn btn-danger btn-floating"
+                id="penalty_add_1"
+                onclick="addOnePenalty()"
+                data-mdb-ripple-init>
+                <i class="fas fa-lg fa-circle-plus"><strong>+</strong></i>
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-success btn-floating"
+                id="penalty_subtract_1"
+                onclick="subtractOnePenalty()"
+                data-mdb-ripple-init>
+                <i class="fas fa-lg fa-circle-minus"><strong>-</strong></i>
+              </button>
             </td>
           </tr>
         </table>
       </div>
       <hr>
-
-      <div class="row">
-        <table>
-          <tr>
-            <td style="text-align:center">{{ fluent(key="wounds", lang=lang )}}</td>
-            <td
-              id="wounds"
-              type="number"
-              min="0"
-              style="text-align:center"
-            >0</td>
-            <td style="text-align:center">
-              <button
-                id="wound_add_1"
-                class="btn btn-danger"
-                onclick="addOneWound()"
-                >+1
-              </button> 
-            </td>
-            <td style="text-align:center">
-              <button
-                id="wound_subtract_1"
-                class="btn btn-primary" 
-                onclick="subtractOneWound()"
-              >-1
-            </button> 
-            </td>
-          </tr>
-        </table>
-      </div>
-    <hr>
-
-    <div class="row">
-      <table>
-        <tr>
-          <td style="text-align:center">{{ fluent(key="action-step-penalty", lang=lang )}}</td>
-          <td
-            id="penalties"
-            type="number"
-            min="0"
-            style="text-align:center"
-          >0</td>
-          <td style="text-align:center">
-            <button
-              id="penalty_add_1"
-              class="btn btn-danger"
-              onclick="addOnePenalty()"
-              >+1
-            </button> 
-          </td>
-          <td style="text-align:center">
-            <button
-              id="penalty_subtract_1"
-              class="btn btn-primary" 
-              onclick="subtractOnePenalty()"
-            >-1
-          </button> 
-          </td>
-        </tr>
-      </table>
-      </div>
-  <hr>
-    
-  </div>
 </div> <!-- End of Creature -->
 
 <div class="container">

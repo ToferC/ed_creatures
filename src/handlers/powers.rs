@@ -4,7 +4,7 @@ use actix_identity::Identity;
 use crate::{generate_basic_context, AppData, models::{User, Power}, handlers::PowerForm};
 use uuid::Uuid;
 
-use crate::models::{InsertablePower};
+use crate::models::InsertablePower;
 
 #[get("/{lang}/powers/{creature_id}")]
 pub async fn get_powers(
@@ -22,6 +22,7 @@ pub async fn get_powers(
 
     ctx.insert("powers", &powers);
     ctx.insert("creature_id", &creature_id);
+    ctx.insert("steps", &data.steps);
 
     let rendered = data.tmpl.render("powers/powers.html", &ctx).unwrap();
     HttpResponse::Ok().body(rendered)
@@ -121,6 +122,7 @@ pub async fn post_power(
 
     ctx.insert("powers", &powers);
     ctx.insert("creature_id", &creature_id);
+    ctx.insert("steps", &data.steps);
 
     //Redirect to get power with power slug
     let rendered = data.tmpl.render("powers/powers.html", &ctx).unwrap();

@@ -152,8 +152,8 @@ hx-swap="outerHTML"
     hx-swap="outerHTML"
   >
     <li>
-      <strong>{{ power.name }}</strong> ({{ power.action_type }}{% if power.target != 'NotApplicable' %} vs. {{ power.target }}{% endif %}): {{ power.action_step}}: {{ steps | nth(n=power.action_step - 1) }}{% if power.effect_step %} ({{ power.effect_step }}: {{ steps | nth(n=power.effect_step - 1) }}{% if power.resisted_by != 'NotApplicable' %}/<i>{{ power.resisted_by }}</i>{% endif %}){% endif %}{% if power.details %}: {{ power.details }}{% endif %}   
-        {% if session_user == creature.creator_slug or role == "Admin" %}
+      <strong>{{ power.name }}</strong> ({{ power.action_type }}{% if power.target != 'NotApplicable' %} vs. {{ power.target }}{% endif %}){% if power.action_step %}: {{ power.action_step}}: {{ steps | nth(n=power.action_step - 1) }}{% if power.effect_step %} ({{ power.effect_step }}: {{ steps | nth(n=power.effect_step - 1) }}{% if power.resisted_by != 'NotApplicable' %}/<i>{{ power.resisted_by }}</i>{% endif %}){% endif %}{% endif %}{% if power.details %}: {{ power.details }}{% endif %}  
+      {% if session_user == creature.creator_slug or role == "Admin" %}
         <button
         hx-get="/{{ lang }}/edit_power/{{ power.id }}"
         hx-target="#power-{{ power.id }}"

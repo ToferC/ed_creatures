@@ -78,7 +78,7 @@ by = by
 ## In-Play
 damage = Damage:
 wounds = Wounds:
-action-step-penalty = Action Step Penalty:
+action-step-penalty-bonus = Action Step Penalty/Bonus:
 
 ## Attacks
 name = Name

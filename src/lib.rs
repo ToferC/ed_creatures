@@ -84,7 +84,7 @@ pub fn extract_identity_data(id: Option<Identity>) -> (String, UserRole, Option<
     
         let session_user = match id_data {
             Ok(u) => u,
-            Err(e) => "".to_string(),
+            Err(_e) => "".to_string(),
         };
     
         let user = models::User::find_slim_from_slug(&session_user);

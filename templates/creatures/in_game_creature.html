@@ -44,7 +44,7 @@
   <h3>Attributes</h3>
   <div>
     <div class="row">
-      <div class="col col-md col-lg-4 col-md-4 col-sm-12 col-xs-12">
+      <div class="col col-md col-lg-4 col-md-4 col-sm-12 col-12">
         <table style="Table-Layout:fixed">
             <tr>
                 <td>{{ fluent(key="dex", lang=lang )}}</td>
@@ -124,7 +124,7 @@
         <br>
 
       </div>
-      <div class="col col-md col-lg-4 col-md-4 col-sm-12 col-xs-12">
+      <div class="col col-md col-lg-4 col-md-4 col-sm-12 col-12">
         <table style="Table-Layout:fixed">
           <tr>
             <td>{{ fluent(key="initiative", lang=lang )}}</td>
@@ -155,7 +155,7 @@
         <br>
       </div>
       <br>
-      <div class="col col-md col-lg-4 col-md-4 col-sm-12 col-xs-12">
+      <div class="col col-md col-lg-4 col-md-4 col-sm-12 col-12">
         <table style="Table-Layout:fixed">
           <tr>
             <td>{{ fluent(key="uncon", lang=lang )}}</td>
@@ -193,7 +193,7 @@
           <tr>
             <th style="text-align:center">{{ fluent(key="damage", lang=lang )}}</th>
             <th style="text-align:center">{{ fluent(key="wounds", lang=lang )}}</th>
-            <th style="text-align:center">{{ fluent(key="action-step-penalty", lang=lang )}}</th>
+            <th style="text-align:center">{{ fluent(key="action-step-penalty-bonus", lang=lang )}}</th>
           </tr>
           <tr style="font-size: 35px; ">
             <td id="damage" style="text-align:center">0</td>
@@ -257,18 +257,18 @@
               <button 
                 type="button" 
                 class="btn btn-danger btn-floating"
-                id="penalty_add_1"
-                onclick="addOnePenalty()"
-                data-mdb-ripple-init>
-                <i class="fas fa-lg fa-circle-plus"><strong>+</strong></i>
-              </button>
-              <button 
-                type="button" 
-                class="btn btn-success btn-floating"
                 id="penalty_subtract_1"
                 onclick="subtractOnePenalty()"
                 data-mdb-ripple-init>
                 <i class="fas fa-lg fa-circle-minus"><strong>-</strong></i>
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-success btn-floating"
+                id="penalty_add_1"
+                onclick="addOnePenalty()"
+                data-mdb-ripple-init>
+                <i class="fas fa-lg fa-circle-plus"><strong>+</strong></i>
               </button>
             </td>
           </tr>
@@ -334,18 +334,20 @@
           <tr>
             <th style="text-align:center">{{ fluent(key="name", lang=lang )}}</th>
             <th style="text-align:center">{{ fluent(key="action-type", lang=lang )}}</th>
-            {% if power.target != 'NotApplicable' %}
-            <th style="text-align:center">{{ fluent(key="target", lang=lang )}}</th>
-            {% endif %}
-            <th style="text-align:center">{{ fluent(key="action-step", lang=lang )}}</th>
-            <th style="text-align:center">{{ fluent(key="action-dice", lang=lang )}}</th>
-            {% if power.effect_step %}
-            <th style="text-align:center">{{ fluent(key="effect-step", lang=lang )}}</th>
-            <th style="text-align:center">{{ fluent(key="effect-dice", lang=lang )}}</th>
-            {% endif %}
-            {% if power.resisted_by != 'NotApplicable' %}
-            <th style="text-align:center">{{ fluent(key="resisted-by", lang=lang )}}</th>
-            {% endif %}
+            {% if power.action_step %}
+              {% if power.target != 'NotApplicable' %}
+                <th style="text-align:center">{{ fluent(key="target", lang=lang )}}</th>
+              {% endif %}
+                <th style="text-align:center">{{ fluent(key="action-step", lang=lang )}}</th>
+                <th style="text-align:center">{{ fluent(key="action-dice", lang=lang )}}</th>
+              {% if power.effect_step %}
+                <th style="text-align:center">{{ fluent(key="effect-step", lang=lang )}}</th>
+                <th style="text-align:center">{{ fluent(key="effect-dice", lang=lang )}}</th>
+              {% endif %}
+              {% if power.resisted_by != 'NotApplicable' %}
+                <th style="text-align:center">{{ fluent(key="resisted-by", lang=lang )}}</th>
+              {% endif %}
+            {% endif %} <!-- if no action step, don't show all this stuff -->
           </tr>
           <tr>
             <td id="power_name-{{ loop.index0 }}" style="text-align:center">
@@ -354,37 +356,39 @@
             <td id="power_action_type-{{ loop.index0 }}" style="text-align:center">
               {{ power.action_type }}
             </td>
-            {% if power.target != 'NotApplicable' %}
-            <td id="power_target-{{ loop.index0 }}" style="text-align:center">
-              {% if power.target == "PhysicalDefense" %}
-              PD
-              {% elif power.target == "MysticDefense" %}
-              MD
-              {% elif power.target == "SocialDefense" %}
-              SD
-              {% elif power.target == "Other" %}
-              Other
+            {% if power.action_step %}
+              {% if power.target != 'NotApplicable' %}
+              <td id="power_target-{{ loop.index0 }}" style="text-align:center">
+                {% if power.target == "PhysicalDefense" %}
+                PD
+                {% elif power.target == "MysticDefense" %}
+                MD
+                {% elif power.target == "SocialDefense" %}
+                SD
+                {% elif power.target == "Other" %}
+                Other
+                {% endif %}
+              </td>
               {% endif %}
-            </td>
-            {% endif %}
-            <td id="power-action_step-{{ loop.index0 }}" style="text-align:center">
-              {{ power.action_step }}
-            </td>
-            <td id="power-action_dice-{{ loop.index0 }}" style="text-align:center">
-              {{ steps | nth(n=power.action_step - 1) }}
-            </td>
-            {% if power.effect_step %}
-            <td id="power-effect_step-{{ loop.index0 }}" style="text-align:center">
-              {{ power.effect_step }}
-            </td>
-            <td id="power-effect_dice-{{ loop.index0 }}" style="text-align:center">
-              {{ steps | nth(n=power.effect_step - 1) }}
-            </td>
-            {% endif %}
-            {% if power.resisted_by != 'NotApplicable' %}
-            <td id="power_resisted_by-{{ loop.index0 }}" style="text-align:center">
-              {{ power.resisted_by }}
-            </td>
+              <td id="power-action_step-{{ loop.index0 }}" style="text-align:center">
+                {{ power.action_step }}
+              </td>
+              <td id="power-action_dice-{{ loop.index0 }}" style="text-align:center">
+                {{ steps | nth(n=power.action_step - 1) }}
+              </td>
+              {% if power.effect_step %}
+              <td id="power-effect_step-{{ loop.index0 }}" style="text-align:center">
+                {{ power.effect_step }}
+              </td>
+              <td id="power-effect_dice-{{ loop.index0 }}" style="text-align:center">
+                {{ steps | nth(n=power.effect_step - 1) }}
+              </td>
+              {% endif %}
+              {% if power.resisted_by != 'NotApplicable' %}
+              <td id="power_resisted_by-{{ loop.index0 }}" style="text-align:center">
+                {{ power.resisted_by }}
+              </td>
+              {% endif %}
             {% endif %}
           </tr>
           </table>
@@ -526,19 +530,14 @@
       val = parseInt(penaltyCounter.innerHTML) + 1;
 
       penaltyCounter.innerHTML = val
-      updateActionPenalty(1);
+      updateActionPenalty(-1);
     }
     
     function subtractOnePenalty() {
       val = parseInt(penaltyCounter.innerHTML) - 1;
 
-      if (val < 0) {
-        val = 0
-        
-      } else {
-        penaltyCounter.innerHTML = val
-        updateActionPenalty(-1);
-      };
+      penaltyCounter.innerHTML = val
+      updateActionPenalty(1);
     }
 
     function updateWounds(val) {
@@ -576,11 +575,11 @@
 
     function updateActionPenalty(val) {
 
-      dex = Math.min(Math.max(parseInt(dexterity.innerHTML) - val, 1), parseInt("{{ creature.dexterity }}"));
-      per = Math.min(Math.max(parseInt(perception.innerHTML) - val, 1), parseInt("{{ creature.perception }}"));
-      cha = Math.min(Math.max(parseInt(charisma.innerHTML) - val, 1), parseInt("{{ creature.charisma }}"));
-      ini = Math.min(Math.max(parseInt(initiative.innerHTML) - val, 1), parseInt("{{ creature.initiative }}"));
-      kno = Math.min(Math.max(parseInt(knockdown.innerHTML) - val, 1), parseInt("{{ creature.knockdown }}"));
+      dex = Math.max(parseInt(dexterity.innerHTML) - val, 1);
+      per = Math.max(parseInt(perception.innerHTML) - val, 1);
+      cha = Math.max(parseInt(charisma.innerHTML) - val, 1);
+      ini = Math.max(parseInt(initiative.innerHTML) - val, 1);
+      kno = Math.max(parseInt(knockdown.innerHTML) - val, 1);
 
       dexterity.innerHTML = dex;
       perception.innerHTML = per;

@@ -24,6 +24,9 @@
       class="btn btn-info">
       In-Play View
     </a>
+    {% if session_user != ""%}
+    <a class="btn btn-secondary" method="get" href="/{{ lang }}/copy_creature/{{ creature.id }}">Copy and Edit</a>
+    {% endif %}
   </h1>
 
   <h4>{{ fluent(key="circle", lang=lang )}}: {{ creature.circle_rank }}</h4>

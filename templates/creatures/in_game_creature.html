@@ -449,7 +449,7 @@
     const penaltyCounter = document.getElementById('penalties')
 
     const steps = "{{ steps }}".replace("[", "").split(", ");
-    trim
+
     function addFiveDamage() {
 
       damageCounter.innerHTML = parseInt(damageCounter.innerHTML) + 5;
@@ -638,13 +638,16 @@
         effect = document.getElementById(`power-effect_step-${i}`);
 
         action_step = Math.max(parseInt(action.innerHTML) - val, 1);
-        effect_step = Math.max(parseInt(effect.innerHTML) - val, 1);
-
+        
         action.innerHTML = action_step;
-        effect.innerHTML = effect_step;
-
+        
         getStep(`power-action_dice-${i}`, action_step);
-        getStep(`power-effect_dice-${i}`, effect_step);
+        
+        if (effect) {
+          effect_step = Math.max(parseInt(effect.innerHTML) - val, 1);
+          effect.innerHTML = effect_step;
+          getStep(`power-effect_dice-${i}`, effect_step);
+        };
 
       }
     }

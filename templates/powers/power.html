@@ -4,15 +4,16 @@
     hx-swap="outerHTML"
     >
     <strong>{{ power.name }}</strong> ({{ power.action_type }}{% if power.target != 'NotApplicable' %} vs. {{ power.target }}{% endif %}): {{ power.action_step}}: {{ steps | nth(n=power.action_step - 1) }}{% if power.effect_step %} ({{ power.effect_step }}: {{ steps | nth(n=power.effect_step - 1) }}{% if power.resisted_by != 'NotApplicable' %}/<i>{{ power.resisted_by }}</i>{% endif %}){% endif %}{% if power.details %}: {{ power.details }}{% endif %}   
+    
     <button
         hx-get="/{{ lang }}/edit_power/{{ power.id }}"
         hx-target="#power-{{ power.id }}"
-        class="btn btn-info"
+        class="btn btn-info btn-sm"
     >Edit</button>
     <button
-              hx-get="/{{ lang }}/delete_power/{{ power.id }}"
-              hx-target="#power-{{ power.id }}"
-              class="btn btn-danger btn-sm"
-          >Delete</button>
+        hx-get="/{{ lang }}/delete_power/{{ power.id }}"
+        hx-target="#power-{{ power.id }}"
+        class="btn btn-danger btn-sm"
+    >Delete</button>
     </li>
 </div> <!-- end-div htmx -->

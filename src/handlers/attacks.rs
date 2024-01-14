@@ -41,6 +41,7 @@ pub async fn get_attack(
 
     ctx.insert("attack", &attack);
     ctx.insert("creature_id", &attack.creature_id);
+    ctx.insert("steps", &data.steps);
 
     let rendered = data.tmpl.render("attacks/attack.html", &ctx).unwrap();
     HttpResponse::Ok().body(rendered)

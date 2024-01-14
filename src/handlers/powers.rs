@@ -43,6 +43,7 @@ pub async fn get_power(
 
     ctx.insert("power", &power);
     ctx.insert("creature_id", &power.creature_id);
+    ctx.insert("steps", &data.steps);
 
     let rendered = data.tmpl.render("powers/power.html", &ctx).unwrap();
     HttpResponse::Ok().body(rendered)

@@ -6,7 +6,7 @@
       <meta name="description" content={{ fluent(key="app-description", lang=lang )}}>
       <meta name="author" content="ToferC">
       <meta property="og:title" content="{{ creature.name }}">
-      <title>{{ creature.name }} - Earthdawn Creatures</title>
+      <title>{{ creature.name }} - {{ fluent(key="app-name", lang=lang )}}</title>
 {% endblock title %}
 
 {% block content %}
@@ -44,7 +44,7 @@
   <h3>Attributes</h3>
   <div>
     <div class="row">
-      <div class="col">
+      <div class="col col-md col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <table style="Table-Layout:fixed">
             <tr>
                 <td>{{ fluent(key="dex", lang=lang )}}</td>
@@ -101,6 +101,7 @@
                 <td style="text-align:center" id="charisma-step">{{ steps | nth(n=creature.charisma - 1) }}</td>
             </tr>
           </table>
+          <br>
 
           <table>
             <tr>
@@ -120,9 +121,10 @@
               </td>
             </tr>
         </table>
+        <br>
 
       </div>
-      <div class="col">
+      <div class="col col-md col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <table style="Table-Layout:fixed">
           <tr>
             <td>{{ fluent(key="initiative", lang=lang )}}</td>
@@ -149,10 +151,11 @@
             <td>MA</td>
             <td style="text-align:center">{{ creature.ma }}</td>
           </tr>
-
         </table>
+        <br>
       </div>
-      <div class="col">
+      <br>
+      <div class="col col-md col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <table style="Table-Layout:fixed">
           <tr>
             <td>{{ fluent(key="uncon", lang=lang )}}</td>
@@ -228,41 +231,6 @@
           </tr>
         </table>
       </div>
-        <!--
-          <h4>Damage: |
-          <input
-            class="input-lg"
-            id="damage"
-            value="0"
-            min="0"
-            type="number"
-            style="text-align:center"
-            > |
-            <button
-            id="damage_add_1"
-            class="btn btn-danger"
-            onclick="addOneDamage()"
-            >+1</button> 
-            <button
-            id="damage_add_5"
-            class="btn btn-danger"
-            onclick="addFiveDamage()"
-            >+5</button>
-            |
-            <button
-            id="damage_subtract_1"
-            class="btn btn-primary" 
-            onclick="subtractOneDamage()"
-            >-1</button> 
-            <button
-            id="damage_subtract_5" 
-            class="btn btn-primary"
-            onclick="subtractFiveDamage()"
-            >-5</button>
-          </h4>
-        -->
-        
-
       <hr>
 
       <div class="row">
@@ -293,29 +261,6 @@
             </td>
           </tr>
         </table>
-        <!--
-          <h4>Wounds: |
-          <input
-            class="input-lg"
-            style="text-align:center"
-            id="wounds"
-            type="number"
-            min="0"
-            value="0"
-            onchange="updateWounds()"
-            readonly
-          > |</h4>
-          <button
-            id="wound_add_1"
-            class="btn btn-danger"
-            onclick="addOneWound()"
-          >+1</button> 
-          <button
-            id="wound_add_1"
-            class="btn btn-primary"
-            onclick="subtractOneWound()"
-          >-1</button> 
-        -->
       </div>
     <hr>
 
@@ -348,31 +293,6 @@
         </tr>
       </table>
       </div>
-
-      <!--
-        <h4>Action Penalty: |
-        <input
-          class="input-lg"
-          style="text-align:center"
-          id="penalties"
-          type="number"
-          min="0"
-          value="0"
-          onchange="updatePenalties()"
-          readonly
-        > |</h4>
-        <button
-          id="penalty_add_1"
-          class="btn btn-danger"
-          onclick="addOnePenalty()"
-        >+1</button> 
-        <button
-          id="penalty_add_1"
-          class="btn btn-primary"
-          onclick="subtractOnePenalty()"
-        >-1</button> 
-      -->
-    
   <hr>
     
   </div>
@@ -549,8 +469,8 @@
     const woundCounter = document.getElementById('wounds')
     const penaltyCounter = document.getElementById('penalties')
 
-    const steps = "{{ steps }}".split(", ");
-
+    const steps = "{{ steps }}".replace("[", "").split(", ");
+    trim
     function addFiveDamage() {
 
       damageCounter.innerHTML = parseInt(damageCounter.innerHTML) + 5;
@@ -644,14 +564,14 @@
 
     function updateWounds(val) {
 
-      dex = parseInt(dexterity.innerHTML) - val;
-      str = parseInt(strength.innerHTML) - val;
-      con = parseInt(constitution.innerHTML) - val;
-      per = parseInt(perception.innerHTML) - val;
-      wil = parseInt(willpower.innerHTML) - val;
-      cha = parseInt(charisma.innerHTML) - val;
-      ini = parseInt(initiative.innerHTML) - val;
-      kno = parseInt(knockdown.innerHTML) - val;
+      dex = Math.min(Math.max(parseInt(dexterity.innerHTML) - val, 1), parseInt("{{ creature.dexterity }}"));
+      str = Math.min(Math.max(parseInt(strength.innerHTML) - val, 1), parseInt("{{ creature.strength }}"));
+      con = Math.min(Math.max(parseInt(constitution.innerHTML) - val, 1), parseInt("{{ creature.constitution }}"));
+      per = Math.min(Math.max(parseInt(perception.innerHTML) - val, 1), parseInt("{{ creature.perception }}"));
+      wil = Math.min(Math.max(parseInt(willpower.innerHTML) - val, 1), parseInt("{{ creature.willpower }}"));
+      cha = Math.min(Math.max(parseInt(charisma.innerHTML) - val, 1), parseInt("{{ creature.charisma }}"));
+      ini = Math.min(Math.max(parseInt(initiative.innerHTML) - val, 1), parseInt("{{ creature.initiative }}"));
+      kno = Math.min(Math.max(parseInt(knockdown.innerHTML) - val, 1), parseInt("{{ creature.knockdown }}"));
 
       dexterity.innerHTML = dex;
       strength.innerHTML = str;
@@ -677,11 +597,11 @@
 
     function updateActionPenalty(val) {
 
-      dex = parseInt(dexterity.innerHTML) - val;
-      per = parseInt(perception.innerHTML) - val;
-      cha = parseInt(charisma.innerHTML) - val;
-      ini = parseInt(initiative.innerHTML) - val;
-      kno = parseInt(knockdown.innerHTML) - val;
+      dex = Math.min(Math.max(parseInt(dexterity.innerHTML) - val, 1), parseInt("{{ creature.dexterity }}"));
+      per = Math.min(Math.max(parseInt(perception.innerHTML) - val, 1), parseInt("{{ creature.perception }}"));
+      cha = Math.min(Math.max(parseInt(charisma.innerHTML) - val, 1), parseInt("{{ creature.charisma }}"));
+      ini = Math.min(Math.max(parseInt(initiative.innerHTML) - val, 1), parseInt("{{ creature.initiative }}"));
+      kno = Math.min(Math.max(parseInt(knockdown.innerHTML) - val, 1), parseInt("{{ creature.knockdown }}"));
 
       dexterity.innerHTML = dex;
       perception.innerHTML = per;
@@ -706,8 +626,8 @@
         action = document.getElementById(`attack-action_step-${i}`);
         effect = document.getElementById(`attack-effect_step-${i}`);
 
-        action_step = parseInt(action.innerHTML) - val;
-        effect_step = parseInt(effect.innerHTML) - val;
+        action_step = Math.max(parseInt(action.innerHTML) - val, 1);
+        effect_step = Math.max(parseInt(effect.innerHTML) - val, 1);
 
         action.innerHTML = action_step;
         effect.innerHTML = effect_step;
@@ -723,7 +643,7 @@
 
         action = document.getElementById(`attack-action_step-${i}`);
 
-        action_step = parseInt(action.innerHTML) - val;
+        action_step = Math.max(parseInt(action.innerHTML) - val, 1);
 
         action.innerHTML = action_step;
 
@@ -738,8 +658,8 @@
         action = document.getElementById(`power-action_step-${i}`);
         effect = document.getElementById(`power-effect_step-${i}`);
 
-        action_step = parseInt(action.innerHTML) - val;
-        effect_step = parseInt(effect.innerHTML) - val;
+        action_step = Math.max(parseInt(action.innerHTML) - val, 1);
+        effect_step = Math.max(parseInt(effect.innerHTML) - val, 1);
 
         action.innerHTML = action_step;
         effect.innerHTML = effect_step;
@@ -756,7 +676,7 @@
 
         action = document.getElementById(`power-action_step-${i}`);
 
-        action_step = parseInt(action.innerHTML) - val;
+        action_step = Math.max(parseInt(action.innerHTML) - val, 1);
 
         action.innerHTML = action_step;
 

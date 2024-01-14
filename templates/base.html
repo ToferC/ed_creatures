@@ -299,11 +299,11 @@
               <ul class="navbar-nav mr-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/{{ lang }}/about">{{ fluent(key="about", lang=lang )}}<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/{{ lang }}/about">{{ fluent(key="about", lang=lang )}}<span class="sr-only"></span></a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/{{ lang }}/new_creature_form">{{ fluent(key="create-creature", lang=lang )}}<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/{{ lang }}/new_creature_form">{{ fluent(key="create-creature", lang=lang )}}<span class="sr-only"></span></a>
                 </li>
 
                 {% if session_user != "" %}
@@ -322,11 +322,11 @@
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/{{ lang }}/log_in">{{ fluent(key="login", lang=lang )}}<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/{{ lang }}/log_in">{{ fluent(key="login", lang=lang )}}<span class="sr-only"></span></a>
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link" href="/{{ lang }}/register">{{ fluent(key="register", lang=lang )}}<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/{{ lang }}/register">{{ fluent(key="register", lang=lang )}}<span class="sr-only"></span></a>
                 </li>
                 
                 {% endif %}

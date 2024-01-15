@@ -4,8 +4,8 @@ use uuid::Uuid;
 use serde::{Serialize, Deserialize};
 
 use crate::errors::CustomError;
-use crate::schema::creatures;
 use crate::database::connection;
+use crate::schema::creatures;
 
 use diesel::prelude::*;
 use diesel::{RunQueryDsl, QueryDsl};
@@ -49,6 +49,7 @@ pub struct Creature {
     pub image_url: Option<String>,
     pub created_at: NaiveDateTime,
     pub updated_at: NaiveDateTime,
+    pub tags: Vec<Option<Tags>>,
 }
 
 impl Creature {
@@ -132,6 +133,18 @@ impl Creature {
         Ok(res)
     }
 
+    pub fn search_by_tag(tag: Tags) -> Result<Vec<Self>, CustomError> {
+        let mut conn = connection()?;
+
+        let tag = vec![Some(tag)];
+
+        let res = creatures::table
+            .filter(creatures::tags.overlaps_with(tag))
+            .load::<Creature>(&mut conn)?;
+
+        Ok(res)
+    }
+
     pub fn get_all() -> Result<Vec<Self>, CustomError> {
         let mut conn = connection()?;
 
@@ -199,6 +212,29 @@ pub enum Locales {
     Any,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, DbEnum, Serialize, Deserialize, QueryId, EnumString)]
+#[ExistingTypePath = "crate::schema::sql_types::Tags"]
+pub enum Tags {
+    #[strum(serialize = "Creature", serialize = "creature")]
+    Creature,
+    #[strum(serialize = "Spirit", serialize = "spirit")]
+    Spirit,
+    #[strum(serialize = "Elemental", serialize = "elemental")]
+    Elemental,
+    #[strum(serialize = "Horror", serialize = "horror")]
+    Horror,
+    #[strum(serialize = "Dragon", serialize = "dragon")]
+    Dragon,
+    #[strum(serialize = "HorrorConstruct", serialize = "horror_construct")]
+    HorrorConstruct,
+    #[strum(serialize = "Adept", serialize = "adept")]
+    Adept,
+    #[strum(serialize = "NPC", serialize = "npc")]
+    NPC,
+    #[strum(serialize = "Other", serialize = "other")]
+    Other,
+}
+
 #[derive(Debug, Clone, Deserialize, Serialize, Insertable, Queryable)]
 #[diesel(table_name = creatures)]
 pub struct InsertableCreature {
@@ -233,6 +269,7 @@ pub struct InsertableCreature {
     pub image_url: Option<String>,
     pub created_at: chrono::NaiveDateTime,
     pub updated_at: chrono::NaiveDateTime,
+    pub tags: Vec<Option<Tags>>,
 }
 
 impl InsertableCreature {
@@ -274,6 +311,7 @@ impl InsertableCreature {
             image_url: Some("hdahdksfashf".to_string()),
             created_at: today,
             updated_at: today,
+            tags: vec![Some(Tags::Creature)],
         }
     }
 
@@ -305,6 +343,7 @@ impl InsertableCreature {
         movement: String,
         recovery_rolls: i32,
         karma: i32,
+        tags: Vec<Option<Tags>>,
     ) -> Self {
 
         let slug = name.trim().to_snake_case();
@@ -342,6 +381,7 @@ impl InsertableCreature {
             image_url: Some("default_image_url".to_string()),
             created_at: today,
             updated_at: today,
+            tags,
         }
     }
 }

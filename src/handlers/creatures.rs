@@ -2,7 +2,7 @@ use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest};
 use actix_identity::Identity;
 use inflector::Inflector;
 
-use crate::{generate_basic_context, AppData, models::{User, Attack, Power, Locales, Maneuver, InsertableAttack, InsertablePower, UserRole}, handlers::CreatureForm, generate_unique_code};
+use crate::{generate_basic_context, AppData, models::{User, Attack, Power, Locales, Maneuver, InsertableAttack, InsertablePower, UserRole, Tags}, handlers::CreatureForm, generate_unique_code};
 use uuid::Uuid;
 
 use crate::models::{Creature, InsertableCreature, InsertableManeuver};
@@ -123,6 +123,18 @@ pub async fn post_creature(
     if form.kaer != None { found_in.push(Some(Locales::Kaer));};
     if form.any != None { found_in.push(Some(Locales::Any));};
 
+    let mut tags = Vec::new();
+
+    if form.creature != None { tags.push(Some(Tags::Creature));};
+    if form.spirit != None { tags.push(Some(Tags::Spirit));};
+    if form.elemental != None { tags.push(Some(Tags::Elemental));};
+    if form.horror != None { tags.push(Some(Tags::Horror));};
+    if form.dragon != None { tags.push(Some(Tags::Dragon));};
+    if form.horror_construct != None { tags.push(Some(Tags::HorrorConstruct));};
+    if form.adept != None { tags.push(Some(Tags::Adept));};
+    if form.npc != None { tags.push(Some(Tags::NPC));};
+    if form.other != None { tags.push(Some(Tags::Other));};
+
     let new_creature = InsertableCreature::new(
         user.id,
         user.slug,
@@ -151,6 +163,7 @@ pub async fn post_creature(
         form.movement.to_owned(),
         form.recovery_rolls,
         form.karma,
+        tags,
         );
 
     let creature = Creature::create(&new_creature).expect("Unable to create creature");
@@ -254,6 +267,19 @@ pub async fn edit_creature_post(
     if form.kaer != None { found_in.push(Some(Locales::Kaer));};
     if form.any != None { found_in.push(Some(Locales::Any));};
 
+    let mut tags = Vec::new();
+
+    if form.creature != None { tags.push(Some(Tags::Creature));};
+    if form.spirit != None { tags.push(Some(Tags::Spirit));};
+    if form.elemental != None { tags.push(Some(Tags::Elemental));};
+    if form.horror != None { tags.push(Some(Tags::Horror));};
+    if form.dragon != None { tags.push(Some(Tags::Dragon));};
+    if form.horror_construct != None { tags.push(Some(Tags::HorrorConstruct));};
+    if form.adept != None { tags.push(Some(Tags::Adept));};
+    if form.npc != None { tags.push(Some(Tags::NPC));};
+    if form.other != None { tags.push(Some(Tags::Other));};
+
+    
     let mut our_creature = Creature {
         id: creature.id,
         creator_id: user.id,
@@ -287,6 +313,7 @@ pub async fn edit_creature_post(
         image_url: None,
         created_at: creature.created_at,
         updated_at: today,
+        tags,
     };
 
     let creature = Creature::update(&mut our_creature).expect("Unable to create creature");
@@ -370,6 +397,7 @@ pub async fn copy_creature(
         image_url: None,
         created_at: today,
         updated_at: today,
+        tags: creature.tags,
     };
 
     let new_creature = Creature::create(&mut our_creature).expect("Unable to create creature");

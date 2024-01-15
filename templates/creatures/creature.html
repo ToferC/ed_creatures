@@ -42,6 +42,17 @@
     </button>
     {% endfor %}
   </h4>
+    <h4 class="card-text">{{ fluent(key="tags", lang=lang )}}: 
+    {% for tag in creature.tags %}
+      <button
+        hx-get="/{{ lang }}/tag/{{ tag }}"
+        hx-trigger="click"
+        hx-target="#main-body"
+        hx-swap="outerHTML"
+        class="btn btn-sm btn-light" 
+        >{{ tag }}
+      </button>
+    {% endfor %}</h4>
     <small>Created at: {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }} by {{ creature.creator_slug }};</small>
     <small>Updated at: {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</small>
     <hr>

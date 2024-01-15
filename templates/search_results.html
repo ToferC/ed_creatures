@@ -22,7 +22,19 @@
                 hx-swap="outerHTML"
                 class="btn btn-sm btn-info" 
                 >{{ location }}
-              </button>
+              </button></p>
+              <p class="card-text">{{ fluent(key="tags", lang=lang )}}: 
+                {% for tag in creature.tags %}
+                  <button
+                    hx-get="/{{ lang }}/tag/{{ tag }}"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    class="btn btn-sm btn-light" 
+                    >{{ tag }}
+                  </button>
+                {% endfor %}</p>
+                <hr>
               {% endfor %}
             <a method="get" href="/{{lang}}/creature/view/{{ creature.slug }}" class="btn btn-primary">{{ fluent(key="view", lang=lang) }}</a>
           </div>

@@ -48,7 +48,7 @@ wil = WIL
 cha = CHA
 initiative = Initiative
 physical-defense = Physical Defense
-mystic-defense = Mysic Defense
+mystic-defense = Mystic Defense
 social-defense = Social Defense
 physical-armor = Physical Armor
 mystic-armor = Mystic Armor
@@ -74,6 +74,17 @@ in-play-view = In-Play View
 created-at = Created at:
 updated-at = Updated at:
 by = by
+
+tags = Tags
+creature = Creature
+spirit = Spirit
+elemental = Elemental
+horror = Horror
+dragon = Dragon
+horror_construct = Horror Construct
+adept = Adept
+npc = NPC
+other = Other
 
 ## In-Play
 damage = Damage:

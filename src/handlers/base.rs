@@ -5,7 +5,7 @@ use actix_identity::Identity;
 
 use crate::{generate_basic_context, AppData};
 
-use crate::models::{Creature, Locales};
+use crate::models::{Creature, Locales, Tags};
 use super::SearchForm;
 
 #[get("/")]
@@ -91,6 +91,28 @@ pub async fn creature_by_location(
 
     ctx.insert("creatures", &creatures);
     ctx.insert("search_text", &location);
+
+    let rendered = data.tmpl.render("search_results.html", &ctx).unwrap();
+    HttpResponse::Ok().body(rendered)
+}
+
+#[get("/{lang}/tag/{tag}")]
+pub async fn creature_by_tag(
+    data: web::Data<AppData>,
+    path: web::Path<(String, String)>,
+    id: Option<Identity>,
+    req: HttpRequest,
+) -> impl Responder {
+    let (lang, tag) = path.into_inner();
+
+    let (mut ctx, _, _, _) = generate_basic_context(id, &lang, req.uri().path());
+
+    let tag = Tags::from_str(&tag).unwrap();
+
+    let creatures = Creature::search_by_tag(tag).expect("Unable to get creatures from search");
+
+    ctx.insert("creatures", &creatures);
+    ctx.insert("search_text", &tag);
 
     let rendered = data.tmpl.render("search_results.html", &ctx).unwrap();
     HttpResponse::Ok().body(rendered)

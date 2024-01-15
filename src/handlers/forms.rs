@@ -11,6 +11,7 @@ pub struct DeleteForm {
 pub struct CreatureForm {
     pub name: String,
     pub rarity: Rarity,
+    // Locales
     pub jungle: Option<String>,
     pub desert: Option<String>,
     pub forest: Option<String>,
@@ -21,6 +22,17 @@ pub struct CreatureForm {
     pub swamp: Option<String>,
     pub kaer: Option<String>,
     pub any: Option<String>,
+    // Tags
+    pub creature: Option<String>,
+    pub spirit: Option<String>,
+    pub elemental: Option<String>,
+    pub horror: Option<String>,
+    pub dragon: Option<String>,
+    pub horror_construct: Option<String>,
+    pub adept: Option<String>,
+    pub npc: Option<String>,
+    pub other: Option<String>,
+    // Core
     pub circle_rank: i32,
     pub description: String,
     pub dexterity: i32,

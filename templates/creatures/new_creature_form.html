@@ -32,6 +32,70 @@
 
         <hr>
 
+        <label>{{ fluent(key="tags", lang=lang )}}</label>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-grp">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="creature" id="flexSwitchCheckDefault" {%if 'Creature' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Creature</label>
+                    </div>
+        
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="spirit" id="flexSwitchCheckDefault" {%if 'Spirit' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Spirit</label>
+                    </div>
+        
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="elemental" id="flexSwitchCheckDefault" {%if 'Elemental' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Elemental</label>
+                    </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-4">
+                    <div class="input-grp">
+    
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="horror" id="flexSwitchCheckDefault" {%if 'Horror' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Horror</label>
+                    </div>
+        
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="dragon" id="flexSwitchCheckDefault" {%if 'Dragon' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Dragon</label>
+                    </div>
+        
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="horror_construct" id="flexSwitchCheckDefault" {%if 'HorrorConstruct' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Horror Construct</label>
+                    </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-4">
+                    <div class="input-grp">
+    
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="adept" id="flexSwitchCheckDefault" {%if 'Adept' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Adept</label>
+                    </div>
+        
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="npc" id="flexSwitchCheckDefault" {%if 'NPC' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">NPC</label>
+                    </div>
+        
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="other" id="flexSwitchCheckDefault" {%if 'Other' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Other</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
         <label>{{ fluent(key="found-in", lang=lang )}}</label>
         <div class="row">
             <div class="col-md-4">

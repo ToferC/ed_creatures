@@ -7,5 +7,6 @@ DROP TYPE IF EXISTS action_targets;
 DROP TYPE IF EXISTS action_types;
 DROP TABLE IF EXISTS attacks;
 DROP TABLE IF EXISTS creatures;
+DROP TYPE IF EXISTS tags;
 DROP TYPE IF EXISTS rarities;
 DROP TYPE IF EXISTS locales;

@@ -22,6 +22,10 @@ pub mod sql_types {
     pub struct ResistedBys;
 
     #[derive(diesel::query_builder::QueryId, diesel::sql_types::SqlType)]
+    #[diesel(postgres_type(name = "tags"))]
+    pub struct Tags;
+
+    #[derive(diesel::query_builder::QueryId, diesel::sql_types::SqlType)]
     #[diesel(postgres_type(name = "user_roles"))]
     pub struct UserRoles;
 }
@@ -45,6 +49,7 @@ diesel::table! {
     use diesel::sql_types::*;
     use super::sql_types::Locales;
     use super::sql_types::Rarities;
+    use super::sql_types::Tags;
 
     creatures (id) {
         id -> Uuid,
@@ -84,6 +89,7 @@ diesel::table! {
         image_url -> Nullable<Varchar>,
         created_at -> Timestamp,
         updated_at -> Timestamp,
+        tags -> Array<Nullable<Tags>>,
     }
 }
 

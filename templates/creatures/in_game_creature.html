@@ -16,7 +16,7 @@
 
 <div class="container">
   <br>
-  <h1>{{ creature.name | title | safe }}
+  <h1>{{ creature.name | title | safe }} ({{ creature.circle_rank }}) 
     <a
       href="/{{ lang }}/creature/view/{{ creature.slug }}" 
       class="btn btn-info">
@@ -24,7 +24,6 @@
     </a>
   </h1>
 
-  <h4>{{ fluent(key="circle", lang=lang )}}: {{ creature.circle_rank }}</h4>
   <h4>{{ fluent(key="rarity", lang=lang )}}: {{ creature.rarity }}</h4>
   <h4>{{ fluent(key="found-in", lang=lang )}}: {% for location in creature.found_in %}
     <button
@@ -134,22 +133,27 @@
           <tr>
             <td>PD</td>
             <td style="text-align:center">{{ creature.pd }}</td>
+            <td><input style="text-align:center" type="number" min="0" value="{{ creature.pd }}"></td>
           </tr>
           <tr>
             <td>MD</td>
             <td style="text-align:center">{{ creature.md }}</td>
+            <td><input style="text-align:center" type="number" min="0" value="{{ creature.md }}"></td>
           </tr>
           <tr>
             <td>SD</td>
             <td style="text-align:center">{{ creature.sd }}</td>
+            <td><input style="text-align:center" type="number" min="0" value="{{ creature.sd }}"></td>
           </tr>
           <tr>
             <td>PA</td>
             <td style="text-align:center">{{ creature.pa }}</td>
+            <td><input style="text-align:center" type="number" min="0" value="{{ creature.pa }}"></td>
           </tr>
           <tr>
             <td>MA</td>
             <td style="text-align:center">{{ creature.ma }}</td>
+            <td><input style="text-align:center" type="number" min="0" value="{{ creature.ma }}"></td>
           </tr>
         </table>
         <br>
@@ -170,6 +174,7 @@
           <tr>
             <td>{{ fluent(key="wound", lang=lang )}}</td>
             <td style="text-align:center">{{ creature.wound }}</td>
+            <td><input style="text-align:center" type="number" min="0" value="{{ creature.wound }}"></td>
           </tr>  
           <tr>
             <td>{{ fluent(key="kd", lang=lang )}}</td>
@@ -183,7 +188,28 @@
           <tr>
             <td>{{ fluent(key="karma", lang=lang )}}</td>
             <td style="text-align:center">{{ creature.karma }}</td>
+            <td><input style="text-align:center" type="number" min="0" value="{{ creature.karma }}"></td>
           </tr>  
+        </table>
+
+        <br>
+
+        <table>
+          <tr>
+            <th>{{ fluent(key="counter", lang=lang )}} 1</th>
+            <th>{{ fluent(key="counter", lang=lang )}} 2</th>
+            <th>{{ fluent(key="counter", lang=lang )}} 3</th>
+          </tr>
+          <tr>
+            <td><input style="text-align:center" type="number" min="0" value="0"></td>
+            <td><input style="text-align:center" type="number" min="0" value="0"></td>
+            <td><input style="text-align:center" type="number" min="0" value="0"></td>
+          </tr>
+          <tr>
+            <td><input style="text-align:center" type="text" value=""></td>
+            <td><input style="text-align:center" type="text" value=""></td>
+            <td><input style="text-align:center" type="text" value=""></td>
+          </tr>
         </table>
       </div>
     </div>

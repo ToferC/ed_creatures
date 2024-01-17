@@ -90,6 +90,7 @@ other = Other
 damage = Damage:
 wounds = Wounds:
 action-step-penalty-bonus = Action Step Penalty/Bonus:
+counter = Counter
 
 ## Attacks
 name = Name

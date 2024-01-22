@@ -11,8 +11,7 @@
 
                 <div class="card" style="width: 18rem;">
                   <div class="card-body">
-                    <h5 class="card-title">{{ creature.name }}</h5>
-                    <p class="card-text">{{ fluent(key="circle", lang=lang) }}: {{ creature.circle_rank }}</p>
+                    <h5 class="card-title">{{ creature.name }} ({{ creature.circle_rank }})</h5>
                     <p class="card-text">{{ fluent(key="rarity", lang=lang) }}: {{ creature.rarity }}</p>
                     <p class="card-text">{{ fluent(key="found-in", lang=lang )}}: 
                       {% for location in creature.found_in %}
@@ -36,11 +35,9 @@
                           >{{ tag }}
                         </button>
                       {% endfor %}</p>
+                      <hr>
 
                     <a method="get" href="/{{lang}}/creature/view/{{ creature.slug }}" class="btn btn-primary">{{ fluent(key="view", lang=lang) }}</a>
-                    {% if session_user != ""%}
-                    <a class="btn btn-secondary" method="get" href="/{{ lang }}/copy_creature/{{ creature.id }}">Copy and Edit</a>
-                    {% endif %}
                   </div>
                 </div>
                 <br>

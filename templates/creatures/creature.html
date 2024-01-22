@@ -18,6 +18,13 @@
       class="btn btn-dark">
       {{ fluent(key="edit-button", lang=lang )}}
     </a>
+
+    <a
+      href="/{{ lang }}/delete_creature/{{ creature.id }}" 
+      class="btn btn-danger">
+      {{ fluent(key="delete-button", lang=lang )}}
+    </a>
+
     {% endif %}
     <a
       href="/{{ lang }}/creature/in_game/{{ creature.slug }}" 

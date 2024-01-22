@@ -60,6 +60,8 @@ use crate::handlers::{
     post_creature,
     edit_creature_post,
     copy_creature,
+    delete_creature,
+    delete_creature_handler,
 
     // attacks
     get_attack,
@@ -146,6 +148,9 @@ pub fn configure_services(config: &mut web::ServiceConfig) {
      config.service(edit_creature);
      config.service(edit_creature_post);
      config.service(copy_creature);
+     config.service(delete_creature);
+     config.service(delete_creature_handler);
+
 
 
     // attacks

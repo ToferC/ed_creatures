@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>{{ fluent(key="delete-creature", lang=lang )}} {{ creature.name }}</title>
+{% endblock title %}
+
+{% block content %}
+    <div class="col m-md-2 m-1">
+        <br>
+        <h1>{{ fluent(key="delete-creature", lang=lang )}} {{ creature.name }}</h1>
+        <p>{{ fluent(key="delete-creature-explain", lang=lang )}}</p>
+
+            <p>{{ creature.name }} ({{ creature.circle_rank }})</p>
+            
+            <p>{{ creature.description }}</p>
+
+
+            <form name="DeleteForm" id="deleteForm" action=/{{ lang }}/delete_creature/{{ creature.id }} method=POST>
+
+                <label>
+                    <strong>{{ fluent(key="delete-creature-colon", lang=lang )}} {{ creature.name }}</strong>
+                    <input class="form-control form-control-lg" type="text" name="verify" placeholder="{{ fluent(key="delete-creature-placeholder", lang=lang )}}" required>
+                    <small id="code_help" class="form-text text-muted">{{ fluent(key="delete-creature-helper", lang=lang )}}
+                    </small>
+                </label>
+                <br>
+        
+                <button 
+                    class="btn g-recaptcha btn-danger" 
+                    data-bs-sitekey="6LfAltkZAAAAAN7rJGBvRUPm36M1aiL7q2a8SznA" 
+                    type=submit
+                    >{{ fluent(key="delete-button", lang=lang )}}</button>
+
+                <button class="btn btn-dark" href="/{{ lang }}/creature/view/{{ creature.slug }}">{{ fluent(key="return-button", lang=lang )}}</button>
+            
+            </form>
+
+    </div>
+{% endblock content %}

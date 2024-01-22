@@ -1,8 +1,8 @@
-use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest};
+use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest, ResponseError};
 use actix_identity::Identity;
 use inflector::Inflector;
 
-use crate::{generate_basic_context, AppData, models::{User, Attack, Power, Locales, Maneuver, InsertableAttack, InsertablePower, UserRole, Tags}, handlers::CreatureForm, generate_unique_code};
+use crate::{generate_basic_context, AppData, models::{User, Attack, Power, Locales, Maneuver, InsertableAttack, InsertablePower, UserRole, Tags}, handlers::{CreatureForm, DeleteForm}, generate_unique_code, errors::CustomError};
 use uuid::Uuid;
 
 use crate::models::{Creature, InsertableCreature, InsertableManeuver};
@@ -485,4 +485,107 @@ pub async fn copy_creature(
     // Redirect to creature
     return HttpResponse::Found()
         .append_header(("Location", format!("/{}/edit_creature/{}", &lang, &new_creature.id))).finish()
+}
+
+#[get("/{lang}/delete_creature/{id}")]
+pub async fn delete_creature_handler(
+    path: web::Path<(String, Uuid)>,
+    data: web::Data<AppData>,
+    
+    req: HttpRequest,
+    id: Option<Identity>,
+) -> impl Responder {
+
+    let (lang, creature_id) = path.into_inner();
+
+    if let Some(id) = id {
+
+        let (mut ctx, session_user, role, _lang) = generate_basic_context(Some(id), &lang, req.uri().path());
+        
+        let result = Creature::get_by_id(&creature_id);
+
+        let creature = match result {
+            Ok(c) => c,
+            Err(e) => {
+                // Unable to retrieve creature
+                println!("{:?}", &e);
+                // validate form has data or and permissions exist
+                return HttpResponse::Found().append_header(("Location", format!("/{}", &lang))).finish()
+            }
+        };
+        
+        if session_user != creature.creator_slug && role != UserRole::Admin {
+            println!("User doesn't have rights to delete");
+            HttpResponse::Found().append_header(("Location", "/{{ lang }}/creature/view/{{ creature.slug }}")).finish()
+        } else {
+            ctx.insert("creature", &creature);
+
+            // Handle Creature Delete
+        
+            let rendered = data.tmpl.render("creatures/delete_creature.html", &ctx).unwrap();
+            return HttpResponse::Ok().body(rendered)
+                
+            }
+        } else {
+            // Redirect to Login
+            return HttpResponse::Found().append_header(("Location", format!("/{}/log_in", &lang))).finish()
+        }
+}
+
+
+#[post("/{lang}/delete_creature/{creature_id}")]
+pub async fn delete_creature(
+    path: web::Path<(String, Uuid)>,
+    _data: web::Data<AppData>,
+    req: HttpRequest,
+    id: Option<Identity>,
+    form: web::Form<DeleteForm>,
+) -> impl Responder {
+
+    let (lang, creature_id) = path.into_inner();
+
+    if let Some(id) = id {
+
+        let (_ctx, session_user, role, _lang) = generate_basic_context(Some(id), &lang, req.uri().path());
+        
+        let creature = Creature::get_by_id(&creature_id);
+        
+        match creature {
+            Ok(c) => {
+
+                if session_user != c.creator_slug && role != UserRole::Admin {
+                    let err = CustomError::new(
+                        406,
+                        "Not authorized".to_string(),
+                    );
+                    println!("{}", &err);
+                    return err.error_response()
+                } else {
+                    if form.verify.trim().to_string() == c.name {
+                        println!("Creature matches verify string - deleting");
+
+                        // Delete attacks, powers and maneuvers
+                        // Should be handled by ON DELETE CASCADE in PSQL                      
+                        
+                        // delete creature
+                        Creature::delete(c.id).expect("Unable to delete creature");
+                        return HttpResponse::Found().append_header(("Location", format!("/{}", &lang))).finish()
+                    } else {
+                        println!("Creature does not match verify string - return to delete page");
+                        return HttpResponse::Found().append_header(("Location", format!("/{}/delete_creature/{}", &lang, c.id))).finish()
+                        
+                    };
+                };
+            },
+                    
+            Err(err) => {
+                // no creature returned for ID
+                println!("{}", err);
+                return err.error_response()
+            },
+        }
+    } else {
+        // Redirect to Login
+        return HttpResponse::Found().append_header(("Location", format!("/{}/log_in", &lang))).finish()
+    }
 }

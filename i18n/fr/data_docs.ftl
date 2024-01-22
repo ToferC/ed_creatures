@@ -92,6 +92,13 @@ wounds = Wounds:
 action-step-penalty-bonus = Action Step Penalty/Bonus:
 counter = Counter
 
+## Delete User
+delete-creature = Delete Creature
+delete-creature-explain = Continue here to delete your creature.
+delete-creature-colon = Delete Creature:
+delete-creature-placeholder = Creature to delete...
+delete-creature-helper = Enter the name of the creature you would like to delete. This action is permanent.
+
 ## Attacks
 name = Name
 attack-name = Attack Name

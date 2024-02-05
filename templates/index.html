@@ -4,6 +4,7 @@
         <div class="container">
             <h1>{{ fluent(key="welcome-to", lang=lang) }}</h1>
             <hr>
+
             <div class="row">
 
             {% for creature in creatures | sort(attribute="circle_rank") %}
@@ -11,19 +12,21 @@
 
                 <div class="card" style="width: 18rem;">
                   <div class="card-body">
-                    <h5 class="card-title">{{ creature.name }} ({{ creature.circle_rank }})</h5>
-                    <p class="card-text">{{ fluent(key="rarity", lang=lang) }}: {{ creature.rarity }}</p>
-                    <p class="card-text">{{ fluent(key="found-in", lang=lang )}}: 
+                    <h5 class="card-title">{{ creature.name }}</h5>
+                    <h6>({{ fluent(key="rank", lang=lang )}}: {{ creature.circle_rank }} | {{ creature.rarity }})</h6>                    <p class="card-text">{{ fluent(key="found-in", lang=lang )}}: 
                       {% for location in creature.found_in %}
-                        <button
-                          hx-get="/{{ lang }}/location/{{ location }}"
-                          hx-trigger="click"
-                          hx-target="#main-body"
-                          hx-swap="outerHTML"
-                          class="btn btn-sm btn-info" 
-                          >{{ location }}
-                        </button>
-                      {% endfor %}</p>
+                      <button
+                      hx-get="/{{ lang }}/location/{{ location }}"
+                      hx-trigger="click"
+                      hx-target="#main-body"
+                      hx-swap="outerHTML"
+                      class="btn btn-sm btn-info" 
+                      >{{ location }}
+                    </button>
+                    {% endfor %}</p>
+                    <hr>
+                    <p>{{ creature.description | truncate(length=30)}}...</p>
+                    <hr>
                       <p class="card-text">{{ fluent(key="tags", lang=lang )}}: 
                       {% for tag in creature.tags %}
                         <button

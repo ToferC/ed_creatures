@@ -6,24 +6,28 @@
     <hr>
     <div class="row">
 
-    {% for creature in creatures %}
-      <div class="col-md-4">
+      {% for creature in creatures | sort(attribute="circle_rank") %}
+        <div class="col-md-4">
 
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <h5 class="card-title">{{ creature.name }}</h5>
-            <p class="card-text">{{ fluent(key="circle", lang=lang) }}: {{ creature.circle_rank }}</p>
-            <p class="card-text">{{ fluent(key="rarity", lang=lang) }}: {{ creature.rarity }}</p>
-            <p class="card-text">{{ fluent(key="found-in", lang=lang )}}: {% for location in creature.found_in %}
-              <button
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{ creature.name }}</h5>
+              <h6>({{ fluent(key="rank", lang=lang )}}: {{ creature.circle_rank }} | {{ creature.rarity }})</h6>
+              <p class="card-text">{{ fluent(key="found-in", lang=lang )}}: 
+                {% for location in creature.found_in %}
+                <button
                 hx-get="/{{ lang }}/location/{{ location }}"
                 hx-trigger="click"
                 hx-target="#main-body"
                 hx-swap="outerHTML"
                 class="btn btn-sm btn-info" 
                 >{{ location }}
-              </button></p>
-              <p class="card-text">{{ fluent(key="tags", lang=lang )}}: 
+              </button>
+              {% endfor %}</p>
+              <hr>
+              <p>{{ creature.description | truncate(length=30)}}...</p>
+              <hr>
+                <p class="card-text">{{ fluent(key="tags", lang=lang )}}: 
                 {% for tag in creature.tags %}
                   <button
                     hx-get="/{{ lang }}/tag/{{ tag }}"
@@ -35,12 +39,12 @@
                   </button>
                 {% endfor %}</p>
                 <hr>
-              {% endfor %}
-            <a method="get" href="/{{lang}}/creature/view/{{ creature.slug }}" class="btn btn-primary">{{ fluent(key="view", lang=lang) }}</a>
+
+              <a method="get" href="/{{lang}}/creature/view/{{ creature.slug }}" class="btn btn-primary">{{ fluent(key="view", lang=lang) }}</a>
+            </div>
           </div>
+          <br>
         </div>
-        <br>
-      </div>
-      {% endfor %}
-    </div> <!-- end row -->
+        {% endfor %}
+      </div> <!-- end row -->
 </div>

@@ -74,6 +74,7 @@ in-play-view = In-Play View
 created-at = Created at:
 updated-at = Updated at:
 by = by
+rank = Rank
 
 tags = Tags
 creature = Creature

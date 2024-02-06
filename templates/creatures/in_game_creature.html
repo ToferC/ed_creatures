@@ -194,21 +194,38 @@
 
         <br>
 
+        <div class="row">
+          <h4 style="text-align:center">{{ fluent(key="counter", lang=lang )}}</h4>
+          <span style="text-align:center">
+            <button 
+              type="button" 
+              class="btn btn-success"
+              id="counter_subtract"
+              onclick="subtractCounters()"
+            >
+              Advance
+            </button>
+            <button 
+              type="button" 
+              class="btn btn-danger"
+              id="counter_add"
+              onclick="addCounters()"
+            >
+              Reverse
+            </button>
+          </span>
+        </div>
+        <br>
         <table>
           <tr>
-            <th>{{ fluent(key="counter", lang=lang )}} 1</th>
-            <th>{{ fluent(key="counter", lang=lang )}} 2</th>
-            <th>{{ fluent(key="counter", lang=lang )}} 3</th>
+            <td><input style="text-align:center" type="text" value=""></td>
+            <td><input style="text-align:center" type="text" value=""></td>
+            <td><input style="text-align:center" type="text" value=""></td>
           </tr>
           <tr>
-            <td><input style="text-align:center" type="number" min="0" value="0"></td>
-            <td><input style="text-align:center" type="number" min="0" value="0"></td>
-            <td><input style="text-align:center" type="number" min="0" value="0"></td>
-          </tr>
-          <tr>
-            <td><input style="text-align:center" type="text" value=""></td>
-            <td><input style="text-align:center" type="text" value=""></td>
-            <td><input style="text-align:center" type="text" value=""></td>
+            <td><input id="counter_1" style="text-align:center" type="number" min="0" value="0"></td>
+            <td><input id="counter_2" style="text-align:center" type="number" min="0" value="0"></td>
+            <td><input id="counter_3" style="text-align:center" type="number" min="0" value="0"></td>
           </tr>
         </table>
       </div>
@@ -698,6 +715,29 @@
       var inum = parseInt(num) - 1;
 
       e.innerHTML = steps[inum]
+    }
+
+    function addCounters() {
+
+      val_1 = parseInt(counter_1.value);
+      val_2 = parseInt(counter_2.value);
+      val_3 = parseInt(counter_3.value);
+
+      counter_1.value = val_1 + 1;
+      counter_2.value = val_2 + 1;
+      counter_3.value = val_3 + 1;
+
+    }
+    
+    function subtractCounters() {
+
+      val_1 = parseInt(counter_1.value);
+      val_2 = parseInt(counter_2.value);
+      val_3 = parseInt(counter_3.value);
+
+      counter_1.value = Math.max(val_1 - 1, 0);
+      counter_2.value = Math.max(val_2 - 1, 0);
+      counter_3.value = Math.max(val_3 - 1, 0);
     }
   </script>
 

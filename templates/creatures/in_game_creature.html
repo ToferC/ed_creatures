@@ -223,9 +223,9 @@
             <td><input style="text-align:center" type="text" value=""></td>
           </tr>
           <tr>
-            <td><input id="counter_1" style="text-align:center" type="number" min="0" value="0"></td>
-            <td><input id="counter_2" style="text-align:center" type="number" min="0" value="0"></td>
-            <td><input id="counter_3" style="text-align:center" type="number" min="0" value="0"></td>
+            <td><input id="counter_1" style="text-align:center" type="number" min="0" value="0" onchange="userUpdateCounterColour.call(this)"></td>
+            <td><input id="counter_2" style="text-align:center" type="number" min="0" value="0" onchange="userUpdateCounterColour.call(this)"></td>
+            <td><input id="counter_3" style="text-align:center" type="number" min="0" value="0" onchange="userUpdateCounterColour.call(this)"></td>
           </tr>
         </table>
       </div>
@@ -679,18 +679,17 @@
         action = document.getElementById(`power-action_step-${i}`);
         effect = document.getElementById(`power-effect_step-${i}`);
 
-        action_step = Math.max(parseInt(action.innerHTML) - val, 1);
-        
-        action.innerHTML = action_step;
-        
-        getStep(`power-action_dice-${i}`, action_step);
+        if (action) {
+          action_step = Math.max(parseInt(action.innerHTML) - val, 1);
+          action.innerHTML = action_step;
+          getStep(`power-action_dice-${i}`, action_step);
+        };
         
         if (effect) {
           effect_step = Math.max(parseInt(effect.innerHTML) - val, 1);
           effect.innerHTML = effect_step;
           getStep(`power-effect_dice-${i}`, effect_step);
         };
-
       }
     }
 
@@ -700,11 +699,12 @@
 
         action = document.getElementById(`power-action_step-${i}`);
 
-        action_step = Math.max(parseInt(action.innerHTML) - val, 1);
+        if (action) {
+          action_step = Math.max(parseInt(action.innerHTML) - val, 1);
+          action.innerHTML = action_step;
+          getStep(`power-action_dice-${i}`, action_step);
+        };
 
-        action.innerHTML = action_step;
-
-        getStep(`power-action_dice-${i}`, action_step);
       }
     }
 
@@ -727,6 +727,8 @@
       counter_2.value = val_2 + 1;
       counter_3.value = val_3 + 1;
 
+      updateCounterColour();
+
     }
     
     function subtractCounters() {
@@ -738,6 +740,34 @@
       counter_1.value = Math.max(val_1 - 1, 0);
       counter_2.value = Math.max(val_2 - 1, 0);
       counter_3.value = Math.max(val_3 - 1, 0);
+
+      updateCounterColour();
+    }
+
+    function userUpdateCounterColour() {
+      if (this.value > 0) {
+        this.style.backgroundColor = "green"
+        this.style.color = "white"
+      } else {
+        this.style.backgroundColor = "white"
+        this.style.color = "black"
+      };
+    ;}
+
+    function updateCounterColour() {
+
+      for (let i=1; i < 4; i++) {
+
+        counter = document.getElementById(`counter_${i}`);
+
+        if (counter.value > 0) {
+          counter.style.backgroundColor = "green"
+          counter.style.color = "white"
+        } else {
+          counter.style.backgroundColor = "white"
+          counter.style.color = "black"
+        };
+      };
     }
   </script>
 

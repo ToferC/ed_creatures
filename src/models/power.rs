@@ -47,6 +47,8 @@ pub enum ActionTarget {
     MysticDefense,
     PhysicalDefense,
     SocialDefense,
+    TN6,
+    TN10,
     Other,
     NotApplicable,
 }

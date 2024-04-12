@@ -1,4 +1,4 @@
-use crate::{errors::CustomError, models::{Creature, InsertableCreature, Attack, InsertableAttack, InsertablePower, Power}};
+use crate::{errors::CustomError, models::{Attack, Creature, InsertableAttack, InsertableCreature, InsertablePower, InsertableTalent, Power, Talent}};
 use diesel::pg::PgConnection;
 use diesel::r2d2::ConnectionManager;
 use lazy_static::lazy_static;
@@ -116,13 +116,23 @@ pub fn pre_populate_creatures(user_id: Uuid, user_slug: String) -> Result<(), Cu
 
     let mut c3 = InsertableCreature::default(user_id, user_slug);
 
-    c3.name = "Cadaverman".to_string();
-    c3.dexterity = 5;
-    c3.willpower = 4;
-    c3.slug = "cadaverman".to_string();
+    c3.name = "Dwarf Weaponsmith".to_string();
+    c3.strength = 6;
+    c3.perception = 6;
+    c3.constitution = 5;
+    c3.dexterity = 6;
+    c3.willpower = 5;
+    c3.charisma = 6;
+    c3.slug = "dwarf_weaponsmith".to_string();
     c3.circle_rank = 3;
 
-    Creature::get_or_create(&c3)?;
+    let dwarf = Creature::get_or_create(&c3)?;
+
+    let talent1 = InsertableTalent::new(user_id, dwarf.id, "Forge Weapon".to_owned(), 9);
+    Talent::create(&talent1).expect("Unable to create talent");
+
+    let talent2 = InsertableTalent::new(user_id, dwarf.id, "Awareness".to_owned(), 8);
+    Talent::create(&talent2).expect("Unable to create talent");
 
     Ok(())
 }

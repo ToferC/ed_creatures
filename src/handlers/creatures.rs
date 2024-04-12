@@ -2,7 +2,7 @@ use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest, ResponseEr
 use actix_identity::Identity;
 use inflector::Inflector;
 
-use crate::{generate_basic_context, AppData, models::{User, Attack, Power, Locales, Maneuver, InsertableAttack, InsertablePower, UserRole, Tags}, handlers::{CreatureForm, DeleteForm}, generate_unique_code, errors::CustomError};
+use crate::{errors::CustomError, generate_basic_context, generate_unique_code, handlers::{CreatureForm, DeleteForm}, models::{Attack, InsertableAttack, InsertablePower, Locales, Maneuver, Power, Tags, Talent, User, UserRole}, AppData};
 use uuid::Uuid;
 
 use crate::models::{Creature, InsertableCreature, InsertableManeuver};
@@ -60,6 +60,9 @@ pub async fn get_creature(
 
     let r_maneuvers = Maneuver::get_by_creature_id(creature.id);
 
+    let r_talents = Talent::get_by_creature_id(creature.id);
+
+
     ctx.insert("creature", &creature);
     ctx.insert("steps", &data.steps);
 
@@ -73,6 +76,10 @@ pub async fn get_creature(
 
     if let Ok(data) = r_maneuvers {
         ctx.insert("maneuvers", &data);
+    }
+
+    if let Ok(data) = r_talents {
+        ctx.insert("talents", &data);
     }
 
     ctx.insert("current_damage", &0);
@@ -202,6 +209,8 @@ pub async fn edit_creature(
 
     let r_maneuvers = Maneuver::get_by_creature_id(creature.id);
 
+    let r_talents = Talent::get_by_creature_id(creature.id);
+
     ctx.insert("creature", &creature);
 
     if let Ok(data) = r_attacks {
@@ -214,6 +223,10 @@ pub async fn edit_creature(
 
     if let Ok(data) = r_maneuvers {
         ctx.insert("maneuvers", &data);
+    }
+
+    if let Ok(data) = r_talents {
+        ctx.insert("talents", &data);
     }
 
     let rendered = data.tmpl.render("creatures/edit_creature_form.html", &ctx).unwrap();

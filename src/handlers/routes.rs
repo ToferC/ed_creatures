@@ -89,6 +89,15 @@ use crate::handlers::{
     edit_maneuver,
     edit_maneuver_post,
     delete_maneuver,
+
+    // talents
+    get_talent,
+    get_talents,
+    add_talent,
+    post_talent,
+    edit_talent,
+    edit_talent_post,
+    delete_talent,
 };
 
 pub fn configure_services(config: &mut web::ServiceConfig) {
@@ -179,5 +188,14 @@ pub fn configure_services(config: &mut web::ServiceConfig) {
     config.service(edit_maneuver);
     config.service(edit_maneuver_post);
     config.service(delete_maneuver);
+
+    // talents
+    config.service(get_talents);
+    config.service(get_talent);
+    config.service(add_talent);
+    config.service(post_talent);
+    config.service(edit_talent);
+    config.service(edit_talent_post);
+    config.service(delete_talent);
 
 }

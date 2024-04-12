@@ -368,6 +368,33 @@
 
 <hr>
 
+<div
+    class="container" 
+    id="talents"
+    hx-target="this"
+    hx-swap="outerHTML"
+>
+<div class="row">
+  <h3>{{ fluent(key="talents", lang=lang )}}</h3><br>
+</div>
+{% if talents %}
+        {% for talent in talents %}
+        <div 
+          id="talent-{{ talent.id }}"
+          hx-target="this"
+          hx-swap="outerHTML"
+        >
+        <li>
+          <strong>{{ talent.name }}</strong> {{ talent.action_step}} ({{ steps | nth(n=talent.action_step - 1) }})
+        </li>
+        </div> <!-- end-div htmx -->
+        {% endfor %} <!-- talents -->
+        <hr>
+        {% else %}
+          <li>None</li>
+      {% endif %}
+</div>
+
     <div class="row">
       <h3>{{ fluent(key="powers-abilities-spells", lang=lang )}}</h3><br>
     </div> 

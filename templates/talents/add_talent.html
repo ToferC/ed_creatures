@@ -1,0 +1,21 @@
+<form hx-post="/{{ lang }}/post_talent/{{ creature_id }}" hx-target="talents">
+    <hr>
+    <h3>{{ fluent(key="add-a-talent", lang=lang )}}</h3><br>
+    <div>
+        <label>{{ fluent(key="talent-name", lang=lang )}}*</label><br>
+        <input class="form-control form-control-lg" type="text" name="name" placeholder="{{ fluent(key="enter-name-here", lang=lang )}}" size=60 value="" required>
+    </div>
+
+    <div>
+        <label>{{ fluent(key="action-step", lang=lang )}}*</label><br>
+        <input class="form-control form-control-lg" type="number" name="action_step" placeholder="{{ fluent(key="enter-action-step", lang=lang )}}" size=60 value="" required>
+    </div>
+    <button
+        hx-post="/{{ lang }}/post_talent/{{ creature_id }}"
+        hx-target="#talents"
+        class="btn btn-primary" 
+        type="submit"
+    >Save
+    </button>
+    <hr>
+  </form>

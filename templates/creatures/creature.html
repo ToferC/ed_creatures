@@ -106,6 +106,54 @@
 
     <hr>
   </div> <!-- End of creature -->
+
+  <div
+    class="container" 
+    id="talents"
+    hx-target="this"
+    hx-swap="outerHTML"
+>
+{% if talents %}
+    <div class="row">
+      <h3>{{ fluent(key="talents", lang=lang )}}</h3><br>
+    </div>
+        {% for talent in talents %}
+        <div 
+          id="talent-{{ talent.id }}"
+          hx-target="this"
+          hx-swap="outerHTML"
+        >
+        <li>
+          <strong>{{ talent.name }}</strong> {{ talent.action_step}} ({{ steps | nth(n=talent.action_step - 1) }})
+          {% if session_user == creature.creator_slug or role == "Admin" %}
+          <button
+            hx-get="/{{ lang }}/edit_talent/{{ talent.id }}"
+            hx-target="#talent-{{ talent.id }}"
+            class="btn btn-info btn-sm"
+          >Edit</button> 
+          <button
+            hx-get="/{{ lang }}/delete_talent/{{ talent.id }}"
+            hx-target="#talent-{{ talent.id }}"
+            class="btn btn-danger btn-sm"
+          >Delete</button>
+          {% endif %}
+        </li>
+        </div> <!-- end-div htmx -->
+        {% endfor %} <!-- talents -->
+      {% endif %}
+      <br>
+      {% if session_user == creature.creator_slug or role == "Admin" %}
+      <button
+        class="btn btn-dark"
+        hx-get="/{{ lang }}/add_talent/{{ creature.id }}"
+        hx-target="this"
+        hx-swap="outerHTML"
+        >
+        {{ fluent(key="add-a-talent", lang=lang )}}
+      </button>
+      {% endif %}
+      <hr>
+</div> <!-- Talents end -->
   
   <div
     class="container" 
@@ -210,10 +258,10 @@ hx-swap="outerHTML"
     hx-target="this"
     hx-swap="outerHTML"
 >
+{% if maneuvers %}
     <div class="row">
       <h3>{{ fluent(key="special-maneuvers", lang=lang )}}</h3><br>
     </div>
-      {% if maneuvers %}
       {% for maneuver in maneuvers %}
       <div 
         id="maneuver-{{ maneuver.id }}"

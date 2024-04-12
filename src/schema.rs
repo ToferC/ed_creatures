@@ -154,6 +154,19 @@ diesel::table! {
 }
 
 diesel::table! {
+    talents (id) {
+        id -> Uuid,
+        creator_id -> Uuid,
+        creature_id -> Uuid,
+        #[max_length = 128]
+        name -> Varchar,
+        action_step -> Int4,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+    }
+}
+
+diesel::table! {
     use diesel::sql_types::*;
     use super::sql_types::UserRoles;
 
@@ -181,6 +194,8 @@ diesel::joinable!(maneuvers -> creatures (creature_id));
 diesel::joinable!(maneuvers -> users (creator_id));
 diesel::joinable!(powers -> creatures (creature_id));
 diesel::joinable!(powers -> users (creator_id));
+diesel::joinable!(talents -> creatures (creature_id));
+diesel::joinable!(talents -> users (creator_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     attacks,
@@ -189,5 +204,6 @@ diesel::allow_tables_to_appear_in_same_query!(
     maneuvers,
     password_reset_token,
     powers,
+    talents,
     users,
 );

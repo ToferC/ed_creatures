@@ -10,6 +10,7 @@ pub mod creatures;
 pub mod attacks;
 pub mod powers;
 pub mod maneuver;
+pub mod talents;
 
 pub use base::*;
 pub use routes::configure_services;
@@ -23,3 +24,4 @@ pub use creatures::*;
 pub use attacks::*;
 pub use powers::*;
 pub use maneuver::*;
+pub use talents::*;

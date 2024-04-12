@@ -130,8 +130,6 @@ impl InsertableTalent {
             creature_id,
             name: "Melee Talent".to_owned(),
             action_step: 9,
-            effect_step: 9,
-            details: Some("A basic talent".to_owned()),
             created_at: today,
             updated_at: today,
         }

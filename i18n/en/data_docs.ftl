@@ -124,6 +124,10 @@ standard = Standard
 move = Move
 ritual = Ritual
 
+## Talents
+talents = Talents
+talent-name = Talent Name
+add-a-talent = Add a Talent
 
 ## Maneuvers
 special-maneuvers = Special Maneuvers

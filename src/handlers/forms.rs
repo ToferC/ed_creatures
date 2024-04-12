@@ -89,3 +89,9 @@ pub struct ManeuverForm {
     pub source: String,
     pub details: String,
 }
+
+#[derive(Debug, Deserialize)]
+pub struct TalentForm {
+    pub name: String,
+    pub action_step: i32,
+}

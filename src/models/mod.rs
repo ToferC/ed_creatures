@@ -5,6 +5,7 @@ mod creature;
 mod attack;
 mod power;
 mod maneuver;
+mod talent;
 
 
 pub use user::*;
@@ -14,3 +15,4 @@ pub use creature::*;
 pub use attack::*;
 pub use power::*;
 pub use maneuver::*;
+pub use talent::*;

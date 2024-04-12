@@ -1,0 +1,19 @@
+<div 
+    id="talent-{{ talent.id }}"
+    hx-target="this"
+    hx-swap="outerHTML"
+    >
+    <li><strong>{{ talent.name }}</strong> {{ talent.action_step}} ({{ steps | nth(n=talent.action_step - 1) }})
+    <button
+        hx-get="/{{ lang }}/edit_talent/{{ talent.id }}"
+        hx-target="#talent-{{ talent.id }}"
+        class="btn btn-info btn-sm"
+    >Edit</button>
+    <button
+        hx-get="/{{ lang }}/delete_talent/{{ talent.id }}"
+        hx-target="#talent-{{ talent.id }}"
+        class="btn btn-danger btn-sm"
+        >Delete
+    </button>
+    </li>
+</div> <!-- end-div htmx -->

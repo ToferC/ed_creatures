@@ -1,21 +1,21 @@
 <div 
     class="container"
-    id="attack-edit-{{ attack.id }}"
+    id="talent-edit-{{ talent.id }}"
 >   
-    <form hx-post="/{{ lang }}/edit_attack_post/{{ attack.id }}" hx-target="attacks">
+    <form hx-post="/{{ lang }}/edit_talent_post/{{ talent.id }}" hx-target="talents">
         <hr>
         <div>
-            <label>{{ fluent(key="attack-name", lang=lang )}}*</label><br>
-            <input class="form-control form-control-lg" type="text" name="name" placeholder="{{ fluent(key="enter-name-here", lang=lang )}}" size=60 value="{{ attack.name }}" required>
+            <label>{{ fluent(key="talent-name", lang=lang )}}*</label><br>
+            <input class="form-control form-control-lg" type="text" name="name" placeholder="{{ fluent(key="enter-name-here", lang=lang )}}" size=60 value="{{ talent.name }}" required>
         </div>
 
         <div>
             <label>{{ fluent(key="action-step", lang=lang )}}*</label><br>
-            <input class="form-control form-control-lg" type="number" name="action_step" placeholder="{{ fluent(key="enter-action-step", lang=lang )}}" size=60 value="{{ attack.action_step }}" required>
+            <input class="form-control form-control-lg" type="number" name="action_step" placeholder="{{ fluent(key="enter-action-step", lang=lang )}}" size=60 value="{{ talent.action_step }}" required>
         </div>
         <button
-            hx-post="/{{ lang }}/edit_attack_post/{{ attack.id }}"
-            hx-target="#attack-edit-{{ attack.id }}"
+            hx-post="/{{ lang }}/edit_talent_post/{{ talent.id }}"
+            hx-target="#talent-edit-{{ talent.id }}"
             class="btn btn-primary" 
             type="submit"
         >Save

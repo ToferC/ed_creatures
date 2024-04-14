@@ -229,6 +229,8 @@ pub async fn edit_creature(
         ctx.insert("talents", &data);
     }
 
+    ctx.insert("steps", &data.steps);
+
     let rendered = data.tmpl.render("creatures/edit_creature_form.html", &ctx).unwrap();
     HttpResponse::Ok().body(rendered)
 }

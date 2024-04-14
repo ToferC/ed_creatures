@@ -13,6 +13,7 @@
 
 {% set attacks_len = attacks | length %}
 {% set powers_len = powers | length %}
+{% set talents_len = talents | length %}
 
 <div class="container">
   <br>
@@ -365,7 +366,7 @@
     {% else %}
         <li>None</li>
     {% endif %}
-
+</div>
 <hr>
 
 <div
@@ -378,23 +379,33 @@
   <h3>{{ fluent(key="talents", lang=lang )}}</h3><br>
 </div>
 {% if talents %}
-        {% for talent in talents %}
-        <div 
-          id="talent-{{ talent.id }}"
-          hx-target="this"
-          hx-swap="outerHTML"
-        >
-        <li>
-          <strong>{{ talent.name }}</strong> {{ talent.action_step}} ({{ steps | nth(n=talent.action_step - 1) }})
-        </li>
-        </div> <!-- end-div htmx -->
-        {% endfor %} <!-- talents -->
+  <table>
+    <tr>
+      <th style="text-align:center">{{ fluent(key="name", lang=lang )}}</th>
+      <th style="text-align:center">{{ fluent(key="action-step", lang=lang )}}</th>
+      <th style="text-align:center">{{ fluent(key="action-dice", lang=lang )}}</th>
+    </tr>
+    {% for talent in talents %}
+    <tr>
+      <td id="talent_name-{{ loop.index0 }}" style="text-align:center">
+        {{ talent.name }}
+      </td>
+      <td id="talent-action_step-{{ loop.index0 }}" style="text-align:center">
+        {{ talent.action_step }}
+      </td>
+      <td id="talent-action_dice-{{ loop.index0 }}" style="text-align:center">
+        {{ steps | nth(n=talent.action_step - 1) }}
+      </td>
+    </tr>
+    {% endfor %} <!-- talents -->
+  </table>
         <hr>
         {% else %}
           <li>None</li>
       {% endif %}
 </div>
 
+<div class="container">
     <div class="row">
       <h3>{{ fluent(key="powers-abilities-spells", lang=lang )}}</h3><br>
     </div> 
@@ -475,10 +486,11 @@
       {% else %}
       <li>None</li>
       {% endif %}  
-  </div>
+</div>
 
 <hr>
 
+<div class="container">
 <div class="row">
   <h3>{{ fluent(key="special-maneuvers", lang=lang )}}</h3><br>
 </div> 
@@ -641,6 +653,7 @@
 
       updateAttacks(val);
       updatePowers(val);
+      updateTalents(val);
     }
 
     function updateActionPenalty(val) {
@@ -665,6 +678,7 @@
 
       updateAttackActions(val);
       updatePowerActions(val);
+      updateTalentActions(val);
     }
 
     function updateAttacks(val) {
@@ -696,6 +710,34 @@
         action.innerHTML = action_step;
 
         getStep(`attack-action_dice-${i}`, action_step);
+      }
+    }
+
+    function updateTalents(val) {
+
+      for (let i=0; i < parseInt(`{{ talents_len }}`); i++) {
+
+        action = document.getElementById(`talent-action_step-${i}`);
+
+        action_step = Math.max(parseInt(action.innerHTML) - val, 1);
+
+        action.innerHTML = action_step;
+
+        getStep(`talent-action_dice-${i}`, action_step);
+      }
+    }
+
+    function updateTalentActions(val) {
+
+      for (let i=0; i < parseInt(`{{ talents_len }}`); i++) {
+
+        action = document.getElementById(`talent-action_step-${i}`);
+
+        action_step = Math.max(parseInt(action.innerHTML) - val, 1);
+
+        action.innerHTML = action_step;
+
+        getStep(`talent-action_dice-${i}`, action_step);
       }
     }
 

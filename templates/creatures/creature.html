@@ -117,29 +117,15 @@
     <div class="row">
       <h3>{{ fluent(key="talents", lang=lang )}}</h3><br>
     </div>
+    <li>
         {% for talent in talents %}
-        <div 
-          id="talent-{{ talent.id }}"
-          hx-target="this"
-          hx-swap="outerHTML"
-        >
-        <li>
-          <strong>{{ talent.name }}</strong> {{ talent.action_step}} ({{ steps | nth(n=talent.action_step - 1) }})
-          {% if session_user == creature.creator_slug or role == "Admin" %}
-          <button
-            hx-get="/{{ lang }}/edit_talent/{{ talent.id }}"
-            hx-target="#talent-{{ talent.id }}"
-            class="btn btn-info btn-sm"
-          >Edit</button> 
-          <button
-            hx-get="/{{ lang }}/delete_talent/{{ talent.id }}"
-            hx-target="#talent-{{ talent.id }}"
-            class="btn btn-danger btn-sm"
-          >Delete</button>
+          {% if loop.last %}
+            <strong>{{ talent.name }} {{ talent.action_step}}</strong>  ({{ steps | nth(n=talent.action_step - 1) }})
+          {% else %}
+            <strong>{{ talent.name }} {{ talent.action_step}}</strong>  ({{ steps | nth(n=talent.action_step - 1) }}),&nbsp 
           {% endif %}
-        </li>
-        </div> <!-- end-div htmx -->
         {% endfor %} <!-- talents -->
+      </li>
       {% endif %}
       <br>
       {% if session_user == creature.creator_slug or role == "Admin" %}

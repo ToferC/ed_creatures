@@ -2,7 +2,7 @@ use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest, ResponseEr
 use actix_identity::Identity;
 use inflector::Inflector;
 
-use crate::{errors::CustomError, generate_basic_context, generate_unique_code, handlers::{CreatureForm, DeleteForm}, models::{Attack, InsertableAttack, InsertablePower, Locales, Maneuver, Power, Tags, Talent, User, UserRole}, AppData};
+use crate::{errors::CustomError, generate_basic_context, generate_unique_code, handlers::{CreatureForm, DeleteForm}, models::{Attack, InsertableAttack, InsertablePower, InsertableTalent, Locales, Maneuver, Power, Tags, Talent, User, UserRole}, AppData};
 use uuid::Uuid;
 
 use crate::models::{Creature, InsertableCreature, InsertableManeuver};
@@ -423,6 +423,8 @@ pub async fn copy_creature(
 
     let r_maneuvers = Maneuver::get_by_creature_id(creature.id);
 
+    let r_talents = Talent::get_by_creature_id(creature_id);
+
     if let Ok(data) = r_attacks {
 
         for element in &data {
@@ -491,6 +493,24 @@ pub async fn copy_creature(
                 .expect("Unable to create maneuver");
         }
         ctx.insert("maneuvers", &data);
+    }
+
+    if let Ok(data) = r_talents {
+
+        for element in &data {
+
+            let new_el = InsertableTalent::new(
+                user.id,
+                new_creature.id,
+                element.name.to_owned(),
+                element.action_step,
+            );
+
+            let _new_talent = Talent::create(&new_el)
+                .expect("Unable to create attack");
+        };
+        
+        ctx.insert("talents", &data);
     }
 
     println!("Saved!");

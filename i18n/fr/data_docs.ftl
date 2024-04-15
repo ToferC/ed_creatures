@@ -127,6 +127,8 @@ ritual = Ritual
 ## Talents
 talents = Talents
 talent-name = Talent Name
+add-a-talent = Add a Talent
+edit-talents = Edit Talents
 
 ## Maneuvers
 special-maneuvers = Special Maneuvers

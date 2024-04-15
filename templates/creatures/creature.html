@@ -106,40 +106,6 @@
 
     <hr>
   </div> <!-- End of creature -->
-
-  <div
-    class="container" 
-    id="talents"
-    hx-target="this"
-    hx-swap="outerHTML"
->
-{% if talents %}
-    <div class="row">
-      <h3>{{ fluent(key="talents", lang=lang )}}</h3><br>
-    </div>
-    <li>
-        {% for talent in talents %}
-          {% if loop.last %}
-            <strong>{{ talent.name }} {{ talent.action_step}}</strong>  ({{ steps | nth(n=talent.action_step - 1) }})
-          {% else %}
-            <strong>{{ talent.name }} {{ talent.action_step}}</strong>  ({{ steps | nth(n=talent.action_step - 1) }}),&nbsp 
-          {% endif %}
-        {% endfor %} <!-- talents -->
-      </li>
-      {% endif %}
-      <br>
-      {% if session_user == creature.creator_slug or role == "Admin" %}
-      <button
-        class="btn btn-dark"
-        hx-get="/{{ lang }}/add_talent/{{ creature.id }}"
-        hx-target="this"
-        hx-swap="outerHTML"
-        >
-        {{ fluent(key="add-a-talent", lang=lang )}}
-      </button>
-      {% endif %}
-      <hr>
-</div> <!-- Talents end -->
   
   <div
     class="container" 
@@ -237,6 +203,48 @@ hx-swap="outerHTML"
   {% endif %}
   <hr>
 </div>
+
+<div
+class="container" 
+id="talents"
+hx-target="this"
+hx-swap="outerHTML"
+>
+{% if talents %}
+    <div class="row">
+      <h3>{{ fluent(key="talents", lang=lang )}}</h3><br>
+    </div>
+    <li>
+        {% for talent in talents %}
+          {% if loop.last %}
+            <strong>{{ talent.name }} {{ talent.action_step}}</strong>  ({{ steps | nth(n=talent.action_step - 1) }})
+          {% else %}
+            <strong>{{ talent.name }} {{ talent.action_step}}</strong>  ({{ steps | nth(n=talent.action_step - 1) }}),&nbsp 
+          {% endif %}
+        {% endfor %} <!-- talents -->
+      </li>
+      <br>
+      {% endif %}
+      {% if session_user == creature.creator_slug or role == "Admin" %}
+      <button
+        class="btn btn-dark"
+        hx-get="/{{ lang }}/add_talent/{{ creature.id }}"
+        hx-target="this"
+        hx-swap="outerHTML"
+        >
+        {{ fluent(key="add-a-talent", lang=lang )}}
+      </button>
+      <button
+        class="btn btn-dark"
+        hx-get="/{{ lang }}/talents/{{ creature.id }}"
+        hx-target="#talents"
+        hx-swap="outerHTML"
+        >
+        {{ fluent(key="edit-talents", lang=lang )}}
+      </button>
+      <hr>
+      {% endif %} <!-- Endif for talents -->
+</div> <!-- Talents end -->
 
 <div
     class="container" 

@@ -369,42 +369,6 @@
 </div>
 <hr>
 
-<div
-    class="container" 
-    id="talents"
-    hx-target="this"
-    hx-swap="outerHTML"
->
-<div class="row">
-  <h3>{{ fluent(key="talents", lang=lang )}}</h3><br>
-</div>
-{% if talents %}
-  <table>
-    <tr>
-      <th style="text-align:center">{{ fluent(key="name", lang=lang )}}</th>
-      <th style="text-align:center">{{ fluent(key="action-step", lang=lang )}}</th>
-      <th style="text-align:center">{{ fluent(key="action-dice", lang=lang )}}</th>
-    </tr>
-    {% for talent in talents %}
-    <tr>
-      <td id="talent_name-{{ loop.index0 }}" style="text-align:center">
-        {{ talent.name }}
-      </td>
-      <td id="talent-action_step-{{ loop.index0 }}" style="text-align:center">
-        {{ talent.action_step }}
-      </td>
-      <td id="talent-action_dice-{{ loop.index0 }}" style="text-align:center">
-        {{ steps | nth(n=talent.action_step - 1) }}
-      </td>
-    </tr>
-    {% endfor %} <!-- talents -->
-  </table>
-        <hr>
-        {% else %}
-          <li>None</li>
-      {% endif %}
-</div>
-
 <div class="container">
     <div class="row">
       <h3>{{ fluent(key="powers-abilities-spells", lang=lang )}}</h3><br>
@@ -487,8 +451,41 @@
       <li>None</li>
       {% endif %}  
 </div>
-
 <hr>
+
+{% if talents %}
+<div
+    class="container" 
+    id="talents"
+    hx-target="this"
+    hx-swap="outerHTML"
+>
+<div class="row">
+  <h3>{{ fluent(key="talents", lang=lang )}}</h3><br>
+</div>
+  <table>
+    <tr>
+      <th style="text-align:center">{{ fluent(key="name", lang=lang )}}</th>
+      <th style="text-align:center">{{ fluent(key="action-step", lang=lang )}}</th>
+      <th style="text-align:center">{{ fluent(key="action-dice", lang=lang )}}</th>
+    </tr>
+    {% for talent in talents %}
+    <tr>
+      <td id="talent_name-{{ loop.index0 }}" style="text-align:center">
+        {{ talent.name }}
+      </td>
+      <td id="talent-action_step-{{ loop.index0 }}" style="text-align:center">
+        {{ talent.action_step }}
+      </td>
+      <td id="talent-action_dice-{{ loop.index0 }}" style="text-align:center">
+        {{ steps | nth(n=talent.action_step - 1) }}
+      </td>
+    </tr>
+    {% endfor %} <!-- talents -->
+  </table>
+        <hr>
+</div>
+{% endif %}
 
 <div class="container">
 <div class="row">

@@ -10,7 +10,7 @@
         method="POST"
     >
         <div>
-            <label>Creature Name</label><br>
+            <label>{{ fluent(key="creature-name", lang=lang )}}</label><br>
             <input class="form-control form-control-lg" type="text" name="name" placeholder="Add name here..." size=60 value="" required>
         </div>
         <br>
@@ -23,10 +23,10 @@
         <div>
             <label for="rarity">{{ fluent(key="rarity", lang=lang )}}</label>
             <select name="rarity" id="rarity_select">
-                <option selected value="Common">Common</option>
-                <option value="Uncommon">Uncommon</option>
-                <option value="Rare">Rare</option>
-                <option value="Unique">Unique</option>
+                <option selected value="Common">{{ fluent(key="common", lang=lang )}}</option>
+                <option value="Uncommon">{{ fluent(key="uncommon", lang=lang )}}</option>
+                <option value="Rare">{{ fluent(key="rare", lang=lang )}}</option>
+                <option value="Unique">{{ fluent(key="unique", lang=lang )}}</option>
             </select>
         </div>
 
@@ -38,17 +38,17 @@
                 <div class="input-grp">
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="creature" id="flexSwitchCheckDefault" {%if 'Creature' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Creature</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="creature", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="spirit" id="flexSwitchCheckDefault" {%if 'Spirit' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Spirit</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="spirit", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="elemental" id="flexSwitchCheckDefault" {%if 'Elemental' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Elemental</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="elemental", lang=lang )}}</label>
                     </div>
                     </div>
                 </div>
@@ -58,17 +58,17 @@
     
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="horror" id="flexSwitchCheckDefault" {%if 'Horror' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Horror</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="horror", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="dragon" id="flexSwitchCheckDefault" {%if 'Dragon' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Dragon</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="dragon", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="horror_construct" id="flexSwitchCheckDefault" {%if 'HorrorConstruct' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Horror Construct</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="horror-construct", lang=lang )}}</label>
                     </div>
                     </div>
                 </div>
@@ -78,17 +78,17 @@
     
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="adept" id="flexSwitchCheckDefault" {%if 'Adept' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Adept</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="adept", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="npc" id="flexSwitchCheckDefault" {%if 'NPC' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">NPC</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="npc", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="other" id="flexSwitchCheckDefault" {%if 'Other' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Other</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="other", lang=lang )}}</label>
                     </div>
                 </div>
             </div>
@@ -102,22 +102,22 @@
                 <div class="input-grp">
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="jungle" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Jungle</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="jungle", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="desert" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Desert</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="desert", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="forest" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Forest</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="forest", lang=lang )}}</label>
                     </div>
     
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="plains" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Plains</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="plains", lang=lang )}}</label>
                     </div>
                     </div>
                 </div>
@@ -127,17 +127,17 @@
     
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="urban" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Urban</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="urban", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="mountain" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Mountain</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="mountain", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="cavern" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Cavern</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="cavern", lang=lang )}}</label>
                     </div>
                     </div>
                 </div>
@@ -147,17 +147,17 @@
     
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="swamp" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Swamp</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="swamp", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="kaer" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Kaer</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="kaer", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="any" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Any</label>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ fluent(key="any", lang=lang )}}</label>
                     </div>
                 </div>
             </div>
@@ -172,7 +172,7 @@
 
     <hr>
 
-  <label>Attributes</label>
+  <label>{{ fluent(key="attributes", lang=lang )}}</label>
   <div class="container">
     <div class="row">
       <div class="col-sm">

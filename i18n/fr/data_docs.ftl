@@ -66,10 +66,10 @@ karma = Karma
 actions = Actions
 movement = Movement
 attacks = Attacks
-add-attacks-later = You will be able to add attacks and powers from Edit Creature.
+add-attacks-later = You will be able to add attacks, talents, powers and spells later from Edit Creature.
+creature-name = Creature Name
 creature-description = Creature Description
 creature-description-helper = Enter any useful information about the creature, its environment, allies, equipment or treasure.
-powers-abilities-spells = Powers, Abilities and Spells
 in-play-view = In-Play View
 created-at = Created at:
 updated-at = Updated at:
@@ -82,16 +82,37 @@ spirit = Spirit
 elemental = Elemental
 horror = Horror
 dragon = Dragon
-horror_construct = Horror Construct
+horror-construct = Horror Construct
 adept = Adept
 npc = NPC
 other = Other
+
+common = Common
+uncommon = Uncommon
+rare = Rare
+unique = Unique
+
+jungle = Jungle
+desert = Desert
+forest = Forest
+plains = Plains
+urban = Urban
+mountain = Mountain
+cavern = Cavern
+swamp = Swamp
+Kaer = Kaer
+any = Any
+
+save-button = Save
+cancel-button = Cancel
 
 ## In-Play
 damage = Damage:
 wounds = Wounds:
 action-step-penalty-bonus = Action Step Penalty/Bonus:
 counter = Counter
+advance = Advance
+reverse = Reverse
 
 ## Delete User
 delete-creature = Delete Creature
@@ -111,6 +132,7 @@ effect = Effect
 add-an-attack = Add an Attack
 
 ## Powers
+powers-abilities-spells = Powers, Abilities and Spells
 power-name = Power Name
 action-type = Action Type
 target = Action Target

@@ -7,13 +7,13 @@
     hx-swap="outerHTML"
     hx-target="this"
 >
-<h1>Edit {{ creature.name }}</h1>
+<h1>{{ fluent(key="edit-button", lang=lang )}} {{ creature.name }}</h1>
     <form
         action="/{{ lang }}/edit_creature_post/{{ creature.id }}"
         method="POST"
     >
         <div>
-            <label>Creature Name</label><br>
+            <label>{{ fluent(key="creature-name", lang=lang )}}</label><br>
             <input class="form-control form-control-lg" type="text" name="name" placeholder="Add name here..." size=60 value="{{ creature.name }}" required>
         </div>
         <br>
@@ -26,10 +26,10 @@
         <div>
             <label for="rarity">{{ fluent(key="rarity", lang=lang )}}</label>
             <select name="rarity" id="rarity_select">
-                <option {% if creature.rarity == "Common" %}selected{% endif %} value="Common">Common</option>
-                <option {% if creature.rarity == "Uncommon" %}selected{% endif %} value="Uncommon">Uncommon</option>
-                <option {% if creature.rarity == "Rare" %}selected{% endif %} value="Rare">Rare</option>
-                <option {% if creature.rarity == "Unique" %}selected{% endif %} value="Unique">Unique</option>
+                <option {% if creature.rarity == "Common" %}selected{% endif %} value="Common">{{ fluent(key="common", lang=lang )}}</option>
+                <option {% if creature.rarity == "Uncommon" %}selected{% endif %} value="Uncommon">{{ fluent(key="uncommon", lang=lang )}}</option>
+                <option {% if creature.rarity == "Rare" %}selected{% endif %} value="Rare">{{ fluent(key="rare", lang=lang )}}</option>
+                <option {% if creature.rarity == "Unique" %}selected{% endif %} value="Unique">{{ fluent(key="unique", lang=lang )}}</option>
             </select>
         </div>
 
@@ -40,58 +40,57 @@
             <div class="col-md-4">
                 <div class="input-grp">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="creature" id="flexSwitchCheckDefault" {%if 'Creature' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Creature</label>
+                        <input class="form-check-input" type="checkbox" name="creature" id="flexSwitchCheckCreature" {%if 'Creature' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckCreature">{{ fluent(key="creature", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="spirit" id="flexSwitchCheckDefault" {%if 'Spirit' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Spirit</label>
+                        <input class="form-check-input" type="checkbox" name="spirit" id="flexSwitchCheckSpirit" {%if 'Spirit' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckSpirit">{{ fluent(key="spirit", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="elemental" id="flexSwitchCheckDefault" {%if 'Elemental' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Elemental</label>
-                    </div>
+                        <input class="form-check-input" type="checkbox" name="elemental" id="flexSwitchCheckElemental" {%if 'Elemental' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckElemental">{{ fluent(key="elemental", lang=lang )}}</label>
                     </div>
                 </div>
+            </div>
+    
+            <div class="col-md-4">
+                <div class="input-grp">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="horror" id="flexSwitchCheckHorror" {%if 'Horror' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckHorror">{{ fluent(key="horror", lang=lang )}}</label>
+                    </div>
+        
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="dragon" id="flexSwitchCheckDragon" {%if 'Dragon' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckDragon">{{ fluent(key="dragon", lang=lang )}}</label>
+                    </div>
+        
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="horror_construct" id="flexSwitchCheckHC" {%if 'HorrorConstruct' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckHC">{{ fluent(key="horror-construct", lang=lang )}}</label>
+                    </div>
+                </div>
+            </div>
     
                 <div class="col-md-4">
                     <div class="input-grp">
     
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="horror" id="flexSwitchCheckDefault" {%if 'Horror' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Horror</label>
+                        <input class="form-check-input" type="checkbox" name="adept" id="flexSwitchCheckAdept" {%if 'Adept' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckAdept">{{ fluent(key="adept", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="dragon" id="flexSwitchCheckDefault" {%if 'Dragon' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Dragon</label>
+                        <input class="form-check-input" type="checkbox" name="npc" id="flexSwitchCheckNPC" {%if 'NPC' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckNPC">{{ fluent(key="npc", lang=lang )}}</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="horror_construct" id="flexSwitchCheckDefault" {%if 'HorrorConstruct' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Horror Construct</label>
-                    </div>
-                    </div>
-                </div>
-    
-                <div class="col-md-4">
-                    <div class="input-grp">
-    
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="adept" id="flexSwitchCheckDefault" {%if 'Adept' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Adept</label>
-                    </div>
-        
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="npc" id="flexSwitchCheckDefault" {%if 'NPC' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">NPC</label>
-                    </div>
-        
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="other" id="flexSwitchCheckDefault" {%if 'Other' in creature.tags %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Other</label>
+                        <input class="form-check-input" type="checkbox" name="other" id="flexSwitchCheckOther" {%if 'Other' in creature.tags %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckOther">{{ fluent(key="other", lang=lang )}}</label>
                     </div>
                 </div>
             </div>
@@ -104,23 +103,23 @@
             <div class="col-md-4">
                 <div class="input-grp">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="jungle" id="flexSwitchCheckDefault" {%if 'Jungle' in creature.found_in %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Jungle</label>
+                        <input class="form-check-input" type="checkbox" name="jungle" id="flexSwitchCheckJungle" {%if 'Jungle' in creature.found_in %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckJungle">Jungle</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="desert" id="flexSwitchCheckDefault" {%if 'Desert' in creature.found_in %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Desert</label>
+                        <input class="form-check-input" type="checkbox" name="desert" id="flexSwitchCheckDesert" {%if 'Desert' in creature.found_in %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckDesert">Desert</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="forest" id="flexSwitchCheckDefault" {%if 'Forest' in creature.found_in %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Forest</label>
+                        <input class="form-check-input" type="checkbox" name="forest" id="flexSwitchCheckForest" {%if 'Forest' in creature.found_in %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckForest">Forest</label>
                     </div>
     
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="plains" id="flexSwitchCheckDefault" {%if 'Plains' in creature.found_in %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Plains</label>
+                        <input class="form-check-input" type="checkbox" name="plains" id="flexSwitchCheckPlains" {%if 'Plains' in creature.found_in %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckPlains">Plains</label>
                     </div>
                     </div>
                 </div>
@@ -129,18 +128,18 @@
                     <div class="input-grp">
     
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="urban" id="flexSwitchCheckDefault" {%if 'Urban' in creature.found_in %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Urban</label>
+                        <input class="form-check-input" type="checkbox" name="urban" id="flexSwitchCheckUrban" {%if 'Urban' in creature.found_in %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckUrban">Urban</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="mountain" id="flexSwitchCheckDefault" {%if 'Mountain' in creature.found_in %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Mountain</label>
+                        <input class="form-check-input" type="checkbox" name="mountain" id="flexSwitchCheckMountain" {%if 'Mountain' in creature.found_in %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckMountain">Mountain</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="cavern" id="flexSwitchCheckDefault" {%if 'Cavern' in creature.found_in %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Cavern</label>
+                        <input class="form-check-input" type="checkbox" name="cavern" id="flexSwitchCheckCavern" {%if 'Cavern' in creature.found_in %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckCavern">Cavern</label>
                     </div>
                     </div>
                 </div>
@@ -149,18 +148,18 @@
                     <div class="input-grp">
     
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="swamp" id="flexSwitchCheckDefault" {%if 'Swamp' in creature.found_in %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Swamp</label>
+                        <input class="form-check-input" type="checkbox" name="swamp" id="flexSwitchCheckSwamp" {%if 'Swamp' in creature.found_in %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckSwamp">Swamp</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="kaer" id="flexSwitchCheckDefault" {%if 'Kaer' in creature.found_in %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Kaer</label>
+                        <input class="form-check-input" type="checkbox" name="kaer" id="flexSwitchCheckKaer" {%if 'Kaer' in creature.found_in %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckKaer">Kaer</label>
                     </div>
         
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="any" id="flexSwitchCheckDefault" {%if 'Any' in creature.found_in %}checked{% endif %}>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Any</label>
+                        <input class="form-check-input" type="checkbox" name="any" id="flexSwitchCheckAny" {%if 'Any' in creature.found_in %}checked{% endif %}>
+                        <label class="form-check-label" for="flexSwitchCheckAny">Any</label>
                     </div>
                 </div>
             </div>
@@ -174,7 +173,7 @@
 
     <hr>
 
-  <h2>Attributes</h2>
+  <h2>{{ fluent(key="attributes", lang=lang )}}</h2>
   <div class="container">
     <div class="row">
       <div class="col-sm">
@@ -306,8 +305,8 @@
     </div>
     
     {% if session_user != "" %}
-    <button class="btn btn-primary" type="submit">Save</button>
-    <a class="btn btn-info" href="/{{ lang }}/creature/view/{{ creature.slug }}">Cancel</a>
+    <button class="btn btn-primary" type="submit">{{ fluent(key="save-button", lang=lang )}}</button>
+    <a class="btn btn-info" href="/{{ lang }}/creature/view/{{ creature.slug }}">{{ fluent(key="cancel-button", lang=lang )}}</a>
     {% endif %}
   <hr>
   </div>
@@ -316,56 +315,12 @@
 
 <div
     class="container" 
-    id="talents"
-    hx-target="this"
-    hx-swap="outerHTML"
->
-{% if talents %}
-    <div class="row">
-      <h3>{{ fluent(key="talents", lang=lang )}}</h3><br>
-    </div>
-        {% for talent in talents %}
-        <div 
-          id="talent-{{ talent.id }}"
-          hx-target="this"
-          hx-swap="outerHTML"
-        >
-        <li>
-          <strong>{{ talent.name }}</strong> {{ talent.action_step}} ({{ steps | nth(n=talent.action_step - 1) }})
-          <button
-            hx-get="/{{ lang }}/edit_talent/{{ talent.id }}"
-            hx-target="#talent-{{ talent.id }}"
-            class="btn btn-info btn-sm"
-          >Edit</button> 
-          <button
-            hx-get="/{{ lang }}/delete_talent/{{ talent.id }}"
-            hx-target="#talent-{{ talent.id }}"
-            class="btn btn-danger btn-sm"
-          >Delete</button>
-        </li>
-        </div> <!-- end-div htmx -->
-        {% endfor %} <!-- talents -->
-      {% endif %}
-      <br>
-      <button
-        class="btn btn-dark"
-        hx-get="/{{ lang }}/add_talent/{{ creature.id }}"
-        hx-target="this"
-        hx-swap="outerHTML"
-        >
-        Add an Talent
-      </button>
-      <hr>
-</div>
-
-<div
-    class="container" 
     id="attacks"
     hx-target="this"
     hx-swap="outerHTML"
 >
     <div class="row">
-      <h3>Attacks</h3><br>
+      <h3>{{ fluent(key="attacks", lang=lang )}}</h3><br>
     </div>
       {% if attacks %}
       {% for attack in attacks %}
@@ -379,12 +334,12 @@
           hx-get="/{{ lang }}/edit_attack/{{ attack.id }}"
           hx-target="#attack-{{ attack.id }}"
           class="btn btn-info btn-sm"
-        >Edit</button> 
+        >{{ fluent(key="edit-button", lang=lang )}}</button> 
         <button
           hx-get="/{{ lang }}/delete_attack/{{ attack.id }}"
           hx-target="#attack-{{ attack.id }}"
           class="btn btn-danger btn-sm"
-        >Delete</button>
+        >{{ fluent(key="delete-button", lang=lang )}}</button>
         </li>
       </div> <!-- end-div htmx -->
       {% endfor %} <!-- attacks -->
@@ -396,7 +351,7 @@
         hx-target="this"
         hx-swap="outerHTML"
         >
-        Add an Attack
+        {{ fluent(key="add-an-attack", lang=lang )}}
       </button>
       
       <hr>
@@ -409,7 +364,7 @@ hx-target="this"
 hx-swap="outerHTML"
 >
 <div class="row">
-  <h3>Powers and Abilities</h3><br>
+  <h3>{{ fluent(key="powers-abilities-spells", lang=lang )}}</h3><br>
 </div>
   {% if powers %}
   {% for power in powers %}
@@ -424,12 +379,12 @@ hx-swap="outerHTML"
         hx-get="/{{ lang }}/edit_power/{{ power.id }}"
         hx-target="#power-{{ power.id }}"
         class="btn btn-info btn-sm"
-        >Edit</button> 
+        >{{ fluent(key="edit-button", lang=lang )}}</button> 
         <button
             hx-get="/{{ lang }}/delete_power/{{ power.id }}"
             hx-target="#power-{{ power.id }}"
             class="btn btn-danger btn-sm"
-        >Delete</button>
+        >{{ fluent(key="delete-button", lang=lang )}}</button>
     </li>
   </div> <!-- end-div htmx -->
   {% endfor %} <!-- powers -->
@@ -441,10 +396,54 @@ hx-swap="outerHTML"
     hx-target="this"
     hx-swap="outerHTML"
     >
-    Add a Power or Ability
+    {{ fluent(key="add-power-ability-spell", lang=lang )}}
   </button>
   
   <hr>
+</div>
+
+<div
+    class="container" 
+    id="talents"
+    hx-target="this"
+    hx-swap="outerHTML"
+>
+    <div class="row">
+        <h3>{{ fluent(key="talents", lang=lang )}}</h3><br>
+    </div>
+{% if talents %}
+        {% for talent in talents %}
+        <div 
+          id="talent-{{ talent.id }}"
+          hx-target="this"
+          hx-swap="outerHTML"
+        >
+        <li>
+          <strong>{{ talent.name }}</strong> {{ talent.action_step}} ({{ steps | nth(n=talent.action_step - 1) }})
+          <button
+            hx-get="/{{ lang }}/edit_talent/{{ talent.id }}"
+            hx-target="#talent-{{ talent.id }}"
+            class="btn btn-info btn-sm"
+          >{{ fluent(key="edit-button", lang=lang )}}</button> 
+          <button
+            hx-get="/{{ lang }}/delete_talent/{{ talent.id }}"
+            hx-target="#talent-{{ talent.id }}"
+            class="btn btn-danger btn-sm"
+          >{{ fluent(key="delete-button", lang=lang )}}</button>
+        </li>
+        </div> <!-- end-div htmx -->
+        {% endfor %} <!-- talents -->
+      {% endif %}
+      <br>
+      <button
+        class="btn btn-dark"
+        hx-get="/{{ lang }}/add_talent/{{ creature.id }}"
+        hx-target="this"
+        hx-swap="outerHTML"
+        >
+        {{ fluent(key="add-a-talent", lang=lang )}}
+      </button>
+      <hr>
 </div>
 
 <div
@@ -454,7 +453,7 @@ hx-swap="outerHTML"
     hx-swap="outerHTML"
 >
     <div class="row">
-      <h3>Special Maneuvers</h3><br>
+      <h3>{{ fluent(key="special-maneuvers", lang=lang )}}</h3><br>
     </div>
       {% if maneuvers %}
       {% for maneuver in maneuvers %}
@@ -468,12 +467,12 @@ hx-swap="outerHTML"
             hx-get="/{{ lang }}/edit_maneuver/{{ maneuver.id }}"
             hx-target="#maneuver-{{ maneuver.id }}"
             class="btn btn-info btn-sm"
-            >Edit</button> 
+            >{{ fluent(key="edit-button", lang=lang )}}</button> 
             <button
             hx-get="/{{ lang }}/delete_maneuver/{{ maneuver.id }}"
             hx-target="#maneuver-{{ maneuver.id }}"
             class="btn btn-danger btn-sm"
-            >Delete</button>
+            >{{ fluent(key="delete-button", lang=lang )}}</button>
         </li>
       </div> <!-- end-div htmx -->
       {% endfor %} <!-- maneuvers -->

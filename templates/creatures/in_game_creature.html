@@ -36,13 +36,12 @@
       >{{ location }}
     </button>
     {% endfor %}</h4>
-    <small>Created at: {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }}</small>
-    <small>Updated at: {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</small>
+    <small>{{ fluent(key="created-at", lang=lang )}} {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }}</small>
+    <small>{{ fluent(key="updated-at", lang=lang )}} {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</small>
 
     <hr>
 
-  <h3>Attributes</h3>
-  <div>
+    {{ fluent(key="attributes", lang=lang )}}  <div>
     <div class="row">
       <div class="col col-md col-lg-4 col-md-4 col-sm-12 col-12">
         <table style="Table-Layout:fixed">
@@ -204,7 +203,7 @@
               id="counter_subtract"
               onclick="subtractCounters()"
             >
-              Advance
+            {{ fluent(key="advance", lang=lang )}}
             </button>
             <button 
               type="button" 
@@ -212,7 +211,7 @@
               id="counter_add"
               onclick="addCounters()"
             >
-              Reverse
+            {{ fluent(key="reverse", lang=lang )}}
             </button>
           </span>
         </div>
@@ -323,7 +322,7 @@
 
 <div class="container">
   <div class="row">
-    <h3>Attacks</h3><br>
+    <h3>{{ fluent(key="attacks", lang=lang )}}</h3><br>
   </div>
     {% if attacks %}
       {% for attack in attacks %}

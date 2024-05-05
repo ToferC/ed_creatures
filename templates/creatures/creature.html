@@ -6,7 +6,7 @@
         <meta name="description" content={{ fluent(key="app-description", lang=lang )}}>
         <meta name="author" content="ToferC">
         <meta property="og:title" content="{{ creature.name }}">
-        <title>{{ creature.name }} - Earthdawn Creatures</title>
+        <title>{{ creature.name }} - {{ fluent(key="app-name", lang=lang )}}</title>
         {% endblock title %}
 
 {% block content %}
@@ -29,7 +29,7 @@
     <a
       href="/{{ lang }}/creature/in_game/{{ creature.slug }}" 
       class="btn btn-info">
-      In-Play View
+      {{ fluent(key="in-play-view", lang=lang )}}
     </a>
     {% if session_user != ""%}
     <a class="btn btn-secondary" method="get" href="/{{ lang }}/copy_creature/{{ creature.id }}">Copy and Edit</a>
@@ -60,8 +60,8 @@
         >{{ tag }}
       </button>
     {% endfor %}</h4>
-    <small>Created at: {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }} by {{ creature.creator_slug }};</small>
-    <small>Updated at: {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</small>
+    <small>{{ fluent(key="created-at", lang=lang )}} {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }} by {{ creature.creator_slug }};</small>
+    <small>{{ fluent(key="updated-at", lang=lang )}} {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</small>
     <hr>
   
     {% if creature.description != "" %}

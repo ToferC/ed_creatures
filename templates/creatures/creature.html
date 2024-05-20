@@ -226,7 +226,7 @@ hx-swap="outerHTML"
       <br>
   {% else %}
     <div>
-      <ul>None</ul>
+      <li>None</li>
     </div>
   {% endif %}
       {% if session_user == creature.creator_slug or role == "Admin" %}
@@ -246,8 +246,8 @@ hx-swap="outerHTML"
         >
         {{ fluent(key="edit-talents", lang=lang )}}
       </button>
-      <hr>
       {% endif %} <!-- Endif for talents -->
+      <hr>
 </div> <!-- Talents end -->
 
 <div
@@ -284,7 +284,7 @@ hx-swap="outerHTML"
       {% endfor %} <!-- maneuvers -->
   {% else %}
     <div>
-      <ul>None</ul>
+      <li>None</li>
     </div>
   {% endif %}
       <br>

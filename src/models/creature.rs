@@ -116,6 +116,7 @@ impl Creature {
 
         let res = creatures::table
             .filter(creatures::name.ilike(format!("%{}%",text)))
+            .or_filter(creatures::description.ilike(format!("%{}%", text)))
             .load::<Creature>(&mut conn)?;
 
         Ok(res)

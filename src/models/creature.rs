@@ -111,6 +111,7 @@ impl Creature {
         Ok(res)
     }
 
+    // Searches text string in creature name and description
     pub fn search_by(text: String) -> Result<Vec<Self>, CustomError> {
         let mut conn = connection()?;
 

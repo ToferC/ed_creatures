@@ -100,7 +100,7 @@ urban = Urban
 mountain = Mountain
 cavern = Cavern
 swamp = Swamp
-Kaer = Kaer
+kaer = Kaer
 any = Any
 
 save-button = Save

@@ -210,10 +210,10 @@ id="talents"
 hx-target="this"
 hx-swap="outerHTML"
 >
+<div class="row">
+  <h3>{{ fluent(key="talents", lang=lang )}}</h3><br>
+</div>
 {% if talents %}
-    <div class="row">
-      <h3>{{ fluent(key="talents", lang=lang )}}</h3><br>
-    </div>
     <li>
         {% for talent in talents %}
           {% if loop.last %}
@@ -224,7 +224,11 @@ hx-swap="outerHTML"
         {% endfor %} <!-- talents -->
       </li>
       <br>
-      {% endif %}
+  {% else %}
+    <div>
+      <ul>None</ul>
+    </div>
+  {% endif %}
       {% if session_user == creature.creator_slug or role == "Admin" %}
       <button
         class="btn btn-dark"
@@ -252,10 +256,10 @@ hx-swap="outerHTML"
     hx-target="this"
     hx-swap="outerHTML"
 >
+<div class="row">
+  <h3>{{ fluent(key="special-maneuvers", lang=lang )}}</h3><br>
+</div>
 {% if maneuvers %}
-    <div class="row">
-      <h3>{{ fluent(key="special-maneuvers", lang=lang )}}</h3><br>
-    </div>
       {% for maneuver in maneuvers %}
       <div 
         id="maneuver-{{ maneuver.id }}"
@@ -278,7 +282,11 @@ hx-swap="outerHTML"
         </li>
       </div> <!-- end-div htmx -->
       {% endfor %} <!-- maneuvers -->
-      {% endif %}
+  {% else %}
+    <div>
+      <ul>None</ul>
+    </div>
+  {% endif %}
       <br>
       {% if session_user == creature.creator_slug or role == "Admin" %}
       <button

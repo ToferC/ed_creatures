@@ -530,6 +530,9 @@
     const woundCounter = document.getElementById('wounds')
     const penaltyCounter = document.getElementById('penalties')
 
+    var actionMod = 0;
+    var effectMod = 0;
+
     const steps = "{{ steps }}".replace("[", "").split(", ");
 
     function addFiveDamage() {

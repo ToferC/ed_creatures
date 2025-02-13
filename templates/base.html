@@ -341,6 +341,105 @@
                     <a class="nav-link" href="/{{ lang }}/new_creature_form">{{ fluent(key="create-creature", lang=lang )}}<span class="sr-only"></span></a>
                 </li>
 
+                 <!-- Dropdown Locations -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="LocationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Locations
+                </a>
+                <div class="dropdown-menu" aria-labelledby="userNavbarDropdown">
+                  <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/location/desert"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="desert", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/location/jungle"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="jungle", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/location/forest"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="forest", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/location/plains"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="plains", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/location/urban"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="urban", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/location/mountain"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="mountain", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/location/cavern"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="cavern", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/location/swamp"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="swamp", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/location/kaer"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="kaer", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/location/any"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="any", lang=lang )}}
+                    </a>
+                </div>
+            </li>
+
                 {% if session_user != "" %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="userNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -366,6 +465,7 @@
                 
                 {% endif %}
             </ul>
+
             <a class="btn btn-dark" href="/toggle_language{{ path }}">{{ fluent(key="language-toggle", lang=lang ) }}</a>
             
             <form 

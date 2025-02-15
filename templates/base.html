@@ -341,7 +341,7 @@
                     <a class="nav-link" href="/{{ lang }}/new_creature_form">{{ fluent(key="create-creature", lang=lang )}}<span class="sr-only"></span></a>
                 </li>
 
-                 <!-- Dropdown Locations -->
+            <!-- Dropdown Locations -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="LocationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Locations
@@ -436,6 +436,96 @@
                     hx-swap="outerHTML"
                     >
                         {{ fluent(key="any", lang=lang )}}
+                    </a>
+                </div>
+            </li>
+
+            <!-- Dropdown Tags -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="LocationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Tags
+                </a>
+                <div class="dropdown-menu" aria-labelledby="userNavbarDropdown">
+                  <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/tag/creature"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="creature", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/tag/spirit"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="spirit", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/tag/elemental"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="elemental", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/tag/horror"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="horror", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/tag/dragon"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="dragon", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/tag/horror_construct"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="horror-construct", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/tag/adept"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="adept", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/tag/npc"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="npc", lang=lang )}}
+                    </a>
+                    <a 
+                    class="dropdown-item"
+                    hx-get="/{{ lang }}/tag/other"
+                    hx-trigger="click"
+                    hx-target="#main-body"
+                    hx-swap="outerHTML"
+                    >
+                        {{ fluent(key="other", lang=lang )}}
                     </a>
                 </div>
             </li>

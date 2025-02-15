@@ -45,7 +45,7 @@
             }
 
             body {
-                background-color: light-dark(white, black);
+                background-color: light-dark(white, rgb(37, 37, 37));
                 color: light-dark(black, white);
             }
             
@@ -64,7 +64,9 @@
 
             .card {
                 color: light-dark(black, white);
-                background-color: light-dark(lightgray, rgb(54, 54, 54));
+                background-color: light-dark(rgb(209, 208, 208), rgb(54, 54, 54));
+                border: 1px solid light-dark(rgb(47, 47, 47), rgb(200, 199, 199));
+                border-radius: 25px;
             }
 
             .slider {
@@ -109,7 +111,7 @@
                 box-sizing: border-box;
                 -webkit-box-sizing:border-box;
                 -moz-box-sizing: border-box;
-                background-color: light-dark(lightgray, rgb(49, 49, 49));
+                background-color: light-dark(lightgray, black);
                 color: light-dark(black, white);
            }
 
@@ -119,6 +121,10 @@
                 -webkit-box-sizing:border-box;
                 -moz-box-sizing: border-box;
                 background-color: light-dark(lightgray, rgb(49, 49, 49));
+                color: light-dark(black, white);
+            }
+
+            input::placeholder {
                 color: light-dark(black, white);
             }
 

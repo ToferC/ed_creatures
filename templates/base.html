@@ -39,22 +39,22 @@
         
     {% block style %}
     <style>
-            body {
-                background-color: black;
-                color: white;
-            }
-            @media screen and (prefers-color-scheme: light) {
-                body {
-                background-color: white;
-                color: black;
-                }
+
+            :root {
+                color-scheme: light dark;
             }
 
+            body {
+                background-color: light-dark(white, black);
+                color: light-dark(black, white);
+            }
+            
+
             hr {
-                border-top-color: #999;
-                color: #ffffff;
-                background: #7a7a7a;
-                background-color: #999;
+                border-top-color: light-dark(black,white);
+                color: light-dark(black,#ffffff);
+                background: light-dark(black,white);
+                background-color: light-dark(black,white);
             }
 
             a {
@@ -63,14 +63,15 @@
             }
 
             .card {
-                color: white;
-                background-color: rgb(54, 54, 54);
+                color: light-dark(black, white);
+                background-color: light-dark(lightgray, rgb(54, 54, 54));
             }
 
             .slider {
             width: 100%;
             height: 25px;
-            background: #d3d3d3;
+            background: light-dark(black, grey);
+            color: light-dark(black, white);
             outline: none;
             opacity: 0.7;
             -webkit-transition: .2s;
@@ -78,7 +79,7 @@
             }
 
             .slider:hover {
-            opacity: 1;
+                opacity: 1;
             }
 
             .slider::-webkit-slider-thumb {
@@ -108,17 +109,26 @@
                 box-sizing: border-box;
                 -webkit-box-sizing:border-box;
                 -moz-box-sizing: border-box;
+                background-color: light-dark(lightgray, rgb(49, 49, 49));
+                color: light-dark(black, white);
            }
 
            input[type="text"] {
-            width: 100%; 
-            box-sizing: border-box;
-            -webkit-box-sizing:border-box;
-            -moz-box-sizing: border-box;
-       }
+                width: 100%; 
+                box-sizing: border-box;
+                -webkit-box-sizing:border-box;
+                -moz-box-sizing: border-box;
+                background-color: light-dark(lightgray, rgb(49, 49, 49));
+                color: light-dark(black, white);
+            }
+
+            textarea {
+                background-color: light-dark(lightgray, rgb(49, 49, 49));
+                color: light-dark(black, white);
+            }
 
             td, th {
-            border: 1px solid #dddddd;
+            border: 1px solid light-dark(black, white);
             text-align: left;
             padding: 8px;
             font-weight:bold;
@@ -133,15 +143,15 @@
             }
 
             tr:nth-child(even) {
-            background-color: #444444;
+            background-color: light-dark(#999, #444444);
             }
 
             pre code {
-            background-color: rgb(5, 0, 0);
-            border: 1px solid rgb(0, 0, 0);
-            color: rgb(30, 255, 0);
-            display: block;
-            padding: 20px;
+                background-color: light-dark(rgb(5, 0, 0), white);
+                border: 1px solid light-dark(rgb(0, 0, 0), white);
+                color: rgb(30, 255, 0);
+                display: block;
+                padding: 20px;
             }
 
             #cy {
@@ -164,7 +174,7 @@
             }
 
             .btn-a11y .btn-primary:hover, .btn-a11y .btn-primary:focus, .btn-a11y .btn-primary:active, .btn-a11y .btn-primary.active {
-            background: #FFF;
+            background: light-dark(#FFF, darkgray);
             color: #1b6ec2;
             border-color: #1b6ec2;
             }

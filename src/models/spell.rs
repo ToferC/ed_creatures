@@ -24,6 +24,7 @@ pub struct Spell {
     pub threads: i32,
     pub weaving: i32,
     pub reattune: i32,
+    pub fixed_target: i32,
     pub action_type: ActionType,
     pub target: ActionTarget,
     pub resisted_by: ResistedBy,

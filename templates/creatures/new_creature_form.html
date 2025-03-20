@@ -180,14 +180,14 @@
             <div>
                 <label>{{ fluent(key="dexterity", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="1" max="100" name="dexterity" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
-                <small id="attributeHelp" class="form-text text-muted">{{ fluent(key="attribute-help", lang=lang )}}</small>
+                <small id="attributeHelp" class="form-text">{{ fluent(key="attribute-help", lang=lang )}}</small>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="strength", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="1" max="100" name="strength" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
-                <small id="attributeHelp" class="form-text text-muted">{{ fluent(key="attribute-help", lang=lang )}}</small>
+                <small id="attributeHelp" class="form-text">{{ fluent(key="attribute-help", lang=lang )}}</small>
 
             </div>
         </ul>
@@ -195,7 +195,7 @@
             <div>
                 <label>{{ fluent(key="constitution", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="1" max="100" name="constitution" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
-                <small id="attributeHelp" class="form-text text-muted">{{ fluent(key="attribute-help", lang=lang )}}</small>
+                <small id="attributeHelp" class="form-text">{{ fluent(key="attribute-help", lang=lang )}}</small>
 
             </div>
         </ul>
@@ -203,7 +203,7 @@
             <div>
                 <label>{{ fluent(key="perception", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="1" max="100" name="perception" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
-                <small id="attributeHelp" class="form-text text-muted">{{ fluent(key="attribute-help", lang=lang )}}</small>
+                <small id="attributeHelp" class="form-text">{{ fluent(key="attribute-help", lang=lang )}}</small>
 
             </div>
         </ul>
@@ -211,7 +211,7 @@
             <div>
                 <label>{{ fluent(key="willpower", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="1" max="100" name="willpower" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
-                <small id="attributeHelp" class="form-text text-muted">{{ fluent(key="attribute-help", lang=lang )}}</small>
+                <small id="attributeHelp" class="form-text">{{ fluent(key="attribute-help", lang=lang )}}</small>
 
             </div>
         </ul>
@@ -219,7 +219,7 @@
             <div>
                 <label>{{ fluent(key="charisma", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="1" max="100" name="charisma" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
-                <small id="attributeHelp" class="form-text text-muted">{{ fluent(key="attribute-help", lang=lang )}}</small>
+                <small id="attributeHelp" class="form-text">{{ fluent(key="attribute-help", lang=lang )}}</small>
             </div>
         </ul>
       </div>
@@ -228,28 +228,28 @@
             <div>
                 <label>{{ fluent(key="initiative", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="1" max="100" name="initiative" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
-                <small id="attributeHelp" class="form-text text-muted">{{ fluent(key="attribute-help", lang=lang )}}</small>
+                <small id="attributeHelp" class="form-text">{{ fluent(key="attribute-help", lang=lang )}}</small>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="physical-defense", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="1" max="100" name="pd" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
-                 <small id="attributeHelp" class="form-text text-muted">{{ fluent(key="attribute-help", lang=lang )}}</small>
+                 <small id="attributeHelp" class="form-text">{{ fluent(key="defence-help", lang=lang )}}</small>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="mystic-defense", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="1" max="100" name="md" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
-                 <small id="attributeHelp" class="form-text">{{ fluent(key="attribute-help", lang=lang )}}</small>
+                 <small id="attributeHelp" class="form-text">{{ fluent(key="defence-help", lang=lang )}}</small>
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="social-defense", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="1" max="100" name="sd" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
-                 <small id="attributeHelp" class="form-text">{{ fluent(key="attribute-help", lang=lang )}}</small>
+                 <small id="attributeHelp" class="form-text">{{ fluent(key="defence-help", lang=lang )}}</small>
             </div>
         </ul>
         <ul>
@@ -272,36 +272,48 @@
             <div>
                 <label>{{ fluent(key="unconscious-rating", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="1" max="1000" name="unconsciousness_rating" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
+                <small id="attributeHelp" class="form-text">{{ fluent(key="unconsciousness-help", lang=lang )}}</small>
+
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="death-rating", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="1" max="1000" name="death_rating" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
+                <small id="attributeHelp" class="form-text">{{ fluent(key="death-help", lang=lang )}}</small>
+
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="wound-rating", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="0" max="100" name="wound" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
+                <small id="attributeHelp" class="form-text">{{ fluent(key="attribute-help", lang=lang )}}</small>
+
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="knockdown", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="1" max="100" name="knockdown" placeholder="Enter knockdown here" size=60 value="" required>
+                <small id="attributeHelp" class="form-text">{{ fluent(key="attribute-help", lang=lang )}}</small>
+
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="recovery-rolls", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="0" max="100" name="recovery_rolls" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
+                <small id="attributeHelp" class="form-text">{{ fluent(key="other-help", lang=lang )}}</small>
+
             </div>
         </ul>
         <ul>
             <div>
                 <label>{{ fluent(key="karma", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="0" max="100" name="karma" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
+                <small id="attributeHelp" class="form-text">{{ fluent(key="other-help", lang=lang )}}</small>
+
             </div>
         </ul>
       </div>
@@ -311,10 +323,12 @@
                 <div>
                     <label>{{ fluent(key="movement", lang=lang )}}</label><br>
                     <input class="form-control form-control-lg" type="text" name="movement" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
+                    <small id="attributeHelp" class="form-text">{{ fluent(key="movement-help", lang=lang )}}</small>
                 </div>
                 <div>
                 <label>{{ fluent(key="actions", lang=lang )}}</label><br>
                 <input class="form-control form-control-lg" type="number" min="1" max="100" name="actions" placeholder="{{ fluent(key="enter-value-here", lang=lang )}}" size=60 value="" required>
+                <small id="attributeHelp" class="form-text">{{ fluent(key="actions-help", lang=lang )}}</small>
             </div>
         </ul>
     </div>

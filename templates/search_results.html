@@ -41,6 +41,13 @@
                 <hr>
 
               <a method="get" href="/{{lang}}/creature/view/{{ creature.slug }}" class="btn btn-primary">{{ fluent(key="view", lang=lang) }}</a>
+              {% if session_user == creature.creator_slug or role == "Admin" %}
+                <a
+                  href="/{{ lang }}/edit_creature/{{ creature.id }}" 
+                  class="btn btn-dark">
+                  {{ fluent(key="edit-button", lang=lang )}}
+                </a>
+              {% endif %}
             </div>
           </div>
           <br>

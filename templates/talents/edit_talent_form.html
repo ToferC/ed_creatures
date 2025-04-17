@@ -11,7 +11,7 @@
 
         <div>
             <label>{{ fluent(key="action-step", lang=lang )}}*</label><br>
-            <input class="form-control form-control-lg" type="number" name="action_step" placeholder="{{ fluent(key="enter-action-step", lang=lang )}}" size=60 value="{{ talent.action_step }}" required>
+            <input class="form-control form-control-lg" type="number" name="action_step" min="1" placeholder="{{ fluent(key="enter-action-step", lang=lang )}}" size=60 value="{{ talent.action_step }}" required>
         </div>
         <button
             hx-post="/{{ lang }}/edit_talent_post/{{ talent.id }}"

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h1>{{ fluent(key="new-mask", lang=lang) }}</h1>
+    <form action="/{{ lang }}/post_mask" method="POST">
+
+        <div class="mb-3">
+            <label>{{ fluent(key="mask-name", lang=lang) }}</label>
+            <input class="form-control" type="text" name="name" placeholder="Mask name..." required>
+        </div>
+
+        <div class="mb-3">
+            <label>{{ fluent(key="mask-description", lang=lang) }}</label>
+            <textarea class="form-control" name="description" rows="3" placeholder="Describe what this mask represents..."></textarea>
+        </div>
+
+        <hr>
+        <h4>{{ fluent(key="stat-modifiers", lang=lang) }}</h4>
+        <p class="text-muted">{{ fluent(key="stat-modifiers-help", lang=lang) }}</p>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mb-2">
+                        <label>{{ fluent(key="circle", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="circle_rank" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="dexterity", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="dexterity" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="strength", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="strength" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="constitution", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="constitution" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="perception", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="perception" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="willpower", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="willpower" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="charisma", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="charisma" value="0" required>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="mb-2">
+                        <label>{{ fluent(key="initiative", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="initiative" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="physical-defense", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="pd" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="mystic-defense", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="md" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="social-defense", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="sd" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="physical-armor", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="pa" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="mystic-armor", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="ma" value="0" required>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="mb-2">
+                        <label>{{ fluent(key="unconscious-rating", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="unconsciousness_rating" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="death-rating", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="death_rating" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="wound-rating", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="wound" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="knockdown", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="knockdown" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="actions", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="actions" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="recovery-rolls", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="recovery_rolls" value="0" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>{{ fluent(key="karma", lang=lang) }}</label>
+                        <input class="form-control" type="number" name="karma" value="0" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        <button class="btn btn-primary" type="submit">{{ fluent(key="save-button", lang=lang) }}</button>
+        <a class="btn btn-secondary" href="/{{ lang }}/masks">{{ fluent(key="cancel-button", lang=lang) }}</a>
+    </form>
+
+    <div class="mt-3">
+        <p class="text-muted">{{ fluent(key="add-mask-items-after-save", lang=lang) }}</p>
+    </div>
+</div>
+
+{% endblock content %}

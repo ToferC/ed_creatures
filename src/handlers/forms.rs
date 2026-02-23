@@ -56,6 +56,8 @@ pub struct CreatureForm {
     pub recovery_rolls: i32,
     pub karma: i32,
     pub image_url: Option<String>,
+    // Optional mask to apply when saving
+    pub mask_id: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -94,4 +96,64 @@ pub struct ManeuverForm {
 pub struct TalentForm {
     pub name: String,
     pub action_step: i32,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct MaskForm {
+    pub name: String,
+    pub description: String,
+    // stat deltas
+    pub circle_rank: i32,
+    pub dexterity: i32,
+    pub strength: i32,
+    pub constitution: i32,
+    pub perception: i32,
+    pub willpower: i32,
+    pub charisma: i32,
+    pub initiative: i32,
+    pub pd: i32,
+    pub md: i32,
+    pub sd: i32,
+    pub pa: i32,
+    pub ma: i32,
+    pub unconsciousness_rating: i32,
+    pub death_rating: i32,
+    pub wound: i32,
+    pub knockdown: i32,
+    pub actions: i32,
+    pub recovery_rolls: i32,
+    pub karma: i32,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct MaskAttackForm {
+    pub name: String,
+    pub action_step: i32,
+    pub effect_step: i32,
+    pub details: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct MaskPowerForm {
+    pub name: String,
+    pub action_type: crate::models::ActionType,
+    pub target: crate::models::ActionTarget,
+    pub resisted_by: crate::models::ResistedBy,
+    pub action_step: i32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub effect_step: Option<i32>,
+    pub details: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct MaskTalentForm {
+    pub name: String,
+    pub action_step: i32,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct MaskManeuverForm {
+    pub name: String,
+    pub source: String,
+    pub details: String,
 }

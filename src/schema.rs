@@ -31,6 +31,106 @@ pub mod sql_types {
 }
 
 diesel::table! {
+    mask_attacks (id) {
+        id -> Uuid,
+        creator_id -> Uuid,
+        mask_id -> Uuid,
+        #[max_length = 128]
+        name -> Varchar,
+        action_step -> Int4,
+        effect_step -> Int4,
+        details -> Nullable<Text>,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+    }
+}
+
+diesel::table! {
+    use diesel::sql_types::*;
+    use super::sql_types::ActionTypes;
+    use super::sql_types::ActionTargets;
+    use super::sql_types::ResistedBys;
+
+    mask_powers (id) {
+        id -> Uuid,
+        creator_id -> Uuid,
+        mask_id -> Uuid,
+        #[max_length = 128]
+        name -> Varchar,
+        action_type -> ActionTypes,
+        target -> ActionTargets,
+        resisted_by -> ResistedBys,
+        action_step -> Int4,
+        effect_step -> Nullable<Int4>,
+        details -> Nullable<Text>,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+    }
+}
+
+diesel::table! {
+    mask_talents (id) {
+        id -> Uuid,
+        creator_id -> Uuid,
+        mask_id -> Uuid,
+        #[max_length = 128]
+        name -> Varchar,
+        action_step -> Int4,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+    }
+}
+
+diesel::table! {
+    mask_maneuvers (id) {
+        id -> Uuid,
+        creator_id -> Uuid,
+        mask_id -> Uuid,
+        #[max_length = 128]
+        name -> Varchar,
+        #[max_length = 512]
+        source -> Varchar,
+        details -> Text,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+    }
+}
+
+diesel::table! {
+    masks (id) {
+        id -> Uuid,
+        creator_id -> Uuid,
+        #[max_length = 256]
+        creator_slug -> Varchar,
+        #[max_length = 128]
+        name -> Varchar,
+        description -> Text,
+        circle_rank -> Int4,
+        dexterity -> Int4,
+        strength -> Int4,
+        constitution -> Int4,
+        perception -> Int4,
+        willpower -> Int4,
+        charisma -> Int4,
+        initiative -> Int4,
+        pd -> Int4,
+        md -> Int4,
+        sd -> Int4,
+        pa -> Int4,
+        ma -> Int4,
+        unconsciousness_rating -> Int4,
+        death_rating -> Int4,
+        wound -> Int4,
+        knockdown -> Int4,
+        actions -> Int4,
+        recovery_rolls -> Int4,
+        karma -> Int4,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
+    }
+}
+
+diesel::table! {
     attacks (id) {
         id -> Uuid,
         creator_id -> Uuid,
@@ -196,12 +296,26 @@ diesel::joinable!(powers -> creatures (creature_id));
 diesel::joinable!(powers -> users (creator_id));
 diesel::joinable!(talents -> creatures (creature_id));
 diesel::joinable!(talents -> users (creator_id));
+diesel::joinable!(masks -> users (creator_id));
+diesel::joinable!(mask_attacks -> masks (mask_id));
+diesel::joinable!(mask_attacks -> users (creator_id));
+diesel::joinable!(mask_powers -> masks (mask_id));
+diesel::joinable!(mask_powers -> users (creator_id));
+diesel::joinable!(mask_talents -> masks (mask_id));
+diesel::joinable!(mask_talents -> users (creator_id));
+diesel::joinable!(mask_maneuvers -> masks (mask_id));
+diesel::joinable!(mask_maneuvers -> users (creator_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     attacks,
     creatures,
     email_verification_code,
     maneuvers,
+    mask_attacks,
+    mask_maneuvers,
+    mask_powers,
+    mask_talents,
+    masks,
     password_reset_token,
     powers,
     talents,

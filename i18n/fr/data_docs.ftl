@@ -321,3 +321,20 @@ return-main-page = return to the main page
 ## Record not found
 record-not-found = Record not found
 record-not-found-explain = The Record you are searching for is not available.
+## Masks
+masks = Masques
+mask = Masque
+new-mask = Nouveau Masque
+mask-name = Nom du Masque
+mask-description = Description du Masque
+stat-modifiers = Modificateurs de Statistiques
+stat-modifiers-help = Entrez des valeurs delta (positives ou négatives) à ajouter aux statistiques de base d'une créature lorsque ce masque est appliqué. Utilisez 0 pour aucun changement.
+apply-mask = Appliquer un Masque
+no-mask = Aucun Masque
+mask-apply-help = Sélectionnez optionnellement un masque pour appliquer des modificateurs de statistiques et ajouter des attaques, pouvoirs, talents et manœuvres du modèle de masque.
+add-mask-items-after-save = Après la sauvegarde, vous pouvez ajouter des attaques, pouvoirs, talents et manœuvres à ce masque.
+created-by = Créé par
+no-masks = Aucun masque disponible pour l'instant.
+view-button = Voir
+delete-warning = Cette action est permanente et ne peut pas être annulée.
+type-name-to-confirm = Tapez le nom pour confirmer la suppression

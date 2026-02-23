@@ -304,6 +304,22 @@
         </ul>
     </div>
     
+    {% if masks %}
+    <div class="row mb-3">
+        <hr>
+        <div>
+            <label for="mask_select">{{ fluent(key="apply-mask", lang=lang) }}</label>
+            <select class="form-select" name="mask_id" id="mask_select">
+                <option value="">-- {{ fluent(key="no-mask", lang=lang) }} --</option>
+                {% for mask in masks %}
+                <option value="{{ mask.id }}">{{ mask.name }}{% if mask.description %} - {{ mask.description | truncate(length=60) }}{% endif %}</option>
+                {% endfor %}
+            </select>
+            <small class="form-text text-muted">{{ fluent(key="mask-apply-help", lang=lang) }}</small>
+        </div>
+    </div>
+    {% endif %}
+
     {% if session_user != "" %}
     <button class="btn btn-primary" type="submit">{{ fluent(key="save-button", lang=lang )}}</button>
     <a class="btn btn-info" href="/{{ lang }}/creature/view/{{ creature.slug }}">{{ fluent(key="cancel-button", lang=lang )}}</a>

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h2>{{ fluent(key="edit-button", lang=lang) }}: {{ mask_power.name }}</h2>
+    <form action="/{{ lang }}/edit_mask_power_post/{{ mask_power.id }}" method="POST">
+        <div class="mb-3">
+            <label>{{ fluent(key="creature-name", lang=lang) }}</label>
+            <input class="form-control" type="text" name="name" value="{{ mask_power.name }}" required>
+        </div>
+        <div class="mb-3">
+            <label>{{ fluent(key="action-type", lang=lang) }}</label>
+            <select class="form-select" name="action_type">
+                <option {% if mask_power.action_type == "Free" %}selected{% endif %} value="Free">Free</option>
+                <option {% if mask_power.action_type == "Simple" %}selected{% endif %} value="Simple">Simple</option>
+                <option {% if mask_power.action_type == "Standard" %}selected{% endif %} value="Standard">Standard</option>
+                <option {% if mask_power.action_type == "Move" %}selected{% endif %} value="Move">Move</option>
+                <option {% if mask_power.action_type == "Ritual" %}selected{% endif %} value="Ritual">Ritual</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>{{ fluent(key="target", lang=lang) }}</label>
+            <select class="form-select" name="target">
+                <option {% if mask_power.target == "PhysicalDefense" %}selected{% endif %} value="PhysicalDefense">Physical Defense</option>
+                <option {% if mask_power.target == "MysticDefense" %}selected{% endif %} value="MysticDefense">Mystic Defense</option>
+                <option {% if mask_power.target == "SocialDefense" %}selected{% endif %} value="SocialDefense">Social Defense</option>
+                <option {% if mask_power.target == "TN6" %}selected{% endif %} value="TN6">TN 6</option>
+                <option {% if mask_power.target == "TN10" %}selected{% endif %} value="TN10">TN 10</option>
+                <option {% if mask_power.target == "Other" %}selected{% endif %} value="Other">Other</option>
+                <option {% if mask_power.target == "NotApplicable" %}selected{% endif %} value="NotApplicable">Not Applicable</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>{{ fluent(key="resisted-by", lang=lang) }}</label>
+            <select class="form-select" name="resisted_by">
+                <option {% if mask_power.resisted_by == "Physical" %}selected{% endif %} value="Physical">Physical</option>
+                <option {% if mask_power.resisted_by == "Mystic" %}selected{% endif %} value="Mystic">Mystic</option>
+                <option {% if mask_power.resisted_by == "Other" %}selected{% endif %} value="Other">Other</option>
+                <option {% if mask_power.resisted_by == "NotApplicable" %}selected{% endif %} value="NotApplicable">Not Applicable</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>{{ fluent(key="action-step", lang=lang) }}</label>
+            <select class="form-select" name="action_step">
+                {% for step in steps %}
+                <option value="{{ loop.index }}" {% if loop.index == mask_power.action_step %}selected{% endif %}>{{ step }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>{{ fluent(key="effect-step", lang=lang) }}</label>
+            <select class="form-select" name="effect_step">
+                <option value="">None</option>
+                {% for step in steps %}
+                <option value="{{ loop.index }}" {% if mask_power.effect_step and loop.index == mask_power.effect_step %}selected{% endif %}>{{ step }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>{{ fluent(key="details", lang=lang) }}</label>
+            <textarea class="form-control" name="details" rows="2">{% if mask_power.details %}{{ mask_power.details }}{% endif %}</textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">{{ fluent(key="save-button", lang=lang) }}</button>
+        <a class="btn btn-secondary" href="/{{ lang }}/edit_mask/{{ mask_power.mask_id }}">{{ fluent(key="cancel-button", lang=lang) }}</a>
+    </form>
+</div>
+
+{% endblock content %}

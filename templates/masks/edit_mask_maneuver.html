@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h2>{{ fluent(key="edit-button", lang=lang) }}: {{ mask_maneuver.name }}</h2>
+    <form action="/{{ lang }}/edit_mask_maneuver_post/{{ mask_maneuver.id }}" method="POST">
+        <div class="mb-3">
+            <label>{{ fluent(key="creature-name", lang=lang) }}</label>
+            <input class="form-control" type="text" name="name" value="{{ mask_maneuver.name }}" required>
+        </div>
+        <div class="mb-3">
+            <label>Source</label>
+            <input class="form-control" type="text" name="source" value="{{ mask_maneuver.source }}" required>
+        </div>
+        <div class="mb-3">
+            <label>{{ fluent(key="details", lang=lang) }}</label>
+            <textarea class="form-control" name="details" rows="3" required>{{ mask_maneuver.details }}</textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">{{ fluent(key="save-button", lang=lang) }}</button>
+        <a class="btn btn-secondary" href="/{{ lang }}/edit_mask/{{ mask_maneuver.mask_id }}">{{ fluent(key="cancel-button", lang=lang) }}</a>
+    </form>
+</div>
+
+{% endblock content %}

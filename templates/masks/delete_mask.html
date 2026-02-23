@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h1>{{ fluent(key="delete-button", lang=lang) }}: {{ mask.name }}</h1>
+    <p class="text-danger">{{ fluent(key="delete-warning", lang=lang) }}</p>
+
+    <form action="/{{ lang }}/delete_mask/{{ mask.id }}" method="POST">
+        <div class="mb-3">
+            <label>{{ fluent(key="type-name-to-confirm", lang=lang) }}: <strong>{{ mask.name }}</strong></label>
+            <input class="form-control" type="text" name="verify" placeholder="{{ mask.name }}" required>
+        </div>
+        <button class="btn btn-danger" type="submit">{{ fluent(key="delete-button", lang=lang) }}</button>
+        <a class="btn btn-secondary" href="/{{ lang }}/mask/{{ mask.id }}">{{ fluent(key="cancel-button", lang=lang) }}</a>
+    </form>
+</div>
+
+{% endblock content %}

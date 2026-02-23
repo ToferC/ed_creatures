@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS mask_maneuvers;
+DROP TABLE IF EXISTS mask_talents;
+DROP TABLE IF EXISTS mask_powers;
+DROP TABLE IF EXISTS mask_attacks;
+DROP TABLE IF EXISTS masks;

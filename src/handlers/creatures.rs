@@ -2,7 +2,7 @@ use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest, ResponseEr
 use actix_identity::Identity;
 use inflector::Inflector;
 
-use crate::{errors::CustomError, generate_basic_context, generate_unique_code, handlers::{CreatureForm, DeleteForm}, models::{Attack, InsertableAttack, InsertablePower, InsertableTalent, Locales, Maneuver, Power, Tags, Talent, User, UserRole}, AppData};
+use crate::{errors::CustomError, generate_basic_context, generate_unique_code, handlers::{CreatureForm, DeleteForm}, models::{Attack, InsertableAttack, InsertablePower, InsertableTalent, Locales, Maneuver, Mask, MaskAttack, MaskPower, MaskTalent, MaskManeuver, Power, Tags, Talent, User, UserRole}, AppData};
 use uuid::Uuid;
 
 use crate::models::{Creature, InsertableCreature, InsertableManeuver};
@@ -34,6 +34,9 @@ pub async fn new_creature_form(
     let creature = InsertableCreature::default(user.id, session_user);
 
     ctx.insert("creature", &creature);
+
+    let masks = Mask::get_all().unwrap_or_default();
+    ctx.insert("masks", &masks);
 
     let rendered = data.tmpl.render("creatures/new_creature_form.html", &ctx).unwrap();
     HttpResponse::Ok().body(rendered)
@@ -142,38 +145,127 @@ pub async fn post_creature(
     if form.npc != None { tags.push(Some(Tags::NPC));};
     if form.other != None { tags.push(Some(Tags::Other));};
 
+    // If a mask is selected, apply its stat deltas to the form values
+    let mask = if let Some(ref mask_id_str) = form.mask_id {
+        if !mask_id_str.is_empty() {
+            if let Ok(mask_uuid) = Uuid::parse_str(mask_id_str) {
+                Mask::get_by_id(&mask_uuid).ok()
+            } else {
+                None
+            }
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    let (dex, str_, con, per, wil, cha, ini, pd, md, sd, pa, ma,
+         ur, dr, wound, kd, actions, rr, karma, circle) = if let Some(ref m) = mask {
+        (
+            form.dexterity + m.dexterity,
+            form.strength + m.strength,
+            form.constitution + m.constitution,
+            form.perception + m.perception,
+            form.willpower + m.willpower,
+            form.charisma + m.charisma,
+            form.initiative + m.initiative,
+            form.pd + m.pd,
+            form.md + m.md,
+            form.sd + m.sd,
+            form.pa + m.pa,
+            form.ma + m.ma,
+            form.unconsciousness_rating + m.unconsciousness_rating,
+            form.death_rating + m.death_rating,
+            form.wound + m.wound,
+            form.knockdown + m.knockdown,
+            form.actions + m.actions,
+            form.recovery_rolls + m.recovery_rolls,
+            form.karma + m.karma,
+            form.circle_rank + m.circle_rank,
+        )
+    } else {
+        (
+            form.dexterity, form.strength, form.constitution, form.perception,
+            form.willpower, form.charisma, form.initiative, form.pd, form.md,
+            form.sd, form.pa, form.ma, form.unconsciousness_rating,
+            form.death_rating, form.wound, form.knockdown, form.actions,
+            form.recovery_rolls, form.karma, form.circle_rank,
+        )
+    };
+
     let new_creature = InsertableCreature::new(
         user.id,
-        user.slug,
+        user.slug.clone(),
         form.name.to_owned(),
         found_in,
         form.rarity.to_owned(),
-        form.circle_rank,
+        circle,
         form.description.to_owned(),
-        form.dexterity,
-        form.strength,
-        form.constitution,
-        form.perception,
-        form.willpower,
-        form.charisma,
-        form.initiative,
-        form.pd,
-        form.md,
-        form.sd,
-        form.pa,
-        form.ma,
-        form.unconsciousness_rating,
-        form.death_rating,
-        form.wound,
-        form.knockdown,
-        form.actions,
+        dex, str_, con, per, wil, cha, ini, pd, md, sd, pa, ma,
+        ur, dr, wound, kd, actions,
         form.movement.to_owned(),
-        form.recovery_rolls,
-        form.karma,
+        rr, karma,
         tags,
-        );
+    );
 
     let creature = Creature::create(&new_creature).expect("Unable to create creature");
+
+    // Apply mask items to the new creature
+    if let Some(ref m) = mask {
+        if let Ok(mask_attacks) = MaskAttack::get_by_mask_id(m.id) {
+            for ma in &mask_attacks {
+                let new_attack = InsertableAttack::new(
+                    user.id,
+                    creature.id,
+                    ma.name.clone(),
+                    ma.action_step,
+                    ma.effect_step,
+                    ma.details.clone(),
+                );
+                Attack::create(&new_attack).expect("Unable to create attack from mask");
+            }
+        }
+        if let Ok(mask_powers) = MaskPower::get_by_mask_id(m.id) {
+            for mp in &mask_powers {
+                let new_power = InsertablePower::new(
+                    user.id,
+                    creature.id,
+                    mp.name.clone(),
+                    mp.action_type,
+                    mp.target,
+                    mp.resisted_by,
+                    mp.action_step,
+                    mp.effect_step,
+                    mp.details.clone(),
+                );
+                Power::create(&new_power).expect("Unable to create power from mask");
+            }
+        }
+        if let Ok(mask_talents) = MaskTalent::get_by_mask_id(m.id) {
+            for mt in &mask_talents {
+                let new_talent = InsertableTalent::new(
+                    user.id,
+                    creature.id,
+                    mt.name.clone(),
+                    mt.action_step,
+                );
+                Talent::create(&new_talent).expect("Unable to create talent from mask");
+            }
+        }
+        if let Ok(mask_maneuvers) = MaskManeuver::get_by_mask_id(m.id) {
+            for mm in &mask_maneuvers {
+                let new_maneuver = InsertableManeuver::new(
+                    user.id,
+                    creature.id,
+                    mm.name.clone(),
+                    mm.source.clone(),
+                    mm.details.clone(),
+                );
+                Maneuver::create(&new_maneuver).expect("Unable to create maneuver from mask");
+            }
+        }
+    }
 
     println!("Saved!");
 
@@ -213,21 +305,24 @@ pub async fn edit_creature(
 
     ctx.insert("creature", &creature);
 
-    if let Ok(data) = r_attacks {
-        ctx.insert("attacks", &data);
+    if let Ok(attacks) = r_attacks {
+        ctx.insert("attacks", &attacks);
     }
 
-    if let Ok(data) = r_powers {
-        ctx.insert("powers", &data);
+    if let Ok(powers) = r_powers {
+        ctx.insert("powers", &powers);
     }
 
-    if let Ok(data) = r_maneuvers {
-        ctx.insert("maneuvers", &data);
+    if let Ok(maneuvers) = r_maneuvers {
+        ctx.insert("maneuvers", &maneuvers);
     }
 
-    if let Ok(data) = r_talents {
-        ctx.insert("talents", &data);
+    if let Ok(talents) = r_talents {
+        ctx.insert("talents", &talents);
     }
+
+    let masks = Mask::get_all().unwrap_or_default();
+    ctx.insert("masks", &masks);
 
     ctx.insert("steps", &data.steps);
 
@@ -295,35 +390,84 @@ pub async fn edit_creature_post(
     if form.other != None { tags.push(Some(Tags::Other));};
 
     
+    // If a mask is selected, apply its stat deltas to the form values
+    let mask = if let Some(ref mask_id_str) = form.mask_id {
+        if !mask_id_str.is_empty() {
+            if let Ok(mask_uuid) = Uuid::parse_str(mask_id_str) {
+                Mask::get_by_id(&mask_uuid).ok()
+            } else {
+                None
+            }
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    let (dex, str_, con, per, wil, cha, ini, edit_pd, edit_md, edit_sd, edit_pa, edit_ma,
+         ur, dr, wound, kd, edit_actions, rr, karma, circle) = if let Some(ref m) = mask {
+        (
+            form.dexterity + m.dexterity,
+            form.strength + m.strength,
+            form.constitution + m.constitution,
+            form.perception + m.perception,
+            form.willpower + m.willpower,
+            form.charisma + m.charisma,
+            form.initiative + m.initiative,
+            form.pd + m.pd,
+            form.md + m.md,
+            form.sd + m.sd,
+            form.pa + m.pa,
+            form.ma + m.ma,
+            form.unconsciousness_rating + m.unconsciousness_rating,
+            form.death_rating + m.death_rating,
+            form.wound + m.wound,
+            form.knockdown + m.knockdown,
+            form.actions + m.actions,
+            form.recovery_rolls + m.recovery_rolls,
+            form.karma + m.karma,
+            form.circle_rank + m.circle_rank,
+        )
+    } else {
+        (
+            form.dexterity, form.strength, form.constitution, form.perception,
+            form.willpower, form.charisma, form.initiative, form.pd, form.md,
+            form.sd, form.pa, form.ma, form.unconsciousness_rating,
+            form.death_rating, form.wound, form.knockdown, form.actions,
+            form.recovery_rolls, form.karma, form.circle_rank,
+        )
+    };
+
     let mut our_creature = Creature {
         id: creature.id,
         creator_id: user.id,
         creator_slug: creature.creator_slug,
         name: form.name.to_owned(),
-        found_in: found_in,
+        found_in,
         rarity: form.rarity.to_owned(),
-        circle_rank: form.circle_rank,
+        circle_rank: circle,
         description: form.description.to_owned(),
-        dexterity: form.dexterity,
-        strength: form.strength,
-        constitution: form.constitution,
-        perception: form.perception,
-        willpower: form.willpower,
-        charisma: form.charisma,
-        initiative: form.initiative,
-        pd: form.pd,
-        md: form.md,
-        sd: form.sd,
-        pa: form.pa,
-        ma: form.ma,
-        unconsciousness_rating: form.unconsciousness_rating,
-        death_rating: form.death_rating,
-        wound: form.wound,
-        knockdown: form.knockdown,
-        actions: form.actions,
+        dexterity: dex,
+        strength: str_,
+        constitution: con,
+        perception: per,
+        willpower: wil,
+        charisma: cha,
+        initiative: ini,
+        pd: edit_pd,
+        md: edit_md,
+        sd: edit_sd,
+        pa: edit_pa,
+        ma: edit_ma,
+        unconsciousness_rating: ur,
+        death_rating: dr,
+        wound,
+        knockdown: kd,
+        actions: edit_actions,
         movement: form.movement.to_owned(),
-        recovery_rolls: form.recovery_rolls,
-        karma: form.karma,
+        recovery_rolls: rr,
+        karma,
         slug,
         image_url: None,
         created_at: creature.created_at,
@@ -331,7 +475,63 @@ pub async fn edit_creature_post(
         tags,
     };
 
-    let creature = Creature::update(&mut our_creature).expect("Unable to create creature");
+    let creature = Creature::update(&mut our_creature).expect("Unable to update creature");
+
+    // Apply mask items to the creature
+    if let Some(ref m) = mask {
+        if let Ok(mask_attacks) = MaskAttack::get_by_mask_id(m.id) {
+            for ma in &mask_attacks {
+                let new_attack = InsertableAttack::new(
+                    user.id,
+                    creature.id,
+                    ma.name.clone(),
+                    ma.action_step,
+                    ma.effect_step,
+                    ma.details.clone(),
+                );
+                Attack::create(&new_attack).expect("Unable to create attack from mask");
+            }
+        }
+        if let Ok(mask_powers) = MaskPower::get_by_mask_id(m.id) {
+            for mp in &mask_powers {
+                let new_power = InsertablePower::new(
+                    user.id,
+                    creature.id,
+                    mp.name.clone(),
+                    mp.action_type,
+                    mp.target,
+                    mp.resisted_by,
+                    mp.action_step,
+                    mp.effect_step,
+                    mp.details.clone(),
+                );
+                Power::create(&new_power).expect("Unable to create power from mask");
+            }
+        }
+        if let Ok(mask_talents) = MaskTalent::get_by_mask_id(m.id) {
+            for mt in &mask_talents {
+                let new_talent = InsertableTalent::new(
+                    user.id,
+                    creature.id,
+                    mt.name.clone(),
+                    mt.action_step,
+                );
+                Talent::create(&new_talent).expect("Unable to create talent from mask");
+            }
+        }
+        if let Ok(mask_maneuvers) = MaskManeuver::get_by_mask_id(m.id) {
+            for mm in &mask_maneuvers {
+                let new_maneuver = InsertableManeuver::new(
+                    user.id,
+                    creature.id,
+                    mm.name.clone(),
+                    mm.source.clone(),
+                    mm.details.clone(),
+                );
+                Maneuver::create(&new_maneuver).expect("Unable to create maneuver from mask");
+            }
+        }
+    }
 
     println!("Saved!");
 

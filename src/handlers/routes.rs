@@ -98,6 +98,36 @@ use crate::handlers::{
     edit_talent,
     edit_talent_post,
     delete_talent,
+
+    // masks
+    get_mask,
+    get_masks,
+    new_mask_form,
+    post_mask,
+    edit_mask,
+    edit_mask_post,
+    delete_mask_handler,
+    delete_mask,
+    add_mask_attack,
+    post_mask_attack,
+    edit_mask_attack,
+    edit_mask_attack_post,
+    delete_mask_attack,
+    add_mask_power,
+    post_mask_power,
+    edit_mask_power,
+    edit_mask_power_post,
+    delete_mask_power,
+    add_mask_talent,
+    post_mask_talent,
+    edit_mask_talent,
+    edit_mask_talent_post,
+    delete_mask_talent,
+    add_mask_maneuver,
+    post_mask_maneuver,
+    edit_mask_maneuver,
+    edit_mask_maneuver_post,
+    delete_mask_maneuver,
 };
 
 pub fn configure_services(config: &mut web::ServiceConfig) {
@@ -197,5 +227,35 @@ pub fn configure_services(config: &mut web::ServiceConfig) {
     config.service(edit_talent);
     config.service(edit_talent_post);
     config.service(delete_talent);
+
+    // masks
+    config.service(get_masks);
+    config.service(get_mask);
+    config.service(new_mask_form);
+    config.service(post_mask);
+    config.service(edit_mask);
+    config.service(edit_mask_post);
+    config.service(delete_mask_handler);
+    config.service(delete_mask);
+    config.service(add_mask_attack);
+    config.service(post_mask_attack);
+    config.service(edit_mask_attack);
+    config.service(edit_mask_attack_post);
+    config.service(delete_mask_attack);
+    config.service(add_mask_power);
+    config.service(post_mask_power);
+    config.service(edit_mask_power);
+    config.service(edit_mask_power_post);
+    config.service(delete_mask_power);
+    config.service(add_mask_talent);
+    config.service(post_mask_talent);
+    config.service(edit_mask_talent);
+    config.service(edit_mask_talent_post);
+    config.service(delete_mask_talent);
+    config.service(add_mask_maneuver);
+    config.service(post_mask_maneuver);
+    config.service(edit_mask_maneuver);
+    config.service(edit_mask_maneuver_post);
+    config.service(delete_mask_maneuver);
 
 }

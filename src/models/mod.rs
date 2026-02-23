@@ -6,6 +6,7 @@ mod attack;
 mod power;
 mod maneuver;
 mod talent;
+mod mask;
 
 
 pub use user::*;
@@ -16,3 +17,4 @@ pub use attack::*;
 pub use power::*;
 pub use maneuver::*;
 pub use talent::*;
+pub use mask::*;

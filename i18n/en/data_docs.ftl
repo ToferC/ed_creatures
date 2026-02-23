@@ -321,3 +321,20 @@ return-main-page = return to the main page
 ## Record not found
 record-not-found = Record not found
 record-not-found-explain = The Record you are searching for is not available.
+## Masks
+masks = Masks
+mask = Mask
+new-mask = New Mask
+mask-name = Mask Name
+mask-description = Mask Description
+stat-modifiers = Stat Modifiers
+stat-modifiers-help = Enter delta values (positive or negative) to add to a creature's base stats when this mask is applied. Use 0 for no change.
+apply-mask = Apply Mask
+no-mask = No Mask
+mask-apply-help = Optionally select a mask to apply stat modifiers and add attacks, powers, talents, and maneuvers from the mask template.
+add-mask-items-after-save = After saving, you can add attacks, powers, talents, and maneuvers to this mask.
+created-by = Created by
+no-masks = No masks available yet.
+view-button = View
+delete-warning = This action is permanent and cannot be undone.
+type-name-to-confirm = Type the name to confirm deletion

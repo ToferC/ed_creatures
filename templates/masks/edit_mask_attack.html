@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h2>{{ fluent(key="edit-button", lang=lang) }}: {{ mask_attack.name }}</h2>
+    <form action="/{{ lang }}/edit_mask_attack_post/{{ mask_attack.id }}" method="POST">
+        <div class="mb-3">
+            <label>{{ fluent(key="creature-name", lang=lang) }}</label>
+            <input class="form-control" type="text" name="name" value="{{ mask_attack.name }}" required>
+        </div>
+        <div class="mb-3">
+            <label>{{ fluent(key="action-step", lang=lang) }}</label>
+            <select class="form-select" name="action_step">
+                {% for step in steps %}
+                <option value="{{ loop.index }}" {% if loop.index == mask_attack.action_step %}selected{% endif %}>{{ step }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>{{ fluent(key="effect-step", lang=lang) }}</label>
+            <select class="form-select" name="effect_step">
+                {% for step in steps %}
+                <option value="{{ loop.index }}" {% if loop.index == mask_attack.effect_step %}selected{% endif %}>{{ step }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>{{ fluent(key="details", lang=lang) }}</label>
+            <textarea class="form-control" name="details" rows="2">{% if mask_attack.details %}{{ mask_attack.details }}{% endif %}</textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">{{ fluent(key="save-button", lang=lang) }}</button>
+        <a class="btn btn-secondary" href="/{{ lang }}/edit_mask/{{ mask_attack.mask_id }}">{{ fluent(key="cancel-button", lang=lang) }}</a>
+    </form>
+</div>
+
+{% endblock content %}

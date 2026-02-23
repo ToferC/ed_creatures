@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h2>{{ fluent(key="add-a-talent", lang=lang) }}</h2>
+    <form action="/{{ lang }}/post_mask_talent/{{ mask_id }}" method="POST">
+        <div class="mb-3">
+            <label>{{ fluent(key="creature-name", lang=lang) }}</label>
+            <input class="form-control" type="text" name="name" placeholder="Talent name..." required>
+        </div>
+        <div class="mb-3">
+            <label>{{ fluent(key="action-step", lang=lang) }}</label>
+            <select class="form-select" name="action_step">
+                {% for step in steps %}
+                <option value="{{ loop.index }}">{{ step }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">{{ fluent(key="save-button", lang=lang) }}</button>
+        <a class="btn btn-secondary" href="/{{ lang }}/edit_mask/{{ mask_id }}">{{ fluent(key="cancel-button", lang=lang) }}</a>
+    </form>
+</div>
+
+{% endblock content %}

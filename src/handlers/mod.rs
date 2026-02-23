@@ -11,6 +11,7 @@ pub mod attacks;
 pub mod powers;
 pub mod maneuver;
 pub mod talents;
+pub mod masks;
 
 pub use base::*;
 pub use routes::configure_services;
@@ -25,3 +26,4 @@ pub use attacks::*;
 pub use powers::*;
 pub use maneuver::*;
 pub use talents::*;
+pub use masks::*;

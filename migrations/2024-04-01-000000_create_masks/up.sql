@@ -56,9 +56,9 @@ CREATE TABLE IF NOT EXISTS mask_powers (
     FOREIGN KEY(mask_id)
         REFERENCES masks(id) ON DELETE CASCADE,
     name VARCHAR(128) NOT NULL,
-    action_type action_types NOT NULL DEFAULT 'Standard',
-    target action_targets NOT NULL DEFAULT 'PhysicalDefense',
-    resisted_by resisted_bys NOT NULL DEFAULT 'Physical',
+    action_type action_types NOT NULL DEFAULT 'standard',
+    target action_targets NOT NULL DEFAULT 'physical_defense',
+    resisted_by resisted_bys NOT NULL DEFAULT 'physical',
     action_step INT NOT NULL DEFAULT 9,
     effect_step INT,
     details TEXT,

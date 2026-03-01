@@ -23,7 +23,7 @@
                     {% if mask.description %}
                     <p class="card-text">{{ mask.description | truncate(length=100) }}</p>
                     {% endif %}
-                    <p class="card-text"><small class="text-muted">Circle {{ mask.circle_rank > 0 }} | By {{ mask.creator_slug }}</small></p>
+                    <p class="card-text"><small class="text">Circle {% if mask.circle_rank >= 0 %}+{% endif %}{{ mask.circle_rank }} | By {{ mask.creator_slug }}</small></p>
                     <a href="/{{ lang }}/mask/{{ mask.id }}" class="btn btn-info btn-sm">{{ fluent(key="view-button", lang=lang) }}</a>
                     {% if session_user == mask.creator_slug or role == "Admin" %}
                     <a href="/{{ lang }}/edit_mask/{{ mask.id }}" class="btn btn-secondary btn-sm">{{ fluent(key="edit-button", lang=lang) }}</a>

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Copy: {{ creature.name | title | safe }}</h1>
+<p>This will create a copy of <strong>{{ creature.name }}</strong> attributed to you. Optionally select a mask to apply its stat deltas and items to the copy.</p>
+
+<form action="/{{ lang }}/post_copy_creature_with_mask/{{ creature.id }}" method="POST">
+
+    {% if masks %}
+    <div class="mb-3">
+        <label for="mask_select">{{ fluent(key="apply-mask", lang=lang) }}</label>
+        <select class="form-select" name="mask_id" id="mask_select">
+            <option value="">-- {{ fluent(key="no-mask", lang=lang) }} --</option>
+            {% for mask in masks %}
+            <option value="{{ mask.id }}">{{ mask.name }}{% if mask.description %} - {{ mask.description | truncate(length=60) }}{% endif %}</option>
+            {% endfor %}
+        </select>
+        <small class="form-text text-muted">{{ fluent(key="mask-apply-help", lang=lang) }}</small>
+    </div>
+    {% endif %}
+
+    <button class="btn btn-primary" type="submit">Copy and Edit</button>
+    <a class="btn btn-secondary" href="/{{ lang }}/creature/view/{{ creature.slug }}">{{ fluent(key="cancel-button", lang=lang) }}</a>
+</form>
+
+{% endblock content %}

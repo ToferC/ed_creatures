@@ -371,14 +371,14 @@ pub async fn add_mask_attack(
 
 #[post("/{lang}/post_mask_attack/{mask_id}")]
 pub async fn post_mask_attack(
-    _data: web::Data<AppData>,
+    data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
     form: web::Form<MaskAttackForm>,
     id: Option<Identity>,
     req: HttpRequest,
 ) -> impl Responder {
     let (lang, mask_id) = path.into_inner();
-    let (_ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+    let (mut ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
     let user = User::get_from_slug(&session_user);
     if let Err(e) = user {
@@ -400,9 +400,12 @@ pub async fn post_mask_attack(
 
     MaskAttack::create(&new_attack).expect("Unable to create mask attack");
 
-    HttpResponse::Found()
-        .append_header(("Location", format!("/{}/edit_mask/{}", &lang, mask_id)))
-        .finish()
+    let mask_attacks = MaskAttack::get_by_mask_id(mask_id).unwrap_or_default();
+    ctx.insert("mask_id", &mask_id);
+    ctx.insert("mask_attacks", &mask_attacks);
+
+    let rendered = data.tmpl.render("masks/mask_attacks.html", &ctx).unwrap();
+    HttpResponse::Ok().body(rendered)
 }
 
 #[get("/{lang}/edit_mask_attack/{attack_id}")]
@@ -434,14 +437,14 @@ pub async fn edit_mask_attack(
 
 #[post("/{lang}/edit_mask_attack_post/{attack_id}")]
 pub async fn edit_mask_attack_post(
-    _data: web::Data<AppData>,
+    data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
     form: web::Form<MaskAttackForm>,
     id: Option<Identity>,
     req: HttpRequest,
 ) -> impl Responder {
     let (lang, attack_id) = path.into_inner();
-    let (_ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+    let (mut ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
     let mut attack = match MaskAttack::get_by_id(&attack_id) {
         Ok(a) => a,
@@ -453,18 +456,17 @@ pub async fn edit_mask_attack_post(
         }
     };
 
-    let mask_id = attack.mask_id;
-
     attack.name = form.name.to_owned();
     attack.action_step = form.action_step;
     attack.effect_step = form.effect_step;
     attack.details = form.details.clone();
 
-    MaskAttack::update(&mut attack).expect("Unable to update mask attack");
+    let updated = MaskAttack::update(&mut attack).expect("Unable to update mask attack");
 
-    HttpResponse::Found()
-        .append_header(("Location", format!("/{}/edit_mask/{}", &lang, mask_id)))
-        .finish()
+    ctx.insert("mask_attack", &updated);
+
+    let rendered = data.tmpl.render("masks/mask_attack.html", &ctx).unwrap();
+    HttpResponse::Ok().body(rendered)
 }
 
 #[get("/{lang}/delete_mask_attack/{attack_id}")]
@@ -477,22 +479,16 @@ pub async fn delete_mask_attack(
     let (lang, attack_id) = path.into_inner();
     let (_ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
-    let attack = match MaskAttack::get_by_id(&attack_id) {
-        Ok(a) => a,
-        Err(e) => {
-            println!("{:?}", e);
-            return HttpResponse::Found()
-                .append_header(("Location", format!("/{}/masks", &lang)))
-                .finish();
-        }
-    };
+    if let Err(e) = MaskAttack::get_by_id(&attack_id) {
+        println!("{:?}", e);
+        return HttpResponse::Found()
+            .append_header(("Location", format!("/{}/masks", &lang)))
+            .finish();
+    }
 
-    let mask_id = attack.mask_id;
     MaskAttack::delete(attack_id).expect("Unable to delete mask attack");
 
-    HttpResponse::Found()
-        .append_header(("Location", format!("/{}/edit_mask/{}", &lang, mask_id)))
-        .finish()
+    HttpResponse::Ok().body("")
 }
 
 // ---- MaskPower CRUD ----
@@ -516,14 +512,14 @@ pub async fn add_mask_power(
 
 #[post("/{lang}/post_mask_power/{mask_id}")]
 pub async fn post_mask_power(
-    _data: web::Data<AppData>,
+    data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
     form: web::Form<MaskPowerForm>,
     id: Option<Identity>,
     req: HttpRequest,
 ) -> impl Responder {
     let (lang, mask_id) = path.into_inner();
-    let (_ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+    let (mut ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
     let user = User::get_from_slug(&session_user);
     if let Err(e) = user {
@@ -548,9 +544,12 @@ pub async fn post_mask_power(
 
     MaskPower::create(&new_power).expect("Unable to create mask power");
 
-    HttpResponse::Found()
-        .append_header(("Location", format!("/{}/edit_mask/{}", &lang, mask_id)))
-        .finish()
+    let mask_powers = MaskPower::get_by_mask_id(mask_id).unwrap_or_default();
+    ctx.insert("mask_id", &mask_id);
+    ctx.insert("mask_powers", &mask_powers);
+
+    let rendered = data.tmpl.render("masks/mask_powers.html", &ctx).unwrap();
+    HttpResponse::Ok().body(rendered)
 }
 
 #[get("/{lang}/edit_mask_power/{power_id}")]
@@ -582,14 +581,14 @@ pub async fn edit_mask_power(
 
 #[post("/{lang}/edit_mask_power_post/{power_id}")]
 pub async fn edit_mask_power_post(
-    _data: web::Data<AppData>,
+    data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
     form: web::Form<MaskPowerForm>,
     id: Option<Identity>,
     req: HttpRequest,
 ) -> impl Responder {
     let (lang, power_id) = path.into_inner();
-    let (_ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+    let (mut ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
     let mut power = match MaskPower::get_by_id(&power_id) {
         Ok(p) => p,
@@ -601,8 +600,6 @@ pub async fn edit_mask_power_post(
         }
     };
 
-    let mask_id = power.mask_id;
-
     power.name = form.name.to_owned();
     power.action_type = form.action_type;
     power.target = form.target;
@@ -611,11 +608,12 @@ pub async fn edit_mask_power_post(
     power.effect_step = form.effect_step;
     power.details = form.details.clone();
 
-    MaskPower::update(&mut power).expect("Unable to update mask power");
+    let updated = MaskPower::update(&mut power).expect("Unable to update mask power");
 
-    HttpResponse::Found()
-        .append_header(("Location", format!("/{}/edit_mask/{}", &lang, mask_id)))
-        .finish()
+    ctx.insert("mask_power", &updated);
+
+    let rendered = data.tmpl.render("masks/mask_power.html", &ctx).unwrap();
+    HttpResponse::Ok().body(rendered)
 }
 
 #[get("/{lang}/delete_mask_power/{power_id}")]
@@ -628,22 +626,16 @@ pub async fn delete_mask_power(
     let (lang, power_id) = path.into_inner();
     let (_ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
-    let power = match MaskPower::get_by_id(&power_id) {
-        Ok(p) => p,
-        Err(e) => {
-            println!("{:?}", e);
-            return HttpResponse::Found()
-                .append_header(("Location", format!("/{}/masks", &lang)))
-                .finish();
-        }
-    };
+    if let Err(e) = MaskPower::get_by_id(&power_id) {
+        println!("{:?}", e);
+        return HttpResponse::Found()
+            .append_header(("Location", format!("/{}/masks", &lang)))
+            .finish();
+    }
 
-    let mask_id = power.mask_id;
     MaskPower::delete(power_id).expect("Unable to delete mask power");
 
-    HttpResponse::Found()
-        .append_header(("Location", format!("/{}/edit_mask/{}", &lang, mask_id)))
-        .finish()
+    HttpResponse::Ok().body("")
 }
 
 // ---- MaskTalent CRUD ----
@@ -667,14 +659,14 @@ pub async fn add_mask_talent(
 
 #[post("/{lang}/post_mask_talent/{mask_id}")]
 pub async fn post_mask_talent(
-    _data: web::Data<AppData>,
+    data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
     form: web::Form<MaskTalentForm>,
     id: Option<Identity>,
     req: HttpRequest,
 ) -> impl Responder {
     let (lang, mask_id) = path.into_inner();
-    let (_ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+    let (mut ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
     let user = User::get_from_slug(&session_user);
     if let Err(e) = user {
@@ -694,9 +686,12 @@ pub async fn post_mask_talent(
 
     MaskTalent::create(&new_talent).expect("Unable to create mask talent");
 
-    HttpResponse::Found()
-        .append_header(("Location", format!("/{}/edit_mask/{}", &lang, mask_id)))
-        .finish()
+    let mask_talents = MaskTalent::get_by_mask_id(mask_id).unwrap_or_default();
+    ctx.insert("mask_id", &mask_id);
+    ctx.insert("mask_talents", &mask_talents);
+
+    let rendered = data.tmpl.render("masks/mask_talents.html", &ctx).unwrap();
+    HttpResponse::Ok().body(rendered)
 }
 
 #[get("/{lang}/edit_mask_talent/{talent_id}")]
@@ -728,14 +723,14 @@ pub async fn edit_mask_talent(
 
 #[post("/{lang}/edit_mask_talent_post/{talent_id}")]
 pub async fn edit_mask_talent_post(
-    _data: web::Data<AppData>,
+    data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
     form: web::Form<MaskTalentForm>,
     id: Option<Identity>,
     req: HttpRequest,
 ) -> impl Responder {
     let (lang, talent_id) = path.into_inner();
-    let (_ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+    let (mut ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
     let mut talent = match MaskTalent::get_by_id(&talent_id) {
         Ok(t) => t,
@@ -747,16 +742,15 @@ pub async fn edit_mask_talent_post(
         }
     };
 
-    let mask_id = talent.mask_id;
-
     talent.name = form.name.to_owned();
     talent.action_step = form.action_step;
 
-    MaskTalent::update(&mut talent).expect("Unable to update mask talent");
+    let updated = MaskTalent::update(&mut talent).expect("Unable to update mask talent");
 
-    HttpResponse::Found()
-        .append_header(("Location", format!("/{}/edit_mask/{}", &lang, mask_id)))
-        .finish()
+    ctx.insert("mask_talent", &updated);
+
+    let rendered = data.tmpl.render("masks/mask_talent.html", &ctx).unwrap();
+    HttpResponse::Ok().body(rendered)
 }
 
 #[get("/{lang}/delete_mask_talent/{talent_id}")]
@@ -769,22 +763,16 @@ pub async fn delete_mask_talent(
     let (lang, talent_id) = path.into_inner();
     let (_ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
-    let talent = match MaskTalent::get_by_id(&talent_id) {
-        Ok(t) => t,
-        Err(e) => {
-            println!("{:?}", e);
-            return HttpResponse::Found()
-                .append_header(("Location", format!("/{}/masks", &lang)))
-                .finish();
-        }
-    };
+    if let Err(e) = MaskTalent::get_by_id(&talent_id) {
+        println!("{:?}", e);
+        return HttpResponse::Found()
+            .append_header(("Location", format!("/{}/masks", &lang)))
+            .finish();
+    }
 
-    let mask_id = talent.mask_id;
     MaskTalent::delete(talent_id).expect("Unable to delete mask talent");
 
-    HttpResponse::Found()
-        .append_header(("Location", format!("/{}/edit_mask/{}", &lang, mask_id)))
-        .finish()
+    HttpResponse::Ok().body("")
 }
 
 // ---- MaskManeuver CRUD ----
@@ -807,14 +795,14 @@ pub async fn add_mask_maneuver(
 
 #[post("/{lang}/post_mask_maneuver/{mask_id}")]
 pub async fn post_mask_maneuver(
-    _data: web::Data<AppData>,
+    data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
     form: web::Form<MaskManeuverForm>,
     id: Option<Identity>,
     req: HttpRequest,
 ) -> impl Responder {
     let (lang, mask_id) = path.into_inner();
-    let (_ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+    let (mut ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
     let user = User::get_from_slug(&session_user);
     if let Err(e) = user {
@@ -835,9 +823,12 @@ pub async fn post_mask_maneuver(
 
     MaskManeuver::create(&new_maneuver).expect("Unable to create mask maneuver");
 
-    HttpResponse::Found()
-        .append_header(("Location", format!("/{}/edit_mask/{}", &lang, mask_id)))
-        .finish()
+    let mask_maneuvers = MaskManeuver::get_by_mask_id(mask_id).unwrap_or_default();
+    ctx.insert("mask_id", &mask_id);
+    ctx.insert("mask_maneuvers", &mask_maneuvers);
+
+    let rendered = data.tmpl.render("masks/mask_maneuvers.html", &ctx).unwrap();
+    HttpResponse::Ok().body(rendered)
 }
 
 #[get("/{lang}/edit_mask_maneuver/{maneuver_id}")]
@@ -868,14 +859,14 @@ pub async fn edit_mask_maneuver(
 
 #[post("/{lang}/edit_mask_maneuver_post/{maneuver_id}")]
 pub async fn edit_mask_maneuver_post(
-    _data: web::Data<AppData>,
+    data: web::Data<AppData>,
     path: web::Path<(String, Uuid)>,
     form: web::Form<MaskManeuverForm>,
     id: Option<Identity>,
     req: HttpRequest,
 ) -> impl Responder {
     let (lang, maneuver_id) = path.into_inner();
-    let (_ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+    let (mut ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
     let mut maneuver = match MaskManeuver::get_by_id(&maneuver_id) {
         Ok(m) => m,
@@ -887,17 +878,16 @@ pub async fn edit_mask_maneuver_post(
         }
     };
 
-    let mask_id = maneuver.mask_id;
-
     maneuver.name = form.name.to_owned();
     maneuver.source = form.source.to_owned();
     maneuver.details = form.details.to_owned();
 
-    MaskManeuver::update(&mut maneuver).expect("Unable to update mask maneuver");
+    let updated = MaskManeuver::update(&mut maneuver).expect("Unable to update mask maneuver");
 
-    HttpResponse::Found()
-        .append_header(("Location", format!("/{}/edit_mask/{}", &lang, mask_id)))
-        .finish()
+    ctx.insert("mask_maneuver", &updated);
+
+    let rendered = data.tmpl.render("masks/mask_maneuver.html", &ctx).unwrap();
+    HttpResponse::Ok().body(rendered)
 }
 
 #[get("/{lang}/delete_mask_maneuver/{maneuver_id}")]
@@ -910,20 +900,14 @@ pub async fn delete_mask_maneuver(
     let (lang, maneuver_id) = path.into_inner();
     let (_ctx, _session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
 
-    let maneuver = match MaskManeuver::get_by_id(&maneuver_id) {
-        Ok(m) => m,
-        Err(e) => {
-            println!("{:?}", e);
-            return HttpResponse::Found()
-                .append_header(("Location", format!("/{}/masks", &lang)))
-                .finish();
-        }
-    };
+    if let Err(e) = MaskManeuver::get_by_id(&maneuver_id) {
+        println!("{:?}", e);
+        return HttpResponse::Found()
+            .append_header(("Location", format!("/{}/masks", &lang)))
+            .finish();
+    }
 
-    let mask_id = maneuver.mask_id;
     MaskManeuver::delete(maneuver_id).expect("Unable to delete mask maneuver");
 
-    HttpResponse::Found()
-        .append_header(("Location", format!("/{}/edit_mask/{}", &lang, mask_id)))
-        .finish()
+    HttpResponse::Ok().body("")
 }

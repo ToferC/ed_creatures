@@ -46,6 +46,12 @@ pub struct Mask {
     pub updated_at: NaiveDateTime,
 }
 
+#[derive(Serialize, Debug, Clone)]
+pub struct MaskRef {
+    pub id: Uuid,
+    pub name: String,
+}
+
 impl Mask {
     pub fn create(data: &InsertableMask) -> Result<Self, CustomError> {
         let mut conn = connection()?;

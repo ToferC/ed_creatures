@@ -1,0 +1,17 @@
+<div class="container" id="mask-powers" hx-target="this" hx-swap="outerHTML">
+    <h3>{{ fluent(key="powers-abilities-spells", lang=lang) }}</h3>
+    {% if mask_powers %}
+    {% for power in mask_powers %}
+    <div id="mask-power-{{ power.id }}" hx-target="this" hx-swap="outerHTML">
+        <li>
+            <strong>{{ power.name }}</strong> ({{ power.action_type }} vs. {{ power.target }}): Step {{ power.action_step }}{% if power.effect_step %} / Step {{ power.effect_step }}{% endif %}{% if power.details %}: {{ power.details }}{% endif %}
+            <button hx-get="/{{ lang }}/edit_mask_power/{{ power.id }}" hx-target="#mask-power-{{ power.id }}" class="btn btn-info btn-sm">{{ fluent(key="edit-button", lang=lang) }}</button>
+            <button hx-get="/{{ lang }}/delete_mask_power/{{ power.id }}" hx-target="#mask-power-{{ power.id }}" hx-swap="outerHTML" class="btn btn-danger btn-sm">{{ fluent(key="delete-button", lang=lang) }}</button>
+        </li>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <br>
+    <button class="btn btn-dark" hx-get="/{{ lang }}/add_mask_power/{{ mask_id }}" hx-target="this" hx-swap="outerHTML">{{ fluent(key="add-power-ability-spell", lang=lang) }}</button>
+    <hr>
+</div>

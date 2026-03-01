@@ -33,6 +33,7 @@
     </a>
     {% if session_user != ""%}
     <a class="btn btn-secondary" method="get" href="/{{ lang }}/copy_creature/{{ creature.id }}">Copy and Edit</a>
+    <a class="btn btn-secondary" method="get" href="/{{ lang }}/copy_creature_with_mask/{{ creature.id }}">Copy with Mask</a>
     {% endif %}
   </h1>
 
@@ -49,17 +50,23 @@
     </button>
     {% endfor %}
   </h4>
-    <h4 class="card-text">{{ fluent(key="tags", lang=lang )}}: 
+    <h4 class="card-text">{{ fluent(key="tags", lang=lang )}}:
     {% for tag in creature.tags %}
       <button
         hx-get="/{{ lang }}/tag/{{ tag }}"
         hx-trigger="click"
         hx-target="#main-body"
         hx-swap="outerHTML"
-        class="btn btn-sm btn-light" 
+        class="btn btn-sm btn-light"
         >{{ tag }}
       </button>
-    {% endfor %}</h4>
+    {% endfor %}
+    </h4>
+    <h4 class="card-text">{{ fluent(key="masks", lang=lang )}}:
+    {% for mask in applied_masks %}
+      <a href="/{{ lang }}/mask/{{ mask.id }}" class="btn btn-sm btn-secondary">{{ mask.name }}</a>
+    {% endfor %}
+    </h4>
     <small>{{ fluent(key="created-at", lang=lang )}} {{ creature.created_at | date(format="%Y-%m-%d %H:%M") }} by {{ creature.creator_slug }};</small>
     <small>{{ fluent(key="updated-at", lang=lang )}} {{ creature.updated_at | date(format="%Y-%m-%d %H:%M") }}</small>
     <hr>

@@ -1,0 +1,17 @@
+<div class="container" id="mask-attacks" hx-target="this" hx-swap="outerHTML">
+    <h3>{{ fluent(key="attacks", lang=lang) }}</h3>
+    {% if mask_attacks %}
+    {% for attack in mask_attacks %}
+    <div id="mask-attack-{{ attack.id }}" hx-target="this" hx-swap="outerHTML">
+        <li>
+            <strong>{{ attack.name }}</strong>: Step {{ attack.action_step }} / Step {{ attack.effect_step }}{% if attack.details %}: {{ attack.details }}{% endif %}
+            <button hx-get="/{{ lang }}/edit_mask_attack/{{ attack.id }}" hx-target="#mask-attack-{{ attack.id }}" class="btn btn-info btn-sm">{{ fluent(key="edit-button", lang=lang) }}</button>
+            <button hx-get="/{{ lang }}/delete_mask_attack/{{ attack.id }}" hx-target="#mask-attack-{{ attack.id }}" hx-swap="outerHTML" class="btn btn-danger btn-sm">{{ fluent(key="delete-button", lang=lang) }}</button>
+        </li>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <br>
+    <button class="btn btn-dark" hx-get="/{{ lang }}/add_mask_attack/{{ mask_id }}" hx-target="this" hx-swap="outerHTML">{{ fluent(key="add-an-attack", lang=lang) }}</button>
+    <hr>
+</div>

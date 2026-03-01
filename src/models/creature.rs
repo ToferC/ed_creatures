@@ -50,6 +50,7 @@ pub struct Creature {
     pub created_at: NaiveDateTime,
     pub updated_at: NaiveDateTime,
     pub tags: Vec<Option<Tags>>,
+    pub masks: Vec<Option<Uuid>>,
 }
 
 impl Creature {
@@ -169,6 +170,26 @@ impl Creature {
         Ok(res)
     }
 
+    pub fn add_mask(creature_id: &Uuid, mask_id: Uuid) -> Result<Self, CustomError> {
+        let mut conn = connection()?;
+
+        let mut creature = creatures::table
+            .filter(creatures::id.eq(creature_id))
+            .first::<Creature>(&mut conn)?;
+
+        if !creature.masks.contains(&Some(mask_id)) {
+            creature.masks.push(Some(mask_id));
+        }
+        creature.updated_at = chrono::Utc::now().naive_utc();
+
+        let res = diesel::update(creatures::table)
+            .filter(creatures::id.eq(creature_id))
+            .set(creature.clone())
+            .get_result(&mut conn)?;
+
+        Ok(res)
+    }
+
     pub fn delete(id: Uuid) -> Result<usize, CustomError> {
         let mut conn = connection()?;
 
@@ -272,6 +293,7 @@ pub struct InsertableCreature {
     pub created_at: chrono::NaiveDateTime,
     pub updated_at: chrono::NaiveDateTime,
     pub tags: Vec<Option<Tags>>,
+    pub masks: Vec<Option<Uuid>>,
 }
 
 impl InsertableCreature {
@@ -314,6 +336,7 @@ impl InsertableCreature {
             created_at: today,
             updated_at: today,
             tags: vec![Some(Tags::Creature)],
+            masks: vec![],
         }
     }
 
@@ -346,6 +369,7 @@ impl InsertableCreature {
         recovery_rolls: i32,
         karma: i32,
         tags: Vec<Option<Tags>>,
+        masks: Vec<Option<Uuid>>,
     ) -> Self {
 
         let slug = name.trim().to_snake_case();
@@ -384,6 +408,7 @@ impl InsertableCreature {
             created_at: today,
             updated_at: today,
             tags,
+            masks,
         }
     }
 }

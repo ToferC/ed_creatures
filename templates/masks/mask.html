@@ -65,7 +65,7 @@
     <h3>{{ fluent(key="attacks", lang=lang) }}</h3>
     <ul>
         {% for attack in mask_attacks %}
-        <li><strong>{{ attack.name }}</strong>: {{ attack.action_step }} ({{ attack.effect_step }}){% if attack.details %}: {{ attack.details }}{% endif %}</li>
+        <li><strong>{{ attack.name }}</strong>: Step {{ attack.action_step }} / Step {{ attack.effect_step }}{% if attack.details %}: {{ attack.details }}{% endif %}</li>
         {% endfor %}
     </ul>
     {% endif %}
@@ -75,7 +75,7 @@
     <h3>{{ fluent(key="powers-abilities-spells", lang=lang) }}</h3>
     <ul>
         {% for power in mask_powers %}
-        <li><strong>{{ power.name }}</strong> ({{ power.action_type }} vs. {{ power.target }}): {{ power.action_step }}{% if power.effect_step %} ({{ power.effect_step }}){% endif %}{% if power.details %}: {{ power.details }}{% endif %}</li>
+        <li><strong>{{ power.name }}</strong> ({{ power.action_type }} vs. {{ power.target }}): Step {{ power.action_step }}{% if power.effect_step %} / Step {{ power.effect_step }}{% endif %}{% if power.details %}: {{ power.details }}{% endif %}</li>
         {% endfor %}
     </ul>
     {% endif %}
@@ -85,7 +85,7 @@
     <h3>{{ fluent(key="talents", lang=lang) }}</h3>
     <ul>
         {% for talent in mask_talents %}
-        <li><strong>{{ talent.name }}</strong>: {{ talent.action_step }}</li>
+        <li><strong>{{ talent.name }}</strong>: Step {{ talent.action_step }}</li>
         {% endfor %}
     </ul>
     {% endif %}

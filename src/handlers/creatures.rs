@@ -2,7 +2,7 @@ use actix_web::{web, get, post, Responder, HttpResponse, HttpRequest, ResponseEr
 use actix_identity::Identity;
 use inflector::Inflector;
 
-use crate::{errors::CustomError, generate_basic_context, generate_unique_code, handlers::{CreatureForm, DeleteForm}, models::{Attack, InsertableAttack, InsertablePower, InsertableTalent, Locales, Maneuver, Mask, MaskAttack, MaskPower, MaskTalent, MaskManeuver, Power, Tags, Talent, User, UserRole}, AppData};
+use crate::{errors::CustomError, generate_basic_context, generate_unique_code, handlers::{CreatureForm, CopyWithMaskForm, DeleteForm}, models::{Attack, InsertableAttack, InsertablePower, InsertableTalent, Locales, Maneuver, Mask, MaskAttack, MaskPower, MaskTalent, MaskManeuver, MaskRef, Power, Tags, Talent, User, UserRole}, AppData};
 use uuid::Uuid;
 
 use crate::models::{Creature, InsertableCreature, InsertableManeuver};
@@ -84,6 +84,13 @@ pub async fn get_creature(
     if let Ok(data) = r_talents {
         ctx.insert("talents", &data);
     }
+
+    let applied_masks: Vec<MaskRef> = creature.masks.iter()
+        .filter_map(|mask_id| {
+            Mask::get_by_id(&mask_id.expect("Unable to retrieve mask")).ok().map(|m| MaskRef { id: m.id, name: m.name })
+        })
+        .collect();
+    ctx.insert("applied_masks", &applied_masks);
 
     ctx.insert("current_damage", &0);
     ctx.insert("current_wounds", &0);
@@ -207,6 +214,7 @@ pub async fn post_creature(
         form.movement.to_owned(),
         rr, karma,
         tags,
+        vec![],
     );
 
     let creature = Creature::create(&new_creature).expect("Unable to create creature");
@@ -265,6 +273,7 @@ pub async fn post_creature(
                 Maneuver::create(&new_maneuver).expect("Unable to create maneuver from mask");
             }
         }
+        Creature::add_mask(&creature.id, m.id).expect("Unable to record mask on creature");
     }
 
     println!("Saved!");
@@ -473,6 +482,7 @@ pub async fn edit_creature_post(
         created_at: creature.created_at,
         updated_at: today,
         tags,
+        masks: creature.masks.clone(),
     };
 
     let creature = Creature::update(&mut our_creature).expect("Unable to update creature");
@@ -531,6 +541,7 @@ pub async fn edit_creature_post(
                 Maneuver::create(&new_maneuver).expect("Unable to create maneuver from mask");
             }
         }
+        Creature::add_mask(&creature.id, m.id).expect("Unable to record mask on creature");
     }
 
     println!("Saved!");
@@ -613,6 +624,7 @@ pub async fn copy_creature(
         created_at: today,
         updated_at: today,
         tags: creature.tags,
+        masks: creature.masks.clone(),
     };
 
     let new_creature = Creature::create(&mut our_creature).expect("Unable to create creature");
@@ -719,6 +731,264 @@ pub async fn copy_creature(
 
     // Redirect to creature
     return HttpResponse::Found()
+        .append_header(("Location", format!("/{}/edit_creature/{}", &lang, &new_creature.id))).finish()
+}
+
+#[get("/{lang}/copy_creature_with_mask/{creature_id}")]
+pub async fn copy_creature_with_mask(
+    data: web::Data<AppData>,
+    path: web::Path<(String, Uuid)>,
+    id: Option<Identity>,
+    req: HttpRequest,
+) -> impl Responder {
+
+    let (lang, creature_id) = path.into_inner();
+
+    let (mut ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+
+    let user = User::get_from_slug(&session_user);
+
+    if let Err(e) = user {
+        println!("{:?}", &e);
+        return HttpResponse::Found()
+            .append_header(("Location", format!("/{}/", &lang))).finish()
+    }
+
+    let creature = match Creature::get_by_id(&creature_id) {
+        Ok(c) => c,
+        Err(e) => {
+            println!("{:?}", &e);
+            return HttpResponse::Found()
+                .append_header(("Location", format!("/{}/", &lang))).finish()
+        }
+    };
+
+    let masks = Mask::get_all().unwrap_or_default();
+
+    ctx.insert("creature", &creature);
+    ctx.insert("masks", &masks);
+
+    let rendered = data.tmpl.render("creatures/copy_creature_with_mask.html", &ctx).unwrap();
+    HttpResponse::Ok().body(rendered)
+}
+
+#[post("/{lang}/post_copy_creature_with_mask/{creature_id}")]
+pub async fn post_copy_creature_with_mask(
+    _data: web::Data<AppData>,
+    path: web::Path<(String, Uuid)>,
+    form: web::Form<CopyWithMaskForm>,
+    id: Option<Identity>,
+    req: HttpRequest,
+) -> impl Responder {
+
+    let (lang, creature_id) = path.into_inner();
+
+    let (_ctx, session_user, _role, _lang) = generate_basic_context(id, &lang, req.uri().path());
+
+    let user = User::get_from_slug(&session_user);
+
+    if let Err(e) = user {
+        println!("{:?}", &e);
+        return HttpResponse::Found()
+            .append_header(("Location", format!("/{}/", &lang))).finish()
+    }
+
+    let user = user.unwrap();
+
+    let creature = match Creature::get_by_id(&creature_id) {
+        Ok(c) => c,
+        Err(e) => {
+            println!("{:?}", &e);
+            return HttpResponse::Found()
+                .append_header(("Location", format!("/{}/", &lang))).finish()
+        }
+    };
+
+    // Resolve the selected mask (if any)
+    let mask = if let Some(ref mask_id_str) = form.mask_id {
+        if !mask_id_str.is_empty() {
+            if let Ok(mask_uuid) = Uuid::parse_str(mask_id_str) {
+                Mask::get_by_id(&mask_uuid).ok()
+            } else {
+                None
+            }
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    let today = chrono::Utc::now().naive_utc();
+    let rand_string = generate_unique_code(8, false);
+
+    // Apply mask stat deltas on top of the base creature stats
+    let (dex, str_, con, per, wil, cha, ini, pd, md, sd, pa, ma,
+         ur, dr, wound, kd, actions, rr, karma, circle, name) = if let Some(ref m) = mask {
+        (
+            creature.dexterity + m.dexterity,
+            creature.strength + m.strength,
+            creature.constitution + m.constitution,
+            creature.perception + m.perception,
+            creature.willpower + m.willpower,
+            creature.charisma + m.charisma,
+            creature.initiative + m.initiative,
+            creature.pd + m.pd,
+            creature.md + m.md,
+            creature.sd + m.sd,
+            creature.pa + m.pa,
+            creature.ma + m.ma,
+            creature.unconsciousness_rating + m.unconsciousness_rating,
+            creature.death_rating + m.death_rating,
+            creature.wound + m.wound,
+            creature.knockdown + m.knockdown,
+            creature.actions + m.actions,
+            creature.recovery_rolls + m.recovery_rolls,
+            creature.karma + m.karma,
+            creature.circle_rank + m.circle_rank,
+            m.name.to_owned() + " " + &creature.name + "-" + &rand_string,
+        )
+    } else {
+        (
+            creature.dexterity, creature.strength, creature.constitution,
+            creature.perception, creature.willpower, creature.charisma,
+            creature.initiative, creature.pd, creature.md, creature.sd,
+            creature.pa, creature.ma, creature.unconsciousness_rating,
+            creature.death_rating, creature.wound, creature.knockdown,
+            creature.actions, creature.recovery_rolls, creature.karma,
+            creature.circle_rank, creature.name + "-" + &rand_string,
+        )
+    };
+
+    let slug = &name.trim().to_snake_case().to_owned();
+
+    let mut new_insertable = InsertableCreature {
+        creator_id: user.id,
+        creator_slug: user.slug,
+        name: name,
+        found_in: creature.found_in,
+        rarity: creature.rarity.to_owned(),
+        circle_rank: circle,
+        description: creature.description.to_owned(),
+        dexterity: dex,
+        strength: str_,
+        constitution: con,
+        perception: per,
+        willpower: wil,
+        charisma: cha,
+        initiative: ini,
+        pd,
+        md,
+        sd,
+        pa,
+        ma,
+        unconsciousness_rating: ur,
+        death_rating: dr,
+        wound,
+        knockdown: kd,
+        actions,
+        movement: creature.movement.to_owned(),
+        recovery_rolls: rr,
+        karma,
+        slug: slug.to_owned(),
+        image_url: None,
+        created_at: today,
+        updated_at: today,
+        tags: creature.tags,
+        masks: creature.masks.clone(),
+    };
+
+    let new_creature = Creature::create(&mut new_insertable).expect("Unable to create creature");
+
+    // Copy the original creature's attacks, powers, maneuvers, and talents
+    if let Ok(data) = Attack::get_by_creature_id(creature.id) {
+        for element in &data {
+            let new_el = InsertableAttack::new(
+                user.id, new_creature.id,
+                element.name.to_owned(), element.action_step, element.effect_step,
+                element.details.clone(),
+            );
+            Attack::create(&new_el).expect("Unable to create attack");
+        }
+    }
+
+    if let Ok(data) = Power::get_by_creature_id(creature.id) {
+        for element in &data {
+            let new_el = InsertablePower::new(
+                user.id, new_creature.id,
+                element.name.to_owned(), element.action_type, element.target,
+                element.resisted_by, element.action_step, element.effect_step,
+                element.details.clone(),
+            );
+            Power::create(&new_el).expect("Unable to create power");
+        }
+    }
+
+    if let Ok(data) = Maneuver::get_by_creature_id(creature.id) {
+        for element in &data {
+            let new_el = InsertableManeuver::new(
+                user.id, new_creature.id,
+                element.name.to_owned(), element.source.to_owned(), element.details.to_owned(),
+            );
+            Maneuver::create(&new_el).expect("Unable to create maneuver");
+        }
+    }
+
+    if let Ok(data) = Talent::get_by_creature_id(creature.id) {
+        for element in &data {
+            let new_el = InsertableTalent::new(
+                user.id, new_creature.id,
+                element.name.to_owned(), element.action_step,
+            );
+            Talent::create(&new_el).expect("Unable to create talent");
+        }
+    }
+
+    // Apply mask items on top
+    if let Some(ref m) = mask {
+        if let Ok(mask_attacks) = MaskAttack::get_by_mask_id(m.id) {
+            for ma in &mask_attacks {
+                let new_el = InsertableAttack::new(
+                    user.id, new_creature.id,
+                    ma.name.clone(), ma.action_step, ma.effect_step, ma.details.clone(),
+                );
+                Attack::create(&new_el).expect("Unable to create attack from mask");
+            }
+        }
+        if let Ok(mask_powers) = MaskPower::get_by_mask_id(m.id) {
+            for mp in &mask_powers {
+                let new_el = InsertablePower::new(
+                    user.id, new_creature.id,
+                    mp.name.clone(), mp.action_type, mp.target, mp.resisted_by,
+                    mp.action_step, mp.effect_step, mp.details.clone(),
+                );
+                Power::create(&new_el).expect("Unable to create power from mask");
+            }
+        }
+        if let Ok(mask_talents) = MaskTalent::get_by_mask_id(m.id) {
+            for mt in &mask_talents {
+                let new_el = InsertableTalent::new(
+                    user.id, new_creature.id,
+                    mt.name.clone(), mt.action_step,
+                );
+                Talent::create(&new_el).expect("Unable to create talent from mask");
+            }
+        }
+        if let Ok(mask_maneuvers) = MaskManeuver::get_by_mask_id(m.id) {
+            for mm in &mask_maneuvers {
+                let new_el = InsertableManeuver::new(
+                    user.id, new_creature.id,
+                    mm.name.clone(), mm.source.clone(), mm.details.clone(),
+                );
+                Maneuver::create(&new_el).expect("Unable to create maneuver from mask");
+            }
+        }
+        Creature::add_mask(&new_creature.id, m.id).expect("Unable to record mask on creature");
+    }
+
+    println!("Saved!");
+
+    HttpResponse::Found()
         .append_header(("Location", format!("/{}/edit_creature/{}", &lang, &new_creature.id))).finish()
 }
 

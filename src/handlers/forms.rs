@@ -1,5 +1,19 @@
-use serde::Deserialize;
+use serde::{Deserialize, Deserializer};
 use crate::models::{Rarity, ActionType, ActionTarget, ResistedBy};
+
+/// Deserializes an `Option<i32>` from a form field, treating empty strings as `None`.
+/// Needed because HTML selects with a blank "None" option submit `field=` (empty string),
+/// which `serde_urlencoded` cannot parse as `Option<i32>` without this helper.
+fn empty_string_as_none<'de, D>(deserializer: D) -> Result<Option<i32>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let s = Option::<String>::deserialize(deserializer)?;
+    match s.as_deref() {
+        None | Some("") => Ok(None),
+        Some(s) => s.parse::<i32>().map(Some).map_err(serde::de::Error::custom),
+    }
+}
 
 
 #[derive(Deserialize, Debug)]
@@ -75,7 +89,7 @@ pub struct PowerForm {
     pub target: ActionTarget,
     pub resisted_by: ResistedBy,
     pub action_step: i32,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default, deserialize_with = "empty_string_as_none")]
     pub effect_step: Option<i32>,
     pub details: Option<String>,
 }
@@ -140,7 +154,7 @@ pub struct MaskPowerForm {
     pub target: crate::models::ActionTarget,
     pub resisted_by: crate::models::ResistedBy,
     pub action_step: i32,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default, deserialize_with = "empty_string_as_none")]
     pub effect_step: Option<i32>,
     pub details: Option<String>,
 }
@@ -156,4 +170,9 @@ pub struct MaskManeuverForm {
     pub name: String,
     pub source: String,
     pub details: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct CopyWithMaskForm {
+    pub mask_id: Option<String>,
 }

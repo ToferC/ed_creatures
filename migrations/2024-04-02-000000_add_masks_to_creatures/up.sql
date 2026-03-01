@@ -1,0 +1,2 @@
+ALTER TABLE creatures
+    ADD COLUMN masks UUID[] NOT NULL DEFAULT '{}';

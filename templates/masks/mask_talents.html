@@ -1,0 +1,17 @@
+<div class="container" id="mask-talents" hx-target="this" hx-swap="outerHTML">
+    <h3>{{ fluent(key="talents", lang=lang) }}</h3>
+    {% if mask_talents %}
+    {% for talent in mask_talents %}
+    <div id="mask-talent-{{ talent.id }}" hx-target="this" hx-swap="outerHTML">
+        <li>
+            <strong>{{ talent.name }}</strong>: Step {{ talent.action_step }}
+            <button hx-get="/{{ lang }}/edit_mask_talent/{{ talent.id }}" hx-target="#mask-talent-{{ talent.id }}" class="btn btn-info btn-sm">{{ fluent(key="edit-button", lang=lang) }}</button>
+            <button hx-get="/{{ lang }}/delete_mask_talent/{{ talent.id }}" hx-target="#mask-talent-{{ talent.id }}" hx-swap="outerHTML" class="btn btn-danger btn-sm">{{ fluent(key="delete-button", lang=lang) }}</button>
+        </li>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <br>
+    <button class="btn btn-dark" hx-get="/{{ lang }}/add_mask_talent/{{ mask_id }}" hx-target="this" hx-swap="outerHTML">{{ fluent(key="add-a-talent", lang=lang) }}</button>
+    <hr>
+</div>

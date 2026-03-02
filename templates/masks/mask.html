@@ -20,40 +20,42 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <table class="table table-sm">
+                <table class="table table-sm table-striped table-hover">
                     <tbody>
-                        {% if mask.circle_rank != 0 %}<tr><td>{{ fluent(key="circle", lang=lang) }}</td><td>{% if mask.circle_rank > 0 %}+{% endif %}{{ mask.circle_rank }}</td></tr>{% endif %}
-                        {% if mask.dexterity != 0 %}<tr><td>{{ fluent(key="dexterity", lang=lang) }}</td><td>{% if mask.dexterity > 0 %}+{% endif %}{{ mask.dexterity }}</td></tr>{% endif %}
-                        {% if mask.strength != 0 %}<tr><td>{{ fluent(key="strength", lang=lang) }}</td><td>{% if mask.strength > 0 %}+{% endif %}{{ mask.strength }}</td></tr>{% endif %}
-                        {% if mask.constitution != 0 %}<tr><td>{{ fluent(key="constitution", lang=lang) }}</td><td>{% if mask.constitution > 0 %}+{% endif %}{{ mask.constitution }}</td></tr>{% endif %}
-                        {% if mask.perception != 0 %}<tr><td>{{ fluent(key="perception", lang=lang) }}</td><td>{% if mask.perception > 0 %}+{% endif %}{{ mask.perception }}</td></tr>{% endif %}
-                        {% if mask.willpower != 0 %}<tr><td>{{ fluent(key="willpower", lang=lang) }}</td><td>{% if mask.willpower > 0 %}+{% endif %}{{ mask.willpower }}</td></tr>{% endif %}
-                        {% if mask.charisma != 0 %}<tr><td>{{ fluent(key="charisma", lang=lang) }}</td><td>{% if mask.charisma > 0 %}+{% endif %}{{ mask.charisma }}</td></tr>{% endif %}
+                        {% if mask.circle_rank != 0 %}<tr><td>{{ fluent(key="circle", lang=lang) }}</td><td><strong>{% if mask.circle_rank > 0 %}+{% endif %}{{ mask.circle_rank }}</strong></td></tr>{% endif %}
+                        {% if mask.dexterity != 0 %}<tr><td>{{ fluent(key="dexterity", lang=lang) }}</td><td><strong>{% if mask.dexterity > 0 %}+{% endif %}{{ mask.dexterity }}</strong></td></tr>{% endif %}
+                        {% if mask.strength != 0 %}<tr><td>{{ fluent(key="strength", lang=lang) }}</td><td><strong>{% if mask.strength > 0 %}+{% endif %}{{ mask.strength }}</strong></td></tr>{% endif %}
+                        {% if mask.constitution != 0 %}<tr><td>{{ fluent(key="constitution", lang=lang) }}</td><td><strong>{% if mask.constitution > 0 %}+{% endif %}{{ mask.constitution }}</strong></td></tr>{% endif %}
+                        {% if mask.perception != 0 %}<tr><td>{{ fluent(key="perception", lang=lang) }}</td><td><strong>{% if mask.perception > 0 %}+{% endif %}{{ mask.perception }}</strong></td></tr>{% endif %}
+                        {% if mask.willpower != 0 %}<tr><td>{{ fluent(key="willpower", lang=lang) }}</td><td><strong>{% if mask.willpower > 0 %}+{% endif %}{{ mask.willpower }}</strong></td></tr>{% endif %}
+                        {% if mask.charisma != 0 %}<tr><td>{{ fluent(key="charisma", lang=lang) }}</td><td><strong>{% if mask.charisma > 0 %}+{% endif %}{{ mask.charisma }}</strong></td></tr>{% endif %}
                     </tbody>
                 </table>
             </div>
             <div class="col-sm">
-                <table class="table table-sm">
+                <table class="table table-sm table-striped table-hover">
                     <tbody>
-                        {% if mask.initiative != 0 %}<tr><td>{{ fluent(key="initiative", lang=lang) }}</td><td>{% if mask.initiative > 0 %}+{% endif %}{{ mask.initiative }}</td></tr>{% endif %}
-                        {% if mask.pd != 0 %}<tr><td>{{ fluent(key="physical-defense", lang=lang) }}</td><td>{% if mask.pd > 0 %}+{% endif %}{{ mask.pd }}</td></tr>{% endif %}
-                        {% if mask.md != 0 %}<tr><td>{{ fluent(key="mystic-defense", lang=lang) }}</td><td>{% if mask.md > 0 %}+{% endif %}{{ mask.md }}</td></tr>{% endif %}
-                        {% if mask.sd != 0 %}<tr><td>{{ fluent(key="social-defense", lang=lang) }}</td><td>{% if mask.sd > 0 %}+{% endif %}{{ mask.sd }}</td></tr>{% endif %}
-                        {% if mask.pa != 0 %}<tr><td>{{ fluent(key="physical-armor", lang=lang) }}</td><td>{% if mask.pa > 0 %}+{% endif %}{{ mask.pa }}</td></tr>{% endif %}
-                        {% if mask.ma != 0 %}<tr><td>{{ fluent(key="mystic-armor", lang=lang) }}</td><td>{% if mask.ma > 0 %}+{% endif %}{{ mask.ma }}</td></tr>{% endif %}
+                        {% if mask.initiative != 0 %}<tr><td>{{ fluent(key="initiative", lang=lang) }}</td><td><strong>{% if mask.initiative > 0 %}+{% endif %}{{ mask.initiative }}</strong></td></tr>{% endif %}
+                        {% if mask.pd != 0 %}<tr><td>{{ fluent(key="physical-defense", lang=lang) }}</td><td><strong>{% if mask.pd > 0 %}+{% endif %}{{ mask.pd }}</strong></td></tr>{% endif %}
+                        {% if mask.md != 0 %}<tr><td>{{ fluent(key="mystic-defense", lang=lang) }}</td><td><strong>{% if mask.md > 0 %}+{% endif %}{{ mask.md }}</strong></td></tr>{% endif %}
+                        {% if mask.sd != 0 %}<tr><td>{{ fluent(key="social-defense", lang=lang) }}</td><td><strong>{% if mask.sd > 0 %}+{% endif %}{{ mask.sd }}</strong></td></tr>{% endif %}
+                        {% if mask.pa != 0 %}<tr><td>{{ fluent(key="physical-armor", lang=lang) }}</td><td><strong>{% if mask.pa > 0 %}+{% endif %}{{ mask.pa }}</strong></td></tr>{% endif %}
+                        {% if mask.ma != 0 %}<tr><td>{{ fluent(key="mystic-armor", lang=lang) }}</td><td><strong>{% if mask.ma > 0 %}+{% endif %}{{ mask.ma }}</strong></td></tr>{% endif %}
                     </tbody>
                 </table>
             </div>
             <div class="col-sm">
-                <table class="table table-sm">
+                <table class="table table-sm table-striped table-hover">
                     <tbody>
-                        {% if mask.unconsciousness_rating != 0 %}<tr><td>{{ fluent(key="unconscious-rating", lang=lang) }}</td><td>{% if mask.unconsciousness_rating > 0 %}+{% endif %}{{ mask.unconsciousness_rating }}</td></tr>{% endif %}
-                        {% if mask.death_rating != 0 %}<tr><td>{{ fluent(key="death-rating", lang=lang) }}</td><td>{% if mask.death_rating > 0 %}+{% endif %}{{ mask.death_rating }}</td></tr>{% endif %}
-                        {% if mask.wound != 0 %}<tr><td>{{ fluent(key="wound-rating", lang=lang) }}</td><td>{% if mask.wound > 0 %}+{% endif %}{{ mask.wound }}</td></tr>{% endif %}
-                        {% if mask.knockdown != 0 %}<tr><td>{{ fluent(key="knockdown", lang=lang) }}</td><td>{% if mask.knockdown > 0 %}+{% endif %}{{ mask.knockdown }}</td></tr>{% endif %}
-                        {% if mask.actions != 0 %}<tr><td>{{ fluent(key="actions", lang=lang) }}</td><td>{% if mask.actions > 0 %}+{% endif %}{{ mask.actions }}</td></tr>{% endif %}
-                        {% if mask.recovery_rolls != 0 %}<tr><td>{{ fluent(key="recovery-rolls", lang=lang) }}</td><td>{% if mask.recovery_rolls > 0 %}+{% endif %}{{ mask.recovery_rolls }}</td></tr>{% endif %}
-                        {% if mask.karma != 0 %}<tr><td>{{ fluent(key="karma", lang=lang) }}</td><td>{% if mask.karma > 0 %}+{% endif %}{{ mask.karma }}</td></tr>{% endif %}
+                        {% if mask.unconsciousness_rating != 0 %}<tr><td>{{ fluent(key="unconscious-rating", lang=lang) }}</td><td><strong>{% if mask.unconsciousness_rating > 0 %}+{% endif %}{{ mask.unconsciousness_rating }}</strong></td></tr>{% endif %}
+                        {% if mask.death_rating != 0 %}<tr><td>{{ fluent(key="death-rating", lang=lang) }}</td><td><strong>{% if mask.death_rating > 0 %}+{% endif %}{{ mask.death_rating }}</strong></td></tr>{% endif %}
+                        {% if mask.wound != 0 %}<tr><td>{{ fluent(key="wound-rating", lang=lang) }}</td><td><strong>{% if mask.wound > 0 %}+{% endif %}{{ mask.wound }}</strong></td></tr>{% endif %}
+                        {% if mask.knockdown != 0 %}<tr><td>{{ fluent(key="knockdown", lang=lang) }}</td><td><strong>{% if mask.knockdown > 0 %}+{% endif %}{{ mask.knockdown }}</strong></td></tr>{% endif %}
+                        {% if mask.actions != 0 %}<tr><td>{{ fluent(key="actions", lang=lang) }}</td><td><strong>{% if mask.actions > 0 %}+{% endif %}{{ mask.actions }}</strong></td></tr>{% endif %}
+                        {% if mask.recovery_rolls != 0 %}<tr><td>{{ fluent(key="recovery-rolls", lang=lang) }}</td><td><strong>{% if mask.recovery_rolls > 0 %}+{% endif %}{{ mask.recovery_rolls }}</strong></td></tr>{% endif %}
+                        {% if mask.karma != 0 %}<tr><td>{{ fluent(key="karma", lang=lang) }}</td><td><strong>{% if mask.karma > 0 %}+{% endif %}{{ mask.karma }}</strong></td></tr>{% endif %}
+                        {% if mask.attack_action_mod != 0 %}<tr class="table-warning"><td>Attack Action Step</td><td><strong>{% if mask.attack_action_mod > 0 %}+{% endif %}{{ mask.attack_action_mod }}</strong></td></tr>{% endif %}
+                        {% if mask.attack_effect_mod != 0 %}<tr class="table-warning"><td>Attack Effect Step</td><td><strong>{% if mask.attack_effect_mod > 0 %}+{% endif %}{{ mask.attack_effect_mod }}</strong></td></tr>{% endif %}
                     </tbody>
                 </table>
             </div>
@@ -63,41 +65,97 @@
     {% if mask_attacks %}
     <hr>
     <h3>{{ fluent(key="attacks", lang=lang) }}</h3>
-    <ul>
-        {% for attack in mask_attacks %}
-        <li><strong>{{ attack.name }}</strong>: Step {{ attack.action_step }} / Step {{ attack.effect_step }}{% if attack.details %}: {{ attack.details }}{% endif %}</li>
-        {% endfor %}
-    </ul>
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Action Step</th>
+                <th>Effect Step</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attack in mask_attacks %}
+            <tr>
+                <td><strong>{{ attack.name }}</strong></td>
+                <td>{{ attack.action_step }}</td>
+                <td>{{ attack.effect_step }}</td>
+                <td>{% if attack.details %}{{ attack.details }}{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% endif %}
 
     {% if mask_powers %}
     <hr>
     <h3>{{ fluent(key="powers-abilities-spells", lang=lang) }}</h3>
-    <ul>
-        {% for power in mask_powers %}
-        <li><strong>{{ power.name }}</strong> ({{ power.action_type }} vs. {{ power.target }}): Step {{ power.action_step }}{% if power.effect_step %} / Step {{ power.effect_step }}{% endif %}{% if power.details %}: {{ power.details }}{% endif %}</li>
-        {% endfor %}
-    </ul>
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Action Step</th>
+                <th>Effect Step</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for power in mask_powers %}
+            <tr>
+                <td><strong>{{ power.name }}</strong></td>
+                <td>{{ power.action_type }}{% if power.target != 'NotApplicable' %} vs. {{ power.target }}{% endif %}</td>
+                <td>{{ power.action_step }}</td>
+                <td>{% if power.effect_step %}{{ power.effect_step }}{% endif %}</td>
+                <td>{% if power.details %}{{ power.details }}{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% endif %}
 
     {% if mask_talents %}
     <hr>
     <h3>{{ fluent(key="talents", lang=lang) }}</h3>
-    <ul>
-        {% for talent in mask_talents %}
-        <li><strong>{{ talent.name }}</strong>: Step {{ talent.action_step }}</li>
-        {% endfor %}
-    </ul>
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Action Step</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for talent in mask_talents %}
+            <tr>
+                <td><strong>{{ talent.name }}</strong></td>
+                <td>{{ talent.action_step }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% endif %}
 
     {% if mask_maneuvers %}
     <hr>
     <h3>{{ fluent(key="special-maneuvers", lang=lang) }}</h3>
-    <ul>
-        {% for maneuver in mask_maneuvers %}
-        <li><strong>{{ maneuver.name }}</strong> [{{ maneuver.source }}]: {{ maneuver.details }}</li>
-        {% endfor %}
-    </ul>
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Source</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for maneuver in mask_maneuvers %}
+            <tr>
+                <td><strong>{{ maneuver.name }}</strong></td>
+                <td>{{ maneuver.source }}</td>
+                <td>{{ maneuver.details }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% endif %}
 </div>
 

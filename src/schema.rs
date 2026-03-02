@@ -217,6 +217,8 @@ diesel::table! {
         karma -> Int4,
         created_at -> Timestamp,
         updated_at -> Timestamp,
+        attack_action_mod -> Int4,
+        attack_effect_mod -> Int4,
     }
 }
 

@@ -112,6 +112,24 @@
         </div>
 
         <hr>
+        <h4>Attack Modifiers</h4>
+        <p class="text-muted">Applied to each existing attack on the creature when this mask is used.</p>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="mb-2">
+                    <label>Attack Action Step Modifier</label>
+                    <input class="form-control" type="number" name="attack_action_mod" value="0" required>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="mb-2">
+                    <label>Attack Effect Step Modifier</label>
+                    <input class="form-control" type="number" name="attack_effect_mod" value="0" required>
+                </div>
+            </div>
+        </div>
+
+        <hr>
         <button class="btn btn-primary" type="submit">{{ fluent(key="save-button", lang=lang) }}</button>
         <a class="btn btn-secondary" href="/{{ lang }}/masks">{{ fluent(key="cancel-button", lang=lang) }}</a>
     </form>

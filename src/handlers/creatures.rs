@@ -221,6 +221,20 @@ pub async fn post_creature(
 
     // Apply mask items to the new creature
     if let Some(ref m) = mask {
+        if m.attack_action_mod != 0 || m.attack_effect_mod != 0 {
+            let empowered = format!("Empowered by {}", m.name);
+            if let Ok(mut existing_attacks) = Attack::get_by_creature_id(creature.id) {
+                for attack in &mut existing_attacks {
+                    attack.action_step += m.attack_action_mod;
+                    attack.effect_step += m.attack_effect_mod;
+                    attack.details = Some(match &attack.details {
+                        Some(d) => format!("{}. {}", d, empowered),
+                        None => empowered.clone(),
+                    });
+                    attack.update().expect("Unable to update attack with mask");
+                }
+            }
+        }
         if let Ok(mask_attacks) = MaskAttack::get_by_mask_id(m.id) {
             for ma in &mask_attacks {
                 let new_attack = InsertableAttack::new(
@@ -489,6 +503,20 @@ pub async fn edit_creature_post(
 
     // Apply mask items to the creature
     if let Some(ref m) = mask {
+        if m.attack_action_mod != 0 || m.attack_effect_mod != 0 {
+            let empowered = format!("Empowered by {}", m.name);
+            if let Ok(mut existing_attacks) = Attack::get_by_creature_id(creature.id) {
+                for attack in &mut existing_attacks {
+                    attack.action_step += m.attack_action_mod;
+                    attack.effect_step += m.attack_effect_mod;
+                    attack.details = Some(match &attack.details {
+                        Some(d) => format!("{}. {}", d, empowered),
+                        None => empowered.clone(),
+                    });
+                    attack.update().expect("Unable to update attack with mask");
+                }
+            }
+        }
         if let Ok(mask_attacks) = MaskAttack::get_by_mask_id(m.id) {
             for ma in &mask_attacks {
                 let new_attack = InsertableAttack::new(
@@ -946,6 +974,20 @@ pub async fn post_copy_creature_with_mask(
 
     // Apply mask items on top
     if let Some(ref m) = mask {
+        if m.attack_action_mod != 0 || m.attack_effect_mod != 0 {
+            let empowered = format!("Empowered by {}", m.name);
+            if let Ok(mut existing_attacks) = Attack::get_by_creature_id(new_creature.id) {
+                for attack in &mut existing_attacks {
+                    attack.action_step += m.attack_action_mod;
+                    attack.effect_step += m.attack_effect_mod;
+                    attack.details = Some(match &attack.details {
+                        Some(d) => format!("{}. {}", d, empowered),
+                        None => empowered.clone(),
+                    });
+                    attack.update().expect("Unable to update attack with mask");
+                }
+            }
+        }
         if let Ok(mask_attacks) = MaskAttack::get_by_mask_id(m.id) {
             for ma in &mask_attacks {
                 let new_el = InsertableAttack::new(

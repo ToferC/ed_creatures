@@ -147,6 +147,8 @@ pub async fn post_mask(
         form.actions,
         form.recovery_rolls,
         form.karma,
+        form.attack_action_mod,
+        form.attack_effect_mod,
     );
 
     let mask = Mask::create(&new_mask).expect("Unable to create mask");
@@ -252,6 +254,8 @@ pub async fn edit_mask_post(
     mask.actions = form.actions;
     mask.recovery_rolls = form.recovery_rolls;
     mask.karma = form.karma;
+    mask.attack_action_mod = form.attack_action_mod;
+    mask.attack_effect_mod = form.attack_effect_mod;
 
     let updated = Mask::update(&mut mask).expect("Unable to update mask");
 

@@ -137,6 +137,8 @@ pub struct MaskForm {
     pub actions: i32,
     pub recovery_rolls: i32,
     pub karma: i32,
+    pub attack_action_mod: i32,
+    pub attack_effect_mod: i32,
 }
 
 #[derive(Debug, Deserialize)]

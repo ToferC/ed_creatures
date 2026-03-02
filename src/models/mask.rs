@@ -44,6 +44,8 @@ pub struct Mask {
     pub karma: i32,
     pub created_at: NaiveDateTime,
     pub updated_at: NaiveDateTime,
+    pub attack_action_mod: i32,
+    pub attack_effect_mod: i32,
 }
 
 #[derive(Serialize, Debug, Clone)]
@@ -133,6 +135,8 @@ pub struct InsertableMask {
     pub karma: i32,
     pub created_at: NaiveDateTime,
     pub updated_at: NaiveDateTime,
+    pub attack_action_mod: i32,
+    pub attack_effect_mod: i32,
 }
 
 impl InsertableMask {
@@ -161,6 +165,8 @@ impl InsertableMask {
         actions: i32,
         recovery_rolls: i32,
         karma: i32,
+        attack_action_mod: i32,
+        attack_effect_mod: i32,
     ) -> Self {
         let today = chrono::Utc::now().naive_utc();
         InsertableMask {
@@ -190,6 +196,8 @@ impl InsertableMask {
             karma,
             created_at: today,
             updated_at: today,
+            attack_action_mod,
+            attack_effect_mod,
         }
     }
 }
